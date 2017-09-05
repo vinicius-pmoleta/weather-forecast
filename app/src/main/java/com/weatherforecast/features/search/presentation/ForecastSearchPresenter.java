@@ -38,7 +38,7 @@ public class ForecastSearchPresenter implements ForecastSearchContract.Action {
         }
 
         loadLocalForecast(id, holder);
-        loadRemoteForecast(location, holder);
+        updateRemoteForecast(location, holder);
     }
 
     private void loadLocalForecast(@Nullable final Long id, @NonNull final ForecastsDataHolder holder) {
@@ -51,11 +51,12 @@ public class ForecastSearchPresenter implements ForecastSearchContract.Action {
         data.observe(view.provideLifecycleOwner(), this::handleForecastsData);
     }
 
-    private void loadRemoteForecast(@NonNull final String location, @NonNull final ForecastsDataHolder holder) {
+    private void updateRemoteForecast(@NonNull final String location, @NonNull final ForecastsDataHolder holder) {
         fetchRemoteUseCase.execute(location,
                 holder::addSubscription,
                 error -> view.showErrorLoadingLocationForecast(),
-                new UseCase.DefaultOnComplete());
+                new UseCase.DefaultOnComplete()
+        ).subscribe();
     }
 
     @VisibleForTesting(otherwise = PRIVATE)

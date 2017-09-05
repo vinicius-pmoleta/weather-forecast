@@ -93,6 +93,7 @@ public abstract class UseCase<T, Params> {
         }
     }
 
+    @SuppressWarnings("unused")
     public static class DefaultOnComplete implements Action {
 
         @Override
