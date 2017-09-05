@@ -6,7 +6,8 @@ import com.weatherforecast.core.data.repository.local.database.WeatherForecastDa
 import com.weatherforecast.core.data.repository.remote.ForecastRepository;
 import com.weatherforecast.core.data.usecase.ExecutionConfiguration;
 import com.weatherforecast.core.di.scope.ActivityScope;
-import com.weatherforecast.features.search.usecase.FetchLocationForecastRemoteUseCase;
+import com.weatherforecast.features.search.usecase.FetchLocalForecastUseCase;
+import com.weatherforecast.features.search.usecase.FetchRemoteForecastUseCase;
 
 import dagger.Module;
 import dagger.Provides;
@@ -16,10 +17,17 @@ public class ForecastSearchUseCaseModule {
 
     @ActivityScope
     @Provides
-    public FetchLocationForecastRemoteUseCase provideFetchLocationForecastUseCase(@NonNull final ForecastRepository forecastRepository,
-                                                                                  @NonNull final ExecutionConfiguration configuration,
-                                                                                  @NonNull final WeatherForecastDatabase database) {
-        return new FetchLocationForecastRemoteUseCase(forecastRepository, configuration, database);
+    public FetchRemoteForecastUseCase provideFetchRemoteForecastUseCase(@NonNull final ForecastRepository forecastRepository,
+                                                                        @NonNull final ExecutionConfiguration configuration,
+                                                                        @NonNull final WeatherForecastDatabase database) {
+        return new FetchRemoteForecastUseCase(forecastRepository, configuration, database);
+    }
+
+    @ActivityScope
+    @Provides
+    public FetchLocalForecastUseCase provideFetchLocalForecastUseCase(@NonNull final ExecutionConfiguration configuration,
+                                                                      @NonNull final WeatherForecastDatabase database) {
+        return new FetchLocalForecastUseCase(configuration, database);
     }
 
 }

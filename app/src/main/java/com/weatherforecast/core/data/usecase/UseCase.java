@@ -13,34 +13,49 @@ import io.reactivex.FlowableTransformer;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 
-public abstract class LiveUseCase<T, Params> {
+public abstract class UseCase<T, Params> {
 
     private final ExecutionConfiguration configuration;
 
-    public LiveUseCase(@NonNull final ExecutionConfiguration configuration) {
+    public UseCase(@NonNull final ExecutionConfiguration configuration) {
         this.configuration = configuration;
     }
 
     public abstract Flowable<T> buildUseCaseObservable(@Nullable final Params params);
 
-    public LiveData<T> execute(@Nullable final Params params,
+    public Flowable<T> execute(@Nullable final Params params,
                                @NonNull final Consumer<Subscription> onSubscribe,
                                @NonNull final Consumer<Throwable> onError,
                                @NonNull final Action onComplete) {
         return execute(params, onSubscribe, onError, onComplete, new DefaultTransformer(configuration));
     }
 
-    public LiveData<T> execute(@Nullable final Params params,
-                               @NonNull final Consumer<Subscription> onSubscribe,
-                               @NonNull final Consumer<Throwable> onError,
-                               @NonNull final Action onComplete,
-                               @NonNull final FlowableTransformer<T, T> transformer) {
-        final Flowable<T> data = buildUseCaseObservable(params)
+
+    private Flowable<T> execute(@Nullable final Params params,
+                                @NonNull final Consumer<Subscription> onSubscribe,
+                                @NonNull final Consumer<Throwable> onError,
+                                @NonNull final Action onComplete,
+                                @NonNull final FlowableTransformer<T, T> transformer) {
+        return buildUseCaseObservable(params)
                 .compose(transformer)
                 .doOnSubscribe(onSubscribe)
                 .doOnError(onError)
                 .doOnComplete(onComplete);
+    }
 
+    public LiveData<T> executeLive(@Nullable final Params params,
+                                   @NonNull final Consumer<Subscription> onSubscribe,
+                                   @NonNull final Consumer<Throwable> onError,
+                                   @NonNull final Action onComplete) {
+        return executeLive(params, onSubscribe, onError, onComplete, new DefaultTransformer(configuration));
+    }
+
+    private LiveData<T> executeLive(@Nullable final Params params,
+                                    @NonNull final Consumer<Subscription> onSubscribe,
+                                    @NonNull final Consumer<Throwable> onError,
+                                    @NonNull final Action onComplete,
+                                    @NonNull final FlowableTransformer<T, T> transformer) {
+        final Flowable<T> data = execute(params, onSubscribe, onError, onComplete, transformer);
         return LiveDataReactiveStreams.fromPublisher(data);
     }
 
@@ -60,13 +75,16 @@ public abstract class LiveUseCase<T, Params> {
         }
     }
 
-    public static class DefaulOnSubscribe implements Consumer<Subscription> {
+
+    @SuppressWarnings("unused")
+    public static class DefaultOnSubscribe implements Consumer<Subscription> {
 
         @Override
         public void accept(@io.reactivex.annotations.NonNull Subscription subscription) throws Exception {
         }
     }
 
+    @SuppressWarnings("unused")
     public static class DefaultOnError implements Consumer<Throwable> {
 
         @Override

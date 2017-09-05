@@ -34,7 +34,7 @@ public class ForecastSearchActivity extends BaseActivity<ForecastSearchPresenter
 
     private void initialiseTestTrigger() {
         findViewById(R.id.forecast_test).setOnClickListener(
-                view -> presenter.loadLocationForecast("London,UK"));
+                view -> presenter.loadLocationForecast(2643743L, "London,UK"));
     }
 
     @Override

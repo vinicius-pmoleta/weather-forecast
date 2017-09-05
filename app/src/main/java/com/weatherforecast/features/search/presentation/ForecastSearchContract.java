@@ -1,5 +1,8 @@
 package com.weatherforecast.features.search.presentation;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import com.weatherforecast.core.structure.BaseContract;
 
 public interface ForecastSearchContract {
@@ -13,6 +16,7 @@ public interface ForecastSearchContract {
 
     interface Action extends BaseContract.Action {
 
+        void loadLocationForecast(@Nullable Long id, @NonNull String location);
     }
 
 }
