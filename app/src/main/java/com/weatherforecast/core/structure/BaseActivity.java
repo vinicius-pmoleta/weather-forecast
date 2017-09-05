@@ -1,12 +1,12 @@
 package com.weatherforecast.core.structure;
 
+import android.arch.lifecycle.LifecycleActivity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 
 import javax.inject.Inject;
 
-public abstract class BaseActivity<Presenter extends BaseContract.Action> extends AppCompatActivity {
+public abstract class BaseActivity<Presenter extends BaseContract.Action> extends LifecycleActivity {
 
     @Inject
     protected Presenter presenter;
