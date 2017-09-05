@@ -1,6 +1,6 @@
 package com.weatherforecast.core.data.repository.remote;
 
-import com.weatherforecast.core.data.repository.remote.model.ForecastResponse;
+import com.weatherforecast.features.common.data.model.Forecasts;
 
 import dagger.Module;
 import io.reactivex.Flowable;
@@ -11,6 +11,6 @@ import retrofit2.http.Query;
 public interface ForecastRepository {
 
     @GET("forecast")
-    Flowable<ForecastResponse> getForecast(@Query("q") final String query);
+    Flowable<Forecasts> getForecast(@Query("q") final String query);
 
 }

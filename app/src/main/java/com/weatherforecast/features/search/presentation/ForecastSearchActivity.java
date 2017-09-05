@@ -2,7 +2,6 @@ package com.weatherforecast.features.search.presentation;
 
 import android.arch.lifecycle.LifecycleOwner;
 import android.os.Bundle;
-import android.view.View;
 
 import com.weatherforecast.R;
 import com.weatherforecast.core.WeatherForecastApplication;
@@ -29,12 +28,8 @@ public class ForecastSearchActivity extends BaseActivity<ForecastSearchPresenter
     }
 
     private void initialiseTestTrigger() {
-        findViewById(R.id.forecast_test).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                
-            }
-        });
+        findViewById(R.id.forecast_test).setOnClickListener(
+                view -> presenter.loadLocationForecast("London,UK"));
     }
 
     @Override
