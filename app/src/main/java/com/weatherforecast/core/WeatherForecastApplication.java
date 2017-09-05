@@ -5,6 +5,7 @@ import android.app.Application;
 import com.weatherforecast.core.di.component.ApplicationComponent;
 import com.weatherforecast.core.di.component.DaggerApplicationComponent;
 import com.weatherforecast.core.di.module.ApplicationModule;
+import com.weatherforecast.core.di.module.ConfigurationModule;
 import com.weatherforecast.core.di.module.NetworkModule;
 import com.weatherforecast.core.di.module.RepositoryModule;
 
@@ -28,6 +29,7 @@ public class WeatherForecastApplication extends Application {
                 .applicationModule(new ApplicationModule(this))
                 .networkModule(new NetworkModule())
                 .repositoryModule(new RepositoryModule())
+                .configurationModule(new ConfigurationModule())
                 .build();
     }
 }
