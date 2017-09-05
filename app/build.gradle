@@ -1,0 +1,97 @@
+apply plugin: 'com.android.application'
+
+apply from: "../environment/environment.gradle"
+
+project.ext {
+    support_version = '26.0.2'
+    dagger_version = '2.11'
+    retrofit_version = '2.3.0'
+    architecture_components_version = '1.0.0-alpha9'
+}
+
+android {
+    compileSdkVersion 26
+    buildToolsVersion "26.0.1"
+    defaultConfig {
+        applicationId "com.weatherforecast"
+        minSdkVersion 19
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        debug {
+            applicationIdSuffix ".debug"
+            buildConfigField "String", "WEATHER_FORECAST_API_KEY", getApiKey()
+        }
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+            buildConfigField "String", "WEATHER_FORECAST_API_KEY", getApiKey()
+        }
+    }
+
+    packagingOptions {
+        exclude 'LICENSE.txt'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/ASL2.0'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+    }
+
+    lintOptions {
+        quiet false
+        abortOnError false
+        disable 'InvalidPackage'            //Some libraries have issues with this.
+        disable 'OldTargetApi'              //Lint gives this warning but SDK 20 would be L Beta.
+        disable 'IconDensities'             //For testing purpose. This is safe to remove.
+        disable 'IconMissingDensityFolder'  //For testing purpose. This is safe to remove.
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    // ANDROID
+    compile "com.android.support:appcompat-v7:$support_version"
+    compile "com.android.support:recyclerview-v7:$support_version"
+    compile "com.android.support:design:$support_version"
+
+    // REACTIVE
+    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    compile 'io.reactivex.rxjava2:rxjava:2.1.0'
+
+    // DAGGER
+    compile "com.google.dagger:dagger-android:$dagger_version"
+    compile "com.google.dagger:dagger-android-support:$dagger_version"
+    annotationProcessor "com.google.dagger:dagger-android-processor:$dagger_version"
+
+    // RETROFIT
+    compile "com.squareup.retrofit2:retrofit:$retrofit_version"
+    compile "com.squareup.retrofit2:converter-gson:$retrofit_version"
+    compile "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
+    compile 'com.squareup.okhttp3:logging-interceptor:3.8.1'
+
+    // ARCHITECTURE COMPONENTS
+    compile "android.arch.lifecycle:runtime:$architecture_components_version"
+    compile "android.arch.lifecycle:extensions:$architecture_components_version"
+    compile "android.arch.lifecycle:reactivestreams:$architecture_components_version"
+    annotationProcessor "android.arch.lifecycle:compiler:$architecture_components_version"
+
+    // ROOM
+    compile "android.arch.persistence.room:runtime:$architecture_components_version"
+    annotationProcessor "android.arch.persistence.room:compiler:$architecture_components_version"
+    compile "android.arch.persistence.room:rxjava2:$architecture_components_version"
+
+    // TEST
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.mockito:mockito-core:2.9.0'
+}
+
+def getApiKey() {
+    def value = ext.environment.findValueFor("WEATHER_FORECAST_APP_API_KEY")
+    return "\"$value\""
+}
