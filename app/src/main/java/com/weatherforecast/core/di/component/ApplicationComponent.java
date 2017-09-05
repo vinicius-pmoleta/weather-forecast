@@ -1,10 +1,12 @@
 package com.weatherforecast.core.di.component;
 
 import com.weatherforecast.core.WeatherForecastApplication;
+import com.weatherforecast.core.data.repository.local.database.WeatherForecastDatabase;
 import com.weatherforecast.core.data.repository.remote.ForecastRepository;
 import com.weatherforecast.core.data.usecase.ExecutionConfiguration;
 import com.weatherforecast.core.di.module.ApplicationModule;
 import com.weatherforecast.core.di.module.ConfigurationModule;
+import com.weatherforecast.core.di.module.DatabaseModule;
 import com.weatherforecast.core.di.module.NetworkModule;
 import com.weatherforecast.core.di.module.RepositoryModule;
 
@@ -17,7 +19,8 @@ import dagger.Component;
         ApplicationModule.class,
         NetworkModule.class,
         RepositoryModule.class,
-        ConfigurationModule.class
+        ConfigurationModule.class,
+        DatabaseModule.class
 })
 public interface ApplicationComponent {
 
@@ -26,5 +29,7 @@ public interface ApplicationComponent {
     ForecastRepository forecastRepository();
 
     ExecutionConfiguration executeConfiguration();
+
+    WeatherForecastDatabase database();
 
 }

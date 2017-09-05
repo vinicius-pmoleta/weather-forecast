@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import com.weatherforecast.core.di.scope.ActivityScope;
 import com.weatherforecast.features.search.presentation.ForecastSearchContract;
 import com.weatherforecast.features.search.presentation.ForecastSearchPresenter;
+import com.weatherforecast.features.search.usecase.FetchLocationForecastRemoteUseCase;
 
 import dagger.Module;
 import dagger.Provides;
@@ -26,8 +27,8 @@ public class ForecastSearchPresentationModule {
 
     @ActivityScope
     @Provides
-    public ForecastSearchPresenter providePresenter() {
-        return new ForecastSearchPresenter(view);
+    public ForecastSearchPresenter providePresenter(@NonNull final FetchLocationForecastRemoteUseCase fetchLocationUseCase) {
+        return new ForecastSearchPresenter(view, fetchLocationUseCase);
     }
 
 }

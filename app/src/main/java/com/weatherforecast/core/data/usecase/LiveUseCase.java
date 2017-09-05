@@ -60,14 +60,14 @@ public abstract class LiveUseCase<T, Params> {
         }
     }
 
-    public class DefaulOnSubscribe implements Consumer<Subscription> {
+    public static class DefaulOnSubscribe implements Consumer<Subscription> {
 
         @Override
         public void accept(@io.reactivex.annotations.NonNull Subscription subscription) throws Exception {
         }
     }
 
-    private class DefaultOnError implements Consumer<Throwable> {
+    public static class DefaultOnError implements Consumer<Throwable> {
 
         @Override
         public void accept(@io.reactivex.annotations.NonNull Throwable throwable) throws Exception {
@@ -75,7 +75,7 @@ public abstract class LiveUseCase<T, Params> {
         }
     }
 
-    private class DefaultOnComplete implements Action {
+    public static class DefaultOnComplete implements Action {
 
         @Override
         public void run() throws Exception {
