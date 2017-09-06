@@ -10,7 +10,6 @@ import com.weatherforecast.core.data.usecase.UseCase;
 import com.weatherforecast.features.common.data.converter.CityConverter;
 import com.weatherforecast.features.common.data.converter.ForecastConverter;
 import com.weatherforecast.features.common.data.entity.ForecastEntity;
-import com.weatherforecast.features.common.data.model.Forecast;
 import com.weatherforecast.features.common.data.repository.CityDao;
 import com.weatherforecast.features.common.data.repository.ForecastDao;
 
@@ -19,7 +18,7 @@ import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Flowable;
 
-public class UpdateLocalForecastUseCase extends UseCase<List<Forecast>, String> {
+public class UpdateLocalForecastUseCase extends UseCase<List<ForecastEntity>, String> {
 
     private final ForecastRepository repository;
     private final CityDao cityDao;
@@ -35,19 +34,18 @@ public class UpdateLocalForecastUseCase extends UseCase<List<Forecast>, String> 
     }
 
     @Override
-    public Flowable<List<Forecast>> buildUseCaseObservable(@Nullable final String location) {
+    public Flowable<List<ForecastEntity>> buildUseCaseObservable(@Nullable final String location) {
         return repository.getForecast(location)
                 .delay(5, TimeUnit.SECONDS)
                 .flatMap(forecasts -> {
                     cityDao.insert(CityConverter.toEntity(forecasts.city()));
                     return Flowable.fromIterable(forecasts.forecasts())
-                            .map(forecast -> {
-                                final ForecastEntity entity = ForecastConverter.toEntity(forecast, forecasts.city());
-                                forecastDao.insert(entity);
-                                return forecast;
-                            })
+                            .map(forecast -> ForecastConverter.toEntity(forecast, forecasts.city()))
                             .toList()
-                            .toFlowable();
+                            .toFlowable().map(entities -> {
+                                forecastDao.insert(entities);
+                                return entities;
+                            });
                 });
     }
 }

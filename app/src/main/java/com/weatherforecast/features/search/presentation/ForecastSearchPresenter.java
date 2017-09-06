@@ -33,7 +33,7 @@ public class ForecastSearchPresenter implements ForecastSearchContract.Action {
     @Override
     public void loadLocationForecast(@Nullable final Long id, @NonNull final String location) {
         final ForecastsDataHolder holder = view.provideForecastsDataHolder();
-        if (holder.data() != null) {
+        if (holder.data() != null && holder.data().getValue() != null) {
             handleDailyForecastsData(holder.data().getValue());
             return;
         }
@@ -61,7 +61,7 @@ public class ForecastSearchPresenter implements ForecastSearchContract.Action {
     }
 
     @VisibleForTesting(otherwise = PRIVATE)
-    void handleDailyForecastsData(@Nullable final List<DailyForecast> dailyForecasts) {
+    void handleDailyForecastsData(@NonNull final List<DailyForecast> dailyForecasts) {
         Log.d("TEST", String.valueOf(dailyForecasts.size()));
         for (final DailyForecast dailyForecast : dailyForecasts) {
             for (final Forecast forecast : dailyForecast.forecasts()) {
