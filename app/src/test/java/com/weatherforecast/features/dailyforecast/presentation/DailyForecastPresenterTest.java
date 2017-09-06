@@ -1,13 +1,13 @@
-package com.weatherforecast.features.search.presentation;
+package com.weatherforecast.features.dailyforecast.presentation;
 
 import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 
 import com.weatherforecast.features.common.data.helper.TestDataCreator;
-import com.weatherforecast.features.search.data.model.DailyForecast;
-import com.weatherforecast.features.search.usecase.FetchLocalForecastUseCase;
-import com.weatherforecast.features.search.usecase.UpdateLocalForecastUseCase;
+import com.weatherforecast.features.dailyforecast.data.model.DailyForecast;
+import com.weatherforecast.features.dailyforecast.usecase.FetchLocalForecastUseCase;
+import com.weatherforecast.features.dailyforecast.usecase.UpdateLocalForecastUseCase;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -37,13 +37,13 @@ import static org.mockito.Mockito.when;
 
 @SuppressWarnings("unchecked")
 @RunWith(MockitoJUnitRunner.class)
-public class ForecastSearchPresenterTest {
+public class DailyForecastPresenterTest {
 
     @Mock
-    private ForecastSearchContract.View view;
+    private DailyForecastContract.View view;
 
     @Mock
-    private ForecastsDataHolder dataHolder;
+    private DailyForecastDataHolder dataHolder;
 
     @Mock
     private FetchLocalForecastUseCase fetchLocalUseCase;
@@ -51,13 +51,13 @@ public class ForecastSearchPresenterTest {
     @Mock
     private UpdateLocalForecastUseCase updateLocalUseCase;
 
-    private ForecastSearchPresenter presenter;
+    private DailyForecastPresenter presenter;
 
     @Before
     public void setup() {
         when(view.provideForecastsDataHolder()).thenReturn(dataHolder);
         when(view.provideLifecycleOwner()).thenReturn(mock(LifecycleOwner.class));
-        presenter = new ForecastSearchPresenter(view, fetchLocalUseCase, updateLocalUseCase);
+        presenter = new DailyForecastPresenter(view, fetchLocalUseCase, updateLocalUseCase);
     }
 
     @Test

@@ -1,4 +1,4 @@
-package com.weatherforecast.features.search.di;
+package com.weatherforecast.features.dailyforecast.di;
 
 import android.support.annotation.NonNull;
 
@@ -6,14 +6,14 @@ import com.weatherforecast.core.data.repository.local.database.WeatherForecastDa
 import com.weatherforecast.core.data.repository.remote.ForecastRepository;
 import com.weatherforecast.core.data.usecase.ExecutionConfiguration;
 import com.weatherforecast.core.di.scope.ActivityScope;
-import com.weatherforecast.features.search.usecase.FetchLocalForecastUseCase;
-import com.weatherforecast.features.search.usecase.UpdateLocalForecastUseCase;
+import com.weatherforecast.features.dailyforecast.usecase.FetchLocalForecastUseCase;
+import com.weatherforecast.features.dailyforecast.usecase.UpdateLocalForecastUseCase;
 
 import dagger.Module;
 import dagger.Provides;
 
 @Module
-public class ForecastSearchUseCaseModule {
+public class DailyForecastUseCaseModule {
 
     @ActivityScope
     @Provides

@@ -1,11 +1,11 @@
-package com.weatherforecast.features.search.usecase;
+package com.weatherforecast.features.dailyforecast.usecase;
 
 import com.weatherforecast.core.data.repository.local.database.WeatherForecastDatabase;
 import com.weatherforecast.core.data.usecase.ExecutionConfiguration;
 import com.weatherforecast.features.common.data.entity.ForecastEntity;
 import com.weatherforecast.features.common.data.helper.TestDataCreator;
 import com.weatherforecast.features.common.data.repository.ForecastDao;
-import com.weatherforecast.features.search.data.model.DailyForecast;
+import com.weatherforecast.features.dailyforecast.data.model.DailyForecast;
 
 import org.junit.Before;
 import org.junit.Test;

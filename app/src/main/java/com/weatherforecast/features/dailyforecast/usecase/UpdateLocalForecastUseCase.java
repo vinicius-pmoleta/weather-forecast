@@ -1,4 +1,4 @@
-package com.weatherforecast.features.search.usecase;
+package com.weatherforecast.features.dailyforecast.usecase;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;

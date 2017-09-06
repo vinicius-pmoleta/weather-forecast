@@ -1,14 +1,14 @@
-package com.weatherforecast.features.search.presentation;
+package com.weatherforecast.features.dailyforecast.presentation;
 
 import android.arch.lifecycle.LiveData;
 import android.support.annotation.NonNull;
 
 import com.weatherforecast.core.structure.BaseDataHolder;
-import com.weatherforecast.features.search.data.model.DailyForecast;
+import com.weatherforecast.features.dailyforecast.data.model.DailyForecast;
 
 import java.util.List;
 
-public class ForecastsDataHolder extends BaseDataHolder {
+public class DailyForecastDataHolder extends BaseDataHolder {
 
     private LiveData<List<DailyForecast>> data;
 

@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 
 import com.weatherforecast.features.common.data.entity.ForecastEntity;
 import com.weatherforecast.features.common.data.model.Forecast;
-import com.weatherforecast.features.search.data.model.DailyForecast;
+import com.weatherforecast.features.dailyforecast.data.model.DailyForecast;
 
 import java.util.ArrayList;
 import java.util.Collections;

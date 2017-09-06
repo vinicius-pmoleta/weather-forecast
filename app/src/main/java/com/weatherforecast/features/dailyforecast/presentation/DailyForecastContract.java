@@ -1,18 +1,18 @@
-package com.weatherforecast.features.search.presentation;
+package com.weatherforecast.features.dailyforecast.presentation;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.weatherforecast.core.structure.BaseContract;
-import com.weatherforecast.features.search.data.model.DailyForecast;
+import com.weatherforecast.features.dailyforecast.data.model.DailyForecast;
 
 import java.util.List;
 
-public interface ForecastSearchContract {
+public interface DailyForecastContract {
 
     interface View extends BaseContract.View {
 
-        ForecastsDataHolder provideForecastsDataHolder();
+        DailyForecastDataHolder provideForecastsDataHolder();
 
         void showErrorLoadingDailyForecast();
 

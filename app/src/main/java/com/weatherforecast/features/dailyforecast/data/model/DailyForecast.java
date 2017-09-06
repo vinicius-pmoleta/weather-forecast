@@ -1,4 +1,4 @@
-package com.weatherforecast.features.search.data.model;
+package com.weatherforecast.features.dailyforecast.data.model;
 
 import android.support.annotation.NonNull;
 

@@ -1,4 +1,4 @@
-package com.weatherforecast.features.search.usecase;
+package com.weatherforecast.features.dailyforecast.usecase;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -8,7 +8,7 @@ import com.weatherforecast.core.data.usecase.ExecutionConfiguration;
 import com.weatherforecast.core.data.usecase.UseCase;
 import com.weatherforecast.features.common.data.converter.ForecastConverter;
 import com.weatherforecast.features.common.data.repository.ForecastDao;
-import com.weatherforecast.features.search.data.model.DailyForecast;
+import com.weatherforecast.features.dailyforecast.data.model.DailyForecast;
 
 import java.util.List;
 

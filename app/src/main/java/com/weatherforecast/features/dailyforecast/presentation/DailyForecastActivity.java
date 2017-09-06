@@ -1,4 +1,4 @@
-package com.weatherforecast.features.search.presentation;
+package com.weatherforecast.features.dailyforecast.presentation;
 
 import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.ViewModelProviders;
@@ -11,21 +11,21 @@ import com.weatherforecast.R;
 import com.weatherforecast.core.WeatherForecastApplication;
 import com.weatherforecast.core.structure.BaseActivity;
 import com.weatherforecast.features.common.data.model.Forecast;
-import com.weatherforecast.features.search.data.model.DailyForecast;
-import com.weatherforecast.features.search.di.DaggerForecastSearchFeatureComponent;
-import com.weatherforecast.features.search.di.ForecastSearchPresentationModule;
-import com.weatherforecast.features.search.di.ForecastSearchUseCaseModule;
+import com.weatherforecast.features.dailyforecast.data.model.DailyForecast;
+import com.weatherforecast.features.dailyforecast.di.DaggerDailyForecastFeatureComponent;
+import com.weatherforecast.features.dailyforecast.di.DailyForecastPresentationModule;
+import com.weatherforecast.features.dailyforecast.di.DailyForecastUseCaseModule;
 
 import java.util.List;
 
-public class ForecastSearchActivity extends BaseActivity<ForecastSearchPresenter> implements ForecastSearchContract.View {
+public class DailyForecastActivity extends BaseActivity<DailyForecastPresenter> implements DailyForecastContract.View {
 
     @Override
     public void initialiseDependencyInjector() {
-        DaggerForecastSearchFeatureComponent.builder()
+        DaggerDailyForecastFeatureComponent.builder()
                 .applicationComponent(((WeatherForecastApplication) getApplication()).applicationComponent())
-                .forecastSearchPresentationModule(new ForecastSearchPresentationModule(this))
-                .forecastSearchUseCaseModule(new ForecastSearchUseCaseModule())
+                .dailyForecastPresentationModule(new DailyForecastPresentationModule(this))
+                .dailyForecastUseCaseModule(new DailyForecastUseCaseModule())
                 .build()
                 .inject(this);
     }
@@ -33,7 +33,7 @@ public class ForecastSearchActivity extends BaseActivity<ForecastSearchPresenter
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.forecast_search_activity);
+        setContentView(R.layout.daily_forecast_activity);
 
         initialiseTestTrigger();
     }
@@ -49,8 +49,8 @@ public class ForecastSearchActivity extends BaseActivity<ForecastSearchPresenter
     }
 
     @Override
-    public ForecastsDataHolder provideForecastsDataHolder() {
-        return ViewModelProviders.of(this).get(ForecastsDataHolder.class);
+    public DailyForecastDataHolder provideForecastsDataHolder() {
+        return ViewModelProviders.of(this).get(DailyForecastDataHolder.class);
     }
 
     @Override
