@@ -6,7 +6,7 @@ import com.weatherforecast.core.di.scope.ActivityScope;
 import com.weatherforecast.features.search.presentation.ForecastSearchContract;
 import com.weatherforecast.features.search.presentation.ForecastSearchPresenter;
 import com.weatherforecast.features.search.usecase.FetchLocalForecastUseCase;
-import com.weatherforecast.features.search.usecase.FetchRemoteForecastUseCase;
+import com.weatherforecast.features.search.usecase.UpdateLocalForecastUseCase;
 
 import dagger.Module;
 import dagger.Provides;
@@ -28,7 +28,7 @@ public class ForecastSearchPresentationModule {
 
     @ActivityScope
     @Provides
-    public ForecastSearchPresenter providePresenter(@NonNull final FetchRemoteForecastUseCase fetchRemoteUseCase,
+    public ForecastSearchPresenter providePresenter(@NonNull final UpdateLocalForecastUseCase fetchRemoteUseCase,
                                                     @NonNull final FetchLocalForecastUseCase fetchLocalUseCase) {
         return new ForecastSearchPresenter(view, fetchLocalUseCase, fetchRemoteUseCase);
     }

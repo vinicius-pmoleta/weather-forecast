@@ -4,19 +4,19 @@ import android.arch.lifecycle.LiveData;
 import android.support.annotation.NonNull;
 
 import com.weatherforecast.core.structure.BaseDataHolder;
-import com.weatherforecast.features.common.data.model.Forecast;
+import com.weatherforecast.features.search.data.model.DailyForecast;
 
 import java.util.List;
 
 public class ForecastsDataHolder extends BaseDataHolder {
 
-    private LiveData<List<Forecast>> data;
+    private LiveData<List<DailyForecast>> data;
 
-    public LiveData<List<Forecast>> data() {
+    public LiveData<List<DailyForecast>> data() {
         return data;
     }
 
-    public void data(@NonNull final LiveData<List<Forecast>> data) {
+    public void data(@NonNull final LiveData<List<DailyForecast>> data) {
         this.data = data;
     }
 

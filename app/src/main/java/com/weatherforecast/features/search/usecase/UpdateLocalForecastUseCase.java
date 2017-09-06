@@ -19,13 +19,13 @@ import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Flowable;
 
-public class FetchRemoteForecastUseCase extends UseCase<List<Forecast>, String> {
+public class UpdateLocalForecastUseCase extends UseCase<List<Forecast>, String> {
 
     private final ForecastRepository repository;
     private final CityDao cityDao;
     private final ForecastDao forecastDao;
 
-    public FetchRemoteForecastUseCase(@NonNull final ForecastRepository repository,
+    public UpdateLocalForecastUseCase(@NonNull final ForecastRepository repository,
                                       @NonNull final ExecutionConfiguration configuration,
                                       @NonNull final WeatherForecastDatabase database) {
         super(configuration);
@@ -40,14 +40,14 @@ public class FetchRemoteForecastUseCase extends UseCase<List<Forecast>, String> 
                 .delay(5, TimeUnit.SECONDS)
                 .flatMap(forecasts -> {
                     cityDao.insert(CityConverter.toEntity(forecasts.city()));
-
                     return Flowable.fromIterable(forecasts.forecasts())
                             .map(forecast -> {
                                 final ForecastEntity entity = ForecastConverter.toEntity(forecast, forecasts.city());
                                 forecastDao.insert(entity);
                                 return forecast;
                             })
-                            .toList().toFlowable();
+                            .toList()
+                            .toFlowable();
                 });
     }
 }

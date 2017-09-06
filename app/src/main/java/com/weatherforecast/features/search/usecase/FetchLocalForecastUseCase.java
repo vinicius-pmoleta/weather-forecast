@@ -7,14 +7,14 @@ import com.weatherforecast.core.data.repository.local.database.WeatherForecastDa
 import com.weatherforecast.core.data.usecase.ExecutionConfiguration;
 import com.weatherforecast.core.data.usecase.UseCase;
 import com.weatherforecast.features.common.data.converter.ForecastConverter;
-import com.weatherforecast.features.common.data.model.Forecast;
 import com.weatherforecast.features.common.data.repository.ForecastDao;
+import com.weatherforecast.features.search.data.model.DailyForecast;
 
 import java.util.List;
 
 import io.reactivex.Flowable;
 
-public class FetchLocalForecastUseCase extends UseCase<List<Forecast>, Long> {
+public class FetchLocalForecastUseCase extends UseCase<List<DailyForecast>, Long> {
 
     private final ForecastDao forecastDao;
 
@@ -25,15 +25,24 @@ public class FetchLocalForecastUseCase extends UseCase<List<Forecast>, Long> {
     }
 
     @Override
-    public Flowable<List<Forecast>> buildUseCaseObservable(@Nullable final Long cityId) {
+    public Flowable<List<DailyForecast>> buildUseCaseObservable(@Nullable final Long cityId) {
         if (cityId == null) {
             return Flowable.empty();
         }
+
         return forecastDao.findForecastForCity(cityId)
                 .flatMap(entities ->
                         Flowable.fromIterable(entities)
                                 .map(ForecastConverter::fromEntity)
-                                .toList().toFlowable()
+                                .groupBy(forecast -> forecast.date().substring(0, 10))
+                                .takeLast(5)
+                                .sorted((group1, group2) -> group1.getKey().compareTo(group2.getKey()))
+                                .flatMap(grouped -> grouped
+                                        .buffer(8)
+                                        .map(forecasts -> new DailyForecast(grouped.getKey(), forecasts))
+                                )
+                                .toList()
+                                .toFlowable()
                 );
     }
 

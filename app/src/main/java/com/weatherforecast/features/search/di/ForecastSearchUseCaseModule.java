@@ -7,7 +7,7 @@ import com.weatherforecast.core.data.repository.remote.ForecastRepository;
 import com.weatherforecast.core.data.usecase.ExecutionConfiguration;
 import com.weatherforecast.core.di.scope.ActivityScope;
 import com.weatherforecast.features.search.usecase.FetchLocalForecastUseCase;
-import com.weatherforecast.features.search.usecase.FetchRemoteForecastUseCase;
+import com.weatherforecast.features.search.usecase.UpdateLocalForecastUseCase;
 
 import dagger.Module;
 import dagger.Provides;
@@ -17,10 +17,10 @@ public class ForecastSearchUseCaseModule {
 
     @ActivityScope
     @Provides
-    public FetchRemoteForecastUseCase provideFetchRemoteForecastUseCase(@NonNull final ForecastRepository forecastRepository,
+    public UpdateLocalForecastUseCase provideUpdateLocalForecastUseCase(@NonNull final ForecastRepository forecastRepository,
                                                                         @NonNull final ExecutionConfiguration configuration,
                                                                         @NonNull final WeatherForecastDatabase database) {
-        return new FetchRemoteForecastUseCase(forecastRepository, configuration, database);
+        return new UpdateLocalForecastUseCase(forecastRepository, configuration, database);
     }
 
     @ActivityScope
