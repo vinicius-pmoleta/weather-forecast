@@ -88,7 +88,7 @@ public class FetchLocalForecastUseCaseTest {
 
     @NonNull
     private DailyForecast createDailyForecastWithDate(@NonNull final String date) {
-        return new DailyForecast(date, Collections.emptyList());
+        return DailyForecast.create(date, Collections.emptyList());
     }
 
 }

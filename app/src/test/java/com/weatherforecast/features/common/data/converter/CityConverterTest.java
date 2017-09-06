@@ -15,7 +15,7 @@ public class CityConverterTest {
 
     @Test
     public void validateEntityHasSameValuesAsModel() {
-        final City model = new City(1L, "City");
+        final City model = City.create(1L, "City");
         final CityEntity entity = CityConverter.toEntity(model);
         assertNotNull(entity);
         assertEquals(1L, entity.id);

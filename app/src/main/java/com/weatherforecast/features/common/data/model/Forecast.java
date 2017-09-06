@@ -2,90 +2,73 @@ package com.weatherforecast.features.common.data.model;
 
 import android.support.annotation.NonNull;
 
+import com.google.auto.value.AutoValue;
+import com.google.gson.Gson;
+import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class Forecast {
+@AutoValue
+public abstract class Forecast {
 
     @SerializedName("dt_txt")
-    private final String date;
+    public abstract String date();
 
     @SerializedName("main")
-    private final Temperature temperature;
+    public abstract Temperature temperature();
 
     @SerializedName("weather")
-    private final List<Condition> conditions;
+    public abstract List<Condition> conditions();
 
-    public Forecast(@NonNull final String date, @NonNull final Temperature temperature,
-                    @NonNull final List<Condition> conditions) {
-        this.date = date;
-        this.temperature = temperature;
-        this.conditions = conditions;
+    public static Forecast create(@NonNull final String date, @NonNull final Temperature temperature,
+                                  @NonNull final List<Condition> conditions) {
+        return new AutoValue_Forecast(date, temperature, conditions);
     }
 
-    public String date() {
-        return date;
+    public static TypeAdapter<Forecast> typeAdapter(Gson gson) {
+        return new AutoValue_Forecast.GsonTypeAdapter(gson);
     }
 
-    public Temperature temperature() {
-        return temperature;
-    }
-
-    public List<Condition> conditions() {
-        return conditions;
-    }
-
-    public static class Temperature {
+    @AutoValue
+    public abstract static class Temperature {
 
         @SerializedName("temp")
-        private final Double current;
+        public abstract Double current();
 
         @SerializedName("temp_min")
-        private final Double minimum;
+        public abstract Double minimum();
 
         @SerializedName("temp_max")
-        private final Double maximum;
+        public abstract Double maximum();
 
-        public Temperature(@NonNull final Double current, @NonNull final Double minimum,
-                           @NonNull final Double maximum) {
-            this.current = current;
-            this.minimum = minimum;
-            this.maximum = maximum;
+        public static Temperature create(@NonNull final Double current, @NonNull final Double minimum,
+                                         @NonNull final Double maximum) {
+            return new AutoValue_Forecast_Temperature(current, minimum, maximum);
         }
 
-        public Double current() {
-            return current;
+        public static TypeAdapter<Temperature> typeAdapter(Gson gson) {
+            return new AutoValue_Forecast_Temperature.GsonTypeAdapter(gson);
         }
 
-        public Double minimum() {
-            return minimum;
-        }
-
-        public Double maximum() {
-            return maximum;
-        }
     }
 
-    public static class Condition {
+    @AutoValue
+    public abstract static class Condition {
 
         @SerializedName("main")
-        private final String name;
+        public abstract String name();
 
-        private final String icon;
+        public abstract String icon();
 
-        public Condition(@NonNull final String name, @NonNull final String icon) {
-            this.name = name;
-            this.icon = icon;
+        public static Condition create(@NonNull final String name, @NonNull final String icon) {
+            return new AutoValue_Forecast_Condition(name, icon);
         }
 
-        public String name() {
-            return name;
+        public static TypeAdapter<Condition> typeAdapter(Gson gson) {
+            return new AutoValue_Forecast_Condition.GsonTypeAdapter(gson);
         }
 
-        public String icon() {
-            return icon;
-        }
     }
 
 }

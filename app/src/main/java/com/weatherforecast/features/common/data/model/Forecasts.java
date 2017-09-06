@@ -2,26 +2,27 @@ package com.weatherforecast.features.common.data.model;
 
 import android.support.annotation.NonNull;
 
+import com.google.auto.value.AutoValue;
+import com.google.gson.Gson;
+import com.google.gson.TypeAdapter;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class Forecasts {
+@AutoValue
+public abstract class Forecasts {
 
     @SerializedName("list")
-    private final List<Forecast> forecasts;
-    private final City city;
+    public abstract List<Forecast> forecasts();
 
-    public Forecasts(@NonNull final List<Forecast> forecasts, @NonNull final City city) {
-        this.forecasts = forecasts;
-        this.city = city;
+    public abstract City city();
+
+    public static Forecasts create(@NonNull final List<Forecast> forecasts, @NonNull final City city) {
+        return new AutoValue_Forecasts(forecasts, city);
     }
 
-    public List<Forecast> forecasts() {
-        return forecasts;
+    public static TypeAdapter<Forecasts> typeAdapter(Gson gson) {
+        return new AutoValue_Forecasts.GsonTypeAdapter(gson);
     }
 
-    public City city() {
-        return city;
-    }
 }

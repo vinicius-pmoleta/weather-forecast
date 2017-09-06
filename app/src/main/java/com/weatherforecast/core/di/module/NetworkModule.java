@@ -2,9 +2,11 @@ package com.weatherforecast.core.di.module;
 
 import android.support.annotation.NonNull;
 
+import com.google.gson.GsonBuilder;
 import com.weatherforecast.BuildConfig;
 import com.weatherforecast.core.WeatherForecastApplication;
 import com.weatherforecast.core.data.repository.local.NetworkCache;
+import com.weatherforecast.core.data.repository.remote.adapter.AutoValueGsonFactory;
 import com.weatherforecast.core.data.repository.remote.interceptor.AuthenticationInterceptor;
 import com.weatherforecast.core.data.repository.remote.interceptor.OnlineCacheInterceptor;
 
@@ -39,9 +41,15 @@ public class NetworkModule {
     @Provides
     @Singleton
     public Retrofit provideRetrofit(@NonNull final OkHttpClient okHttpClient) {
+        final GsonConverterFactory gsonConverterFactory = GsonConverterFactory.create(
+                new GsonBuilder()
+                        .registerTypeAdapterFactory(AutoValueGsonFactory.create())
+                        .create()
+        );
+
         return new Retrofit.Builder()
                 .baseUrl("http://api.openweathermap.org/data/2.5/")
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(gsonConverterFactory)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(okHttpClient)
                 .build();

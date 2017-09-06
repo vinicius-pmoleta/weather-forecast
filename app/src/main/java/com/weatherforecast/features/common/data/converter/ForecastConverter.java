@@ -13,9 +13,10 @@ import java.util.Collections;
 public class ForecastConverter {
 
     public static Forecast fromEntity(@NonNull final ForecastEntity entity) {
-        final Temperature temperature = new Temperature(entity.currentTemperature, entity.minimumTemperature, entity.maximumTemperature);
-        final Condition condition = new Condition(entity.condition, entity.icon);
-        return new Forecast(entity.date, temperature, Collections.singletonList(condition));
+        final Temperature temperature = Temperature.create(
+                entity.currentTemperature, entity.minimumTemperature, entity.maximumTemperature);
+        final Condition condition = Condition.create(entity.condition, entity.icon);
+        return Forecast.create(entity.date, temperature, Collections.singletonList(condition));
     }
 
     public static ForecastEntity toEntity(@NonNull final Forecast model, @NonNull final City city) {

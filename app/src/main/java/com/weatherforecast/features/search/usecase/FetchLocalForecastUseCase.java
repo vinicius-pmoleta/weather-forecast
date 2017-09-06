@@ -39,7 +39,7 @@ public class FetchLocalForecastUseCase extends UseCase<List<DailyForecast>, Long
                                 .takeLast(5)
                                 .flatMap(grouped -> grouped
                                         .buffer(8)
-                                        .map(forecasts -> new DailyForecast(grouped.getKey(), forecasts))
+                                        .map(forecasts -> DailyForecast.create(grouped.getKey(), forecasts))
                                 )
                                 .toList()
                                 .toFlowable()

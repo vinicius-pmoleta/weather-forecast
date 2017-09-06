@@ -8,6 +8,8 @@ project.ext {
     dagger_version = '2.11'
     retrofit_version = '2.3.0'
     architecture_components_version = '1.0.0-alpha9'
+    auto_value_version = '1.5'
+    auto_value_gson_version = '0.5.0'
 }
 
 android {
@@ -91,6 +93,13 @@ dependencies {
     compile "android.arch.persistence.room:runtime:$architecture_components_version"
     annotationProcessor "android.arch.persistence.room:compiler:$architecture_components_version"
     compile "android.arch.persistence.room:rxjava2:$architecture_components_version"
+
+    // AUTO VALUE
+    provided "com.google.auto.value:auto-value:$auto_value_version"
+    annotationProcessor "com.google.auto.value:auto-value:$auto_value_version"
+    compile 'com.google.code.gson:gson:2.8.1'
+    annotationProcessor "com.ryanharter.auto.value:auto-value-gson:$auto_value_gson_version"
+    provided "com.ryanharter.auto.value:auto-value-gson:$auto_value_gson_version"
 
     // TEST
     testCompile 'junit:junit:4.12'
