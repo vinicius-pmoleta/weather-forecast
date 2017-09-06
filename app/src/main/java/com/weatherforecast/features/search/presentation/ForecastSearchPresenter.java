@@ -16,6 +16,7 @@ import java.util.List;
 
 import static android.support.annotation.VisibleForTesting.PRIVATE;
 
+@SuppressWarnings("ConstantConditions")
 public class ForecastSearchPresenter implements ForecastSearchContract.Action {
 
     private final ForecastSearchContract.View view;

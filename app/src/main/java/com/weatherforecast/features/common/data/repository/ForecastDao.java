@@ -15,7 +15,7 @@ import io.reactivex.Flowable;
 public interface ForecastDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insert(final List<ForecastEntity> forecast);
+    void insert(final List<ForecastEntity> forecasts);
 
     @Query("SELECT * FROM forecast INNER JOIN city ON city.id = forecast.cityId WHERE city.id = :cityId")
     Flowable<List<ForecastEntity>> findForecastForCity(final long cityId);
