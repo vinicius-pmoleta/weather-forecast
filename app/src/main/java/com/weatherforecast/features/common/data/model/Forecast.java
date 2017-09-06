@@ -9,13 +9,13 @@ import java.util.List;
 public class Forecast {
 
     @SerializedName("dt_txt")
-    private String date;
+    private final String date;
 
     @SerializedName("main")
-    private Temperature temperature;
+    private final Temperature temperature;
 
     @SerializedName("weather")
-    private List<Condition> conditions;
+    private final List<Condition> conditions;
 
     public Forecast(@NonNull final String date, @NonNull final Temperature temperature,
                     @NonNull final List<Condition> conditions) {
@@ -39,13 +39,13 @@ public class Forecast {
     public static class Temperature {
 
         @SerializedName("temp")
-        private Double current;
+        private final Double current;
 
         @SerializedName("temp_min")
-        private Double minimum;
+        private final Double minimum;
 
         @SerializedName("temp_max")
-        private Double maximum;
+        private final Double maximum;
 
         public Temperature(@NonNull final Double current, @NonNull final Double minimum,
                            @NonNull final Double maximum) {
@@ -70,9 +70,9 @@ public class Forecast {
     public static class Condition {
 
         @SerializedName("main")
-        private String name;
+        private final String name;
 
-        private String icon;
+        private final String icon;
 
         public Condition(@NonNull final String name, @NonNull final String icon) {
             this.name = name;

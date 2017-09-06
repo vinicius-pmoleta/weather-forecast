@@ -35,8 +35,8 @@ public class FetchLocalForecastUseCase extends UseCase<List<DailyForecast>, Long
                         Flowable.fromIterable(entities)
                                 .map(ForecastConverter::fromEntity)
                                 .groupBy(forecast -> forecast.date().substring(0, 10))
-                                .takeLast(5)
                                 .sorted((group1, group2) -> group1.getKey().compareTo(group2.getKey()))
+                                .takeLast(5)
                                 .flatMap(grouped -> grouped
                                         .buffer(8)
                                         .map(forecasts -> new DailyForecast(grouped.getKey(), forecasts))
