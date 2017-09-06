@@ -14,7 +14,6 @@ import com.weatherforecast.features.common.data.repository.CityDao;
 import com.weatherforecast.features.common.data.repository.ForecastDao;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Flowable;
 
@@ -36,7 +35,6 @@ public class UpdateLocalForecastUseCase extends UseCase<List<ForecastEntity>, St
     @Override
     public Flowable<List<ForecastEntity>> buildUseCaseObservable(@Nullable final String location) {
         return repository.getForecast(location)
-                .delay(5, TimeUnit.SECONDS)
                 .flatMap(forecasts -> {
                     cityDao.insert(CityConverter.toEntity(forecasts.city()));
                     return Flowable.fromIterable(forecasts.forecasts())
