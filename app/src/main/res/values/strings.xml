@@ -4,6 +4,7 @@
 
     <!-- Search -->
     <string name="search_hint">Search city</string>
+    <string name="search_weather_error_loading">Sorry, we couldn\'t load the weather for this location :(</string>
 
     <!-- Daily Forecast -->
     <string name="daily_forecast_error_loading">Sorry, we couldn\'t load the daily forecast :(</string>

@@ -2,7 +2,6 @@ package com.weatherforecast.features.dailyforecast.presentation;
 
 import android.arch.lifecycle.LiveData;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 
 import com.weatherforecast.core.data.usecase.UseCase;
@@ -30,7 +29,7 @@ public class DailyForecastPresenter implements DailyForecastContract.Action {
     }
 
     @Override
-    public void loadLocationForecast(@Nullable final Long id, @NonNull final String location) {
+    public void loadLocationForecast(@NonNull final Long id) {
         final DailyForecastDataHolder holder = view.provideForecastsDataHolder();
         if (isContentAvailableOnHolder(holder)) {
             handleDailyForecastsData(holder.data().getValue());
@@ -38,7 +37,7 @@ public class DailyForecastPresenter implements DailyForecastContract.Action {
         }
 
         loadLocalForecast(id, holder);
-        updateRemoteForecast(location, holder);
+        updateRemoteForecast(id, holder);
     }
 
     @VisibleForTesting(otherwise = PRIVATE)
@@ -47,7 +46,7 @@ public class DailyForecastPresenter implements DailyForecastContract.Action {
     }
 
     @VisibleForTesting(otherwise = PRIVATE)
-    void loadLocalForecast(@Nullable final Long id, @NonNull final DailyForecastDataHolder holder) {
+    void loadLocalForecast(@NonNull final Long id, @NonNull final DailyForecastDataHolder holder) {
         final LiveData<List<DailyForecast>> data = fetchLocalUseCase.executeLive(id,
                 holder::addSubscription,
                 error -> view.showErrorLoadingDailyForecast(),
@@ -58,8 +57,8 @@ public class DailyForecastPresenter implements DailyForecastContract.Action {
     }
 
     @VisibleForTesting(otherwise = PRIVATE)
-    void updateRemoteForecast(@NonNull final String location, @NonNull final DailyForecastDataHolder holder) {
-        updateLocalUseCase.execute(location,
+    void updateRemoteForecast(@NonNull final Long id, @NonNull final DailyForecastDataHolder holder) {
+        updateLocalUseCase.execute(id,
                 holder::addSubscription,
                 error -> view.showErrorLoadingDailyForecast(),
                 new UseCase.DefaultOnComplete()

@@ -30,7 +30,7 @@ import io.reactivex.Flowable;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
@@ -63,9 +63,9 @@ public class UpdateLocalForecastUseCaseTest {
 
     @Test
     public void verifyNoDatabaseInteractionWhenRemoteDataIsEmpty() {
-        when(forecastRepository.getForecast(anyString())).thenReturn(Flowable.empty());
+        when(forecastRepository.getForecast(anyLong())).thenReturn(Flowable.empty());
 
-        useCase.buildUseCaseObservable(anyString())
+        useCase.buildUseCaseObservable(anyLong())
                 .doOnComplete(() -> {
                     verify(cityDao, never()).insert(any(CityEntity.class));
                     verify(forecastDao, never()).insert(any(List.class));
@@ -81,9 +81,9 @@ public class UpdateLocalForecastUseCaseTest {
         final City city = City.create(0L, "City");
         final Forecasts forecasts = Forecasts.create(Collections.emptyList(), city);
 
-        when(forecastRepository.getForecast(anyString())).thenReturn(Flowable.just(forecasts));
+        when(forecastRepository.getForecast(anyLong())).thenReturn(Flowable.just(forecasts));
 
-        useCase.buildUseCaseObservable(anyString())
+        useCase.buildUseCaseObservable(anyLong())
                 .doOnComplete(() -> {
                     assertCityEntityInserted(city);
                     verify(forecastDao, never()).insert(any(List.class));
@@ -106,9 +106,9 @@ public class UpdateLocalForecastUseCaseTest {
         final ForecastEntity entity2 = TestDataCreator.createEntityWithDateAndCityId(forecast1.date(), city.id());
         final List<ForecastEntity> expectedEntities = Arrays.asList(entity1, entity2);
 
-        when(forecastRepository.getForecast(anyString())).thenReturn(Flowable.just(forecasts));
+        when(forecastRepository.getForecast(anyLong())).thenReturn(Flowable.just(forecasts));
 
-        useCase.buildUseCaseObservable(anyString())
+        useCase.buildUseCaseObservable(anyLong())
                 .doOnComplete(() -> {
                     assertCityEntityInserted(city);
                     verify(forecastDao, times(1)).insert(expectedEntities);

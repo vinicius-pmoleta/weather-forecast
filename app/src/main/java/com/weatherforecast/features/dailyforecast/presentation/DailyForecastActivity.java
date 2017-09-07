@@ -1,6 +1,5 @@
 package com.weatherforecast.features.dailyforecast.presentation;
 
-import android.app.SearchManager;
 import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
@@ -8,7 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.text.TextUtils;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -48,29 +47,23 @@ public class DailyForecastActivity extends BaseActivity<DailyForecastPresenter> 
     protected void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.daily_forecast_activity);
-        extractExtrasAndLoadDailyForecast(getIntent());
+
+        initialiseNavigation();
+        extractExtrasAndLoadDailyForecast();
     }
 
-    @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        extractExtrasAndLoadDailyForecast(intent);
+    private void initialiseNavigation() {
+        final Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        final String location = getIntent().getStringExtra(EXTRA_LOCATION);
+        getSupportActionBar().setTitle(location);
+        getSupportActionBar().setHomeButtonEnabled(true);
     }
 
-    private void extractExtrasAndLoadDailyForecast(@NonNull final Intent intent) {
-        final long id = intent.getLongExtra(EXTRA_ID, -1L);
-        final String location = extractLocation(intent);
-        presenter.loadLocationForecast(id, location);
-    }
-
-    private String extractLocation(@NonNull final Intent intent) {
-        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            final String query = intent.getStringExtra(SearchManager.QUERY);
-            if (!TextUtils.isEmpty(query)) {
-                return query;
-            }
-        }
-        return intent.getStringExtra(EXTRA_LOCATION);
+    private void extractExtrasAndLoadDailyForecast() {
+        final long id = getIntent().getLongExtra(EXTRA_ID, -1L);
+        presenter.loadLocationForecast(id);
     }
 
     @Override

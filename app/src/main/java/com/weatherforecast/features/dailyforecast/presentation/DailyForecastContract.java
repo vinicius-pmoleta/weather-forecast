@@ -1,7 +1,6 @@
 package com.weatherforecast.features.dailyforecast.presentation;
 
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import com.weatherforecast.core.structure.BaseContract;
 import com.weatherforecast.features.dailyforecast.data.model.DailyForecast;
@@ -22,7 +21,7 @@ public interface DailyForecastContract {
 
     interface Action extends BaseContract.Action {
 
-        void loadLocationForecast(@Nullable final Long id, @NonNull final String location);
+        void loadLocationForecast(@NonNull final Long id);
     }
 
 }

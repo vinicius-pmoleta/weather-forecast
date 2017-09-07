@@ -17,7 +17,7 @@ import java.util.List;
 
 import io.reactivex.Flowable;
 
-public class UpdateLocalForecastUseCase extends UseCase<List<ForecastEntity>, String> {
+public class UpdateLocalForecastUseCase extends UseCase<List<ForecastEntity>, Long> {
 
     private final ForecastRepository repository;
     private final CityDao cityDao;
@@ -33,8 +33,8 @@ public class UpdateLocalForecastUseCase extends UseCase<List<ForecastEntity>, St
     }
 
     @Override
-    public Flowable<List<ForecastEntity>> buildUseCaseObservable(@Nullable final String location) {
-        return repository.getForecast(location)
+    public Flowable<List<ForecastEntity>> buildUseCaseObservable(@Nullable final Long id) {
+        return repository.getForecast(id)
                 .doOnNext(forecasts -> cityDao.insert(CityConverter.toEntity(forecasts.city())))
                 .flatMap(forecasts -> Flowable.fromIterable(forecasts.forecasts())
                         .map(forecast -> ForecastConverter.toEntity(forecast, forecasts.city()))

@@ -1,28 +1,34 @@
 package com.weatherforecast.features.search.presentation;
 
-import android.app.SearchManager;
 import android.arch.lifecycle.LifecycleOwner;
-import android.content.ComponentName;
-import android.content.Context;
-import android.graphics.PorterDuff;
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.SearchView;
-import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.util.Log;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import com.weatherforecast.R;
+import com.weatherforecast.core.WeatherForecastApplication;
 import com.weatherforecast.core.structure.BaseActivity;
 import com.weatherforecast.features.dailyforecast.presentation.DailyForecastActivity;
+import com.weatherforecast.features.search.data.Weather;
+import com.weatherforecast.features.search.di.DaggerSearchFeatureComponent;
+import com.weatherforecast.features.search.di.SearchPresentationModule;
+import com.weatherforecast.features.search.di.SearchUseCaseModule;
 
 public class SearchActivity extends BaseActivity<SearchPresenter> implements SearchContract.View {
 
     @Override
     public void initialiseDependencyInjector() {
-
+        DaggerSearchFeatureComponent.builder()
+                .applicationComponent(((WeatherForecastApplication) getApplication()).applicationComponent())
+                .searchPresentationModule(new SearchPresentationModule(this))
+                .searchUseCaseModule(new SearchUseCaseModule())
+                .build()
+                .inject(this);
     }
 
     @Override
@@ -30,33 +36,8 @@ public class SearchActivity extends BaseActivity<SearchPresenter> implements Sea
         super.onCreate(savedInstanceState);
         setContentView(R.layout.search_activity);
 
-        initialiseNavigation();
         initialiseTestTrigger();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(@NonNull final Menu menu) {
-        getMenuInflater().inflate(R.menu.search_menu, menu);
-        configureSearchAction(menu);
-        return true;
-    }
-
-    private void configureSearchAction(@NonNull Menu menu) {
-        final SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        final MenuItem searchItem = menu.findItem(R.id.search_item);
-        searchItem.getIcon()
-                .mutate()
-                .setColorFilter(
-                        ContextCompat.getColor(this, R.color.toolbarColorControlNormal), PorterDuff.Mode.SRC_ATOP);
-
-        final SearchView searchView = (SearchView) searchItem.getActionView();
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(
-                new ComponentName(this, DailyForecastActivity.class)));
-    }
-
-    private void initialiseNavigation() {
-        final Toolbar toolbar = findViewById(R.id.search_toolbar);
-        setSupportActionBar(toolbar);
+        initializeSearchInteraction();
     }
 
     private void initialiseTestTrigger() {
@@ -64,10 +45,34 @@ public class SearchActivity extends BaseActivity<SearchPresenter> implements Sea
                 view -> startActivity(DailyForecastActivity.newIntent(this, 2643743L, "London,UK")));
     }
 
+    private void initializeSearchInteraction() {
+        final EditText queryField = findViewById(R.id.search_query);
+        findViewById(R.id.search_action).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                presenter.loadWeatherForLocation(queryField.getText().toString());
+            }
+        });
+    }
+
     @Override
     public LifecycleOwner provideLifecycleOwner() {
-        return null;
+        return this;
     }
 
 
+    @Override
+    public WeatherDataHolder provideWeatherDataHolder() {
+        return ViewModelProviders.of(this).get(WeatherDataHolder.class);
+    }
+
+    @Override
+    public void showWeather(@NonNull final Weather weather) {
+        Log.d("TEST", weather.toString());
+    }
+
+    @Override
+    public void showErrorLoadingWeather() {
+        Toast.makeText(this, R.string.search_weather_error_loading, Toast.LENGTH_LONG).show();
+    }
 }

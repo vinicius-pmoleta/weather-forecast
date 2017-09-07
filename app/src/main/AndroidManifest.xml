@@ -18,22 +18,9 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
-            <meta-data
-                android:name="android.app.default_searchable"
-                android:value=".features.dailyforecast.presentation.DailyForecastActivity" />
         </activity>
 
-        <activity android:name=".features.dailyforecast.presentation.DailyForecastActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.SEARCH" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-
-            <meta-data
-                android:name="android.app.searchable"
-                android:resource="@xml/searchable" />
-        </activity>
+        <activity android:name=".features.dailyforecast.presentation.DailyForecastActivity" />
 
     </application>
 

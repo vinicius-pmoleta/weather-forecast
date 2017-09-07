@@ -27,7 +27,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
@@ -93,24 +92,24 @@ public class DailyForecastPresenterTest {
         when(data.getValue()).thenReturn(value);
         when(dataHolder.data()).thenReturn(data);
 
-        presenter.loadLocationForecast(0L, "City");
+        presenter.loadLocationForecast(0L);
 
         verify(view, times(1)).showDailyForecasts(value);
         verify(fetchLocalUseCase, never()).executeLive(anyLong(), any(), any(), any());
-        verify(updateLocalUseCase, never()).execute(anyString(), any(), any(), any());
+        verify(updateLocalUseCase, never()).execute(anyLong(), any(), any(), any());
     }
 
     @Test
     public void verifyDataLoadedAndUpdatedWhenNotAvailableOnHolder() {
         when(dataHolder.data()).thenReturn(null);
         when(fetchLocalUseCase.executeLive(anyLong(), any(), any(), any())).thenReturn(mock(LiveData.class));
-        when(updateLocalUseCase.execute(anyString(), any(), any(), any())).thenReturn(Flowable.empty());
+        when(updateLocalUseCase.execute(anyLong(), any(), any(), any())).thenReturn(Flowable.empty());
 
-        presenter.loadLocationForecast(0L, "City");
+        presenter.loadLocationForecast(0L);
 
         verify(view, never()).showDailyForecasts(any());
         verify(fetchLocalUseCase, times(1)).executeLive(anyLong(), any(), any(), any());
-        verify(updateLocalUseCase, times(1)).execute(anyString(), any(), any(), any());
+        verify(updateLocalUseCase, times(1)).execute(anyLong(), any(), any(), any());
     }
 
     @Test
@@ -163,12 +162,12 @@ public class DailyForecastPresenterTest {
 
     @Test
     public void verifyUpdateUseCaseSubscriptionDeliveredToHolder() throws Exception {
-        when(updateLocalUseCase.execute(anyString(), any(), any(), any())).thenReturn(Flowable.empty());
+        when(updateLocalUseCase.execute(anyLong(), any(), any(), any())).thenReturn(Flowable.empty());
 
-        presenter.updateRemoteForecast("City", dataHolder);
+        presenter.updateRemoteForecast(0L, dataHolder);
 
         final ArgumentCaptor<Consumer<Subscription>> captor = ArgumentCaptor.forClass(Consumer.class);
-        verify(updateLocalUseCase, times(1)).execute(eq("City"), captor.capture(), any(), any());
+        verify(updateLocalUseCase, times(1)).execute(eq(0L), captor.capture(), any(), any());
 
         final Subscription subscription = mock(Subscription.class);
         final Consumer<Subscription> consumer = captor.getAllValues().get(0);
@@ -178,12 +177,12 @@ public class DailyForecastPresenterTest {
 
     @Test
     public void verifyLocalDataUpdatedWithError() throws Exception {
-        when(updateLocalUseCase.execute(anyString(), any(), any(), any())).thenReturn(Flowable.empty());
+        when(updateLocalUseCase.execute(anyLong(), any(), any(), any())).thenReturn(Flowable.empty());
 
-        presenter.updateRemoteForecast("City", dataHolder);
+        presenter.updateRemoteForecast(0L, dataHolder);
 
         final ArgumentCaptor<Consumer<Throwable>> captor = ArgumentCaptor.forClass(Consumer.class);
-        verify(updateLocalUseCase, times(1)).execute(eq("City"), any(), captor.capture(), any());
+        verify(updateLocalUseCase, times(1)).execute(eq(0L), any(), captor.capture(), any());
 
         final Consumer<Throwable> consumer = captor.getAllValues().get(0);
         consumer.accept(new Throwable());
