@@ -41,6 +41,7 @@ public class UpdateLocalForecastUseCase extends UseCase<List<ForecastEntity>, Lo
                         .toList()
                         .toFlowable()
                         .filter(entities -> !entities.isEmpty())
-                        .doOnNext(forecastDao::insert));
+                        .doOnNext(forecastDao::insert)
+                );
     }
 }

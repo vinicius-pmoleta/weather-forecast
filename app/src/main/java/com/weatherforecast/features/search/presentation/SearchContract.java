@@ -3,24 +3,29 @@ package com.weatherforecast.features.search.presentation;
 import android.support.annotation.NonNull;
 
 import com.weatherforecast.core.structure.BaseContract;
+import com.weatherforecast.features.common.data.model.City;
 import com.weatherforecast.features.search.data.Weather;
+
+import java.util.List;
 
 public interface SearchContract {
 
     interface View extends BaseContract.View {
 
-        WeatherDataHolder provideWeatherDataHolder();
+        SearchDataHolder provideSearchDataHolder();
 
         void showWeather(@NonNull final Weather weather);
 
         void showErrorLoadingWeather();
 
+        void showLocationsSearched(@NonNull final List<City> cities);
     }
 
     interface Action extends BaseContract.Action {
 
         void loadWeatherForLocation(@NonNull final String location);
 
+        void loadLocationsSearched();
     }
 
 }

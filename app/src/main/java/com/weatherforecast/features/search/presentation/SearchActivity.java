@@ -13,11 +13,14 @@ import android.widget.Toast;
 import com.weatherforecast.R;
 import com.weatherforecast.core.WeatherForecastApplication;
 import com.weatherforecast.core.structure.BaseActivity;
+import com.weatherforecast.features.common.data.model.City;
 import com.weatherforecast.features.dailyforecast.presentation.DailyForecastActivity;
 import com.weatherforecast.features.search.data.Weather;
 import com.weatherforecast.features.search.di.DaggerSearchFeatureComponent;
 import com.weatherforecast.features.search.di.SearchPresentationModule;
 import com.weatherforecast.features.search.di.SearchUseCaseModule;
+
+import java.util.List;
 
 public class SearchActivity extends BaseActivity<SearchPresenter> implements SearchContract.View {
 
@@ -38,6 +41,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter> implements Sea
 
         initialiseTestTrigger();
         initializeSearchInteraction();
+        initialiseSuggestions();
     }
 
     private void initialiseTestTrigger() {
@@ -55,6 +59,10 @@ public class SearchActivity extends BaseActivity<SearchPresenter> implements Sea
         });
     }
 
+    private void initialiseSuggestions() {
+        presenter.loadLocationsSearched();
+    }
+
     @Override
     public LifecycleOwner provideLifecycleOwner() {
         return this;
@@ -62,8 +70,8 @@ public class SearchActivity extends BaseActivity<SearchPresenter> implements Sea
 
 
     @Override
-    public WeatherDataHolder provideWeatherDataHolder() {
-        return ViewModelProviders.of(this).get(WeatherDataHolder.class);
+    public SearchDataHolder provideSearchDataHolder() {
+        return ViewModelProviders.of(this).get(SearchDataHolder.class);
     }
 
     @Override
@@ -74,5 +82,12 @@ public class SearchActivity extends BaseActivity<SearchPresenter> implements Sea
     @Override
     public void showErrorLoadingWeather() {
         Toast.makeText(this, R.string.search_weather_error_loading, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void showLocationsSearched(@NonNull final List<City> cities) {
+        for (final City city : cities) {
+            Log.d("TEST", city.toString());
+        }
     }
 }
