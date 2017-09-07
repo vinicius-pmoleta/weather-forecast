@@ -23,8 +23,6 @@ import java.util.List;
 import io.reactivex.Flowable;
 import io.reactivex.functions.Consumer;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.eq;
@@ -57,29 +55,6 @@ public class DailyForecastPresenterTest {
         when(view.provideForecastsDataHolder()).thenReturn(dataHolder);
         when(view.provideLifecycleOwner()).thenReturn(mock(LifecycleOwner.class));
         presenter = new DailyForecastPresenter(view, fetchLocalUseCase, updateLocalUseCase);
-    }
-
-    @Test
-    public void assertContentIsNotAvailableOnHolderWhenLiveDataIsNull() {
-        when(dataHolder.data()).thenReturn(null);
-        assertFalse(presenter.isContentAvailableOnHolder(dataHolder));
-    }
-
-    @Test
-    public void assertContentIsNotAvailableOnHolderWhenLiveDataValueIsNull() {
-        final LiveData<List<DailyForecast>> data = mock(LiveData.class);
-        when(data.getValue()).thenReturn(null);
-        when(dataHolder.data()).thenReturn(data);
-        assertFalse(presenter.isContentAvailableOnHolder(dataHolder));
-    }
-
-    @Test
-    public void assertDataIsAvailableOnHolder() {
-        final LiveData<List<DailyForecast>> data = mock(LiveData.class);
-        final List<DailyForecast> value = Collections.emptyList();
-        when(data.getValue()).thenReturn(value);
-        when(dataHolder.data()).thenReturn(data);
-        assertTrue(presenter.isContentAvailableOnHolder(dataHolder));
     }
 
     @Test
@@ -150,6 +125,7 @@ public class DailyForecastPresenterTest {
 
         presenter.loadLocalForecast(0L, dataHolder);
         verify(fetchLocalUseCase, times(1)).executeLive(eq(0L), any(), any(), any());
+        verify(dataHolder, times(1)).data(data);
 
         final ArgumentCaptor<Observer<List<DailyForecast>>> captor = ArgumentCaptor.forClass(Observer.class);
         verify(data, times(1)).observe(any(), captor.capture());

@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
 import com.weatherforecast.core.data.usecase.UseCase;
+import com.weatherforecast.core.validator.LiveDataValidator;
 import com.weatherforecast.features.common.data.model.City;
 import com.weatherforecast.features.search.data.Weather;
 import com.weatherforecast.features.search.usecase.FetchLocationsSearchedUseCase;
@@ -39,7 +40,7 @@ public class SearchPresenter implements SearchContract.Action {
     @Override
     public void loadLocationsSearched() {
         final SearchDataHolder holder = view.provideSearchDataHolder();
-        if (holder.locationSearchesData() != null && holder.locationSearchesData().getValue() != null) {
+        if (LiveDataValidator.isContentAvailable(holder.locationSearchesData())) {
             handleLocationsSearchedData(holder.locationSearchesData().getValue());
             return;
         }
@@ -55,11 +56,17 @@ public class SearchPresenter implements SearchContract.Action {
                 new UseCase.DefaultOnComplete());
 
         final LifecycleOwner owner = view.provideLifecycleOwner();
-        if (holder.weatherData() != null) {
-            holder.weatherData().removeObservers(owner);
-        }
+        removeDataObservers(holder.weatherData(), owner);
         holder.weatherData(data);
         data.observe(owner, this::handleWeatherData);
+    }
+
+    @VisibleForTesting(otherwise = PRIVATE)
+    <T> void removeDataObservers(@NonNull final LiveData<T> data,
+                                 @NonNull final LifecycleOwner owner) {
+        if (data != null && data.hasObservers()) {
+            data.removeObservers(owner);
+        }
     }
 
     @VisibleForTesting
@@ -70,9 +77,7 @@ public class SearchPresenter implements SearchContract.Action {
                 new UseCase.DefaultOnComplete());
 
         final LifecycleOwner owner = view.provideLifecycleOwner();
-        if (holder.locationSearchesData() != null) {
-            holder.locationSearchesData().removeObservers(owner);
-        }
+        removeDataObservers(holder.locationSearchesData(), owner);
         holder.locationSearchesData(data);
         data.observe(owner, this::handleLocationsSearchedData);
     }

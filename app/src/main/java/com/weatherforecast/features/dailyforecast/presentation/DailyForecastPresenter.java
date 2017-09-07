@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
 import com.weatherforecast.core.data.usecase.UseCase;
+import com.weatherforecast.core.validator.LiveDataValidator;
 import com.weatherforecast.features.dailyforecast.data.model.DailyForecast;
 import com.weatherforecast.features.dailyforecast.usecase.FetchLocalForecastUseCase;
 import com.weatherforecast.features.dailyforecast.usecase.UpdateLocalForecastUseCase;
@@ -31,18 +32,13 @@ public class DailyForecastPresenter implements DailyForecastContract.Action {
     @Override
     public void loadLocationForecast(@NonNull final Long id) {
         final DailyForecastDataHolder holder = view.provideForecastsDataHolder();
-        if (isContentAvailableOnHolder(holder)) {
+        if (LiveDataValidator.isContentAvailable(holder.data())) {
             handleDailyForecastsData(holder.data().getValue());
             return;
         }
 
         loadLocalForecast(id, holder);
         updateRemoteForecast(id, holder);
-    }
-
-    @VisibleForTesting(otherwise = PRIVATE)
-    boolean isContentAvailableOnHolder(@NonNull final DailyForecastDataHolder holder) {
-        return holder.data() != null && holder.data().getValue() != null;
     }
 
     @VisibleForTesting(otherwise = PRIVATE)
