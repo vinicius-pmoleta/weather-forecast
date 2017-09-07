@@ -2,8 +2,11 @@ package com.weatherforecast.features.dailyforecast.presentation;
 
 import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -20,6 +23,15 @@ import java.util.List;
 
 public class DailyForecastActivity extends BaseActivity<DailyForecastPresenter> implements DailyForecastContract.View {
 
+    private static final String EXTRA_ID = "extra_id";
+    private static final String EXTRA_LOCATION = "extra_location";
+
+    public static Intent newIntent(@NonNull final Context context, final long id, @NonNull final String location) {
+        return new Intent(context, DailyForecastActivity.class)
+                .putExtra(EXTRA_ID, id)
+                .putExtra(EXTRA_LOCATION, location);
+    }
+
     @Override
     public void initialiseDependencyInjector() {
         DaggerDailyForecastFeatureComponent.builder()
@@ -31,16 +43,18 @@ public class DailyForecastActivity extends BaseActivity<DailyForecastPresenter> 
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.daily_forecast_activity);
 
-        initialiseTestTrigger();
+        extractExtrasAndLoadDailyForecast();
     }
 
-    private void initialiseTestTrigger() {
-        findViewById(R.id.forecast_test).setOnClickListener(
-                view -> presenter.loadLocationForecast(2643743L, "London,UK"));
+    private void extractExtrasAndLoadDailyForecast() {
+        final long id = getIntent().getLongExtra(EXTRA_ID, -1L);
+        final String location = getIntent().getStringExtra(EXTRA_LOCATION);
+
+        presenter.loadLocationForecast(id, location);
     }
 
     @Override
