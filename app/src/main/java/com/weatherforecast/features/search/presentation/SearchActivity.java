@@ -2,6 +2,7 @@ package com.weatherforecast.features.search.presentation;
 
 import android.app.SearchManager;
 import android.arch.lifecycle.LifecycleOwner;
+import android.content.ComponentName;
 import android.content.Context;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
@@ -36,15 +37,21 @@ public class SearchActivity extends BaseActivity<SearchPresenter> implements Sea
     @Override
     public boolean onCreateOptionsMenu(@NonNull final Menu menu) {
         getMenuInflater().inflate(R.menu.search_menu, menu);
-
-        final SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        final MenuItem searchItem = menu.findItem(R.id.search);
-        searchItem.getIcon().mutate().setColorFilter(
-                ContextCompat.getColor(this, R.color.toolbarColorControlNormal), PorterDuff.Mode.SRC_ATOP);
-        final SearchView searchView = (SearchView) searchItem.getActionView();
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-
+        configureSearchAction(menu);
         return true;
+    }
+
+    private void configureSearchAction(@NonNull Menu menu) {
+        final SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        final MenuItem searchItem = menu.findItem(R.id.search_item);
+        searchItem.getIcon()
+                .mutate()
+                .setColorFilter(
+                        ContextCompat.getColor(this, R.color.toolbarColorControlNormal), PorterDuff.Mode.SRC_ATOP);
+
+        final SearchView searchView = (SearchView) searchItem.getActionView();
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(
+                new ComponentName(this, DailyForecastActivity.class)));
     }
 
     private void initialiseNavigation() {
