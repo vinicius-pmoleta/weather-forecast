@@ -5,8 +5,9 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -24,6 +25,8 @@ import java.util.List;
 
 public class SearchActivity extends BaseActivity<SearchPresenter> implements SearchContract.View {
 
+    private PastQueriesAdapter adapter;
+
     @Override
     public void initialiseDependencyInjector() {
         DaggerSearchFeatureComponent.builder()
@@ -39,27 +42,23 @@ public class SearchActivity extends BaseActivity<SearchPresenter> implements Sea
         super.onCreate(savedInstanceState);
         setContentView(R.layout.search_activity);
 
-        initialiseTestTrigger();
         initializeSearchInteraction();
         initialiseSuggestions();
     }
 
-    private void initialiseTestTrigger() {
-        findViewById(R.id.search_test).setOnClickListener(
-                view -> startActivity(DailyForecastActivity.newIntent(this, 2643743L, "London,UK")));
-    }
-
     private void initializeSearchInteraction() {
         final EditText queryField = findViewById(R.id.search_query);
-        findViewById(R.id.search_action).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                presenter.loadWeatherForLocation(queryField.getText().toString());
-            }
-        });
+        findViewById(R.id.search_action).setOnClickListener(view -> presenter.loadWeatherForLocation(queryField.getText().toString()));
     }
 
     private void initialiseSuggestions() {
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        adapter = new PastQueriesAdapter(new PastQueriesActionListener());
+
+        final RecyclerView pastQueriesView = findViewById(R.id.search_past_queries);
+        pastQueriesView.setLayoutManager(layoutManager);
+        pastQueriesView.setAdapter(adapter);
+
         presenter.loadLocationsSearched();
     }
 
@@ -86,8 +85,15 @@ public class SearchActivity extends BaseActivity<SearchPresenter> implements Sea
 
     @Override
     public void showLocationsSearched(@NonNull final List<City> cities) {
-        for (final City city : cities) {
-            Log.d("TEST", city.toString());
+        adapter.updateContent(cities);
+    }
+
+    private class PastQueriesActionListener implements PastQueriesAdapter.ActionListener {
+
+        @Override
+        public void onDetailedForecastAction(@NonNull final City city) {
+            startActivity(DailyForecastActivity.newIntent(SearchActivity.this, city.id(), city.name()));
         }
     }
+
 }
