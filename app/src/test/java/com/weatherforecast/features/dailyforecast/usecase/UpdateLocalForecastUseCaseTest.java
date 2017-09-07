@@ -1,23 +1,18 @@
 package com.weatherforecast.features.dailyforecast.usecase;
 
-import android.support.annotation.NonNull;
-
 import com.weatherforecast.core.data.repository.local.database.WeatherForecastDatabase;
 import com.weatherforecast.core.data.repository.remote.ForecastRepository;
 import com.weatherforecast.core.data.usecase.ExecutionConfiguration;
-import com.weatherforecast.features.common.data.entity.CityEntity;
 import com.weatherforecast.features.common.data.entity.ForecastEntity;
 import com.weatherforecast.features.common.data.helper.TestDataCreator;
 import com.weatherforecast.features.common.data.model.City;
 import com.weatherforecast.features.common.data.model.Forecast;
 import com.weatherforecast.features.common.data.model.Forecasts;
-import com.weatherforecast.features.common.data.repository.CityDao;
 import com.weatherforecast.features.common.data.repository.ForecastDao;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
@@ -27,8 +22,6 @@ import java.util.List;
 
 import io.reactivex.Flowable;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.mock;
@@ -47,16 +40,12 @@ public class UpdateLocalForecastUseCaseTest {
     @Mock
     private ForecastDao forecastDao;
 
-    @Mock
-    private CityDao cityDao;
-
     private UpdateLocalForecastUseCase useCase;
 
     @Before
     public void setup() {
         final WeatherForecastDatabase database = mock(WeatherForecastDatabase.class);
         when(database.forecastDao()).thenReturn(forecastDao);
-        when(database.cityDao()).thenReturn(cityDao);
         final ExecutionConfiguration configuration = mock(ExecutionConfiguration.class);
         useCase = new UpdateLocalForecastUseCase(forecastRepository, configuration, database);
     }
@@ -66,10 +55,7 @@ public class UpdateLocalForecastUseCaseTest {
         when(forecastRepository.getForecast(anyLong())).thenReturn(Flowable.empty());
 
         useCase.buildUseCaseObservable(anyLong())
-                .doOnComplete(() -> {
-                    verify(cityDao, never()).insert(any(CityEntity.class));
-                    verify(forecastDao, never()).insert(any(List.class));
-                })
+                .doOnComplete(() -> verify(forecastDao, never()).insert(any(List.class)))
                 .test()
                 .assertNoErrors()
                 .assertComplete()
@@ -84,10 +70,7 @@ public class UpdateLocalForecastUseCaseTest {
         when(forecastRepository.getForecast(anyLong())).thenReturn(Flowable.just(forecasts));
 
         useCase.buildUseCaseObservable(anyLong())
-                .doOnComplete(() -> {
-                    assertCityEntityInserted(city);
-                    verify(forecastDao, never()).insert(any(List.class));
-                })
+                .doOnComplete(() -> verify(forecastDao, never()).insert(any(List.class)))
                 .test()
                 .assertNoErrors()
                 .assertComplete()
@@ -109,24 +92,11 @@ public class UpdateLocalForecastUseCaseTest {
         when(forecastRepository.getForecast(anyLong())).thenReturn(Flowable.just(forecasts));
 
         useCase.buildUseCaseObservable(anyLong())
-                .doOnComplete(() -> {
-                    assertCityEntityInserted(city);
-                    verify(forecastDao, times(1)).insert(expectedEntities);
-                })
+                .doOnComplete(() -> verify(forecastDao, times(1)).insert(expectedEntities))
                 .test()
                 .assertNoErrors()
                 .assertComplete()
                 .assertValues(expectedEntities);
-    }
-
-    private void assertCityEntityInserted(@NonNull final City city) {
-        final ArgumentCaptor<CityEntity> captor = ArgumentCaptor.forClass(CityEntity.class);
-        verify(cityDao, times(1)).insert(captor.capture());
-
-        final CityEntity entity = captor.getAllValues().get(0);
-        assertNotNull(entity);
-        assertEquals(city.id(), entity.id);
-        assertEquals(city.name(), entity.name);
     }
 
 }
