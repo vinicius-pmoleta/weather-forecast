@@ -1,6 +1,8 @@
 <resources>
 
+    <!-- Common -->
     <string name="app_name">Weather Forecast</string>
+    <string name="temperature_format">%.1f Cº</string>
 
     <!-- Search -->
     <string name="search_hint">Search city</string>

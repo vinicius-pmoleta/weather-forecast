@@ -18,11 +18,20 @@
         android:layout_alignParentEnd="true"
         android:text="Search" />
 
+    <include
+        android:id="@+id/search_weather_result"
+        layout="@layout/current_weather_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/search_query"
+        android:visibility="gone"
+        tools:visibility="visible" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/search_past_queries"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/search_query"
+        android:layout_below="@id/search_weather_result"
         tools:listitem="@layout/search_past_location" />
 
 </RelativeLayout>

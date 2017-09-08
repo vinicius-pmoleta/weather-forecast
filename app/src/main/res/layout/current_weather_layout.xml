@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    card_view:cardCornerRadius="4dp"
+    card_view:cardElevation="4dp"
+    card_view:cardUseCompatPadding="true"
+    card_view:contentPadding="16dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/current_weather_location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@+id/current_weather_condition_icon"
+            tools:text="Location" />
+
+        <TextView
+            android:id="@+id/current_weather_condition_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/current_weather_location"
+            android:layout_toStartOf="@+id/current_weather_condition_icon"
+            tools:text="Condition" />
+
+        <ImageView
+            android:id="@+id/current_weather_condition_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/current_weather_temperature_minimum"
+            android:layout_alignTop="@+id/current_weather_temperature_maximum"
+            android:layout_toStartOf="@+id/current_weather_temperature_maximum"
+            android:src="@mipmap/ic_launcher" />
+
+        <TextView
+            android:id="@+id/current_weather_temperature_maximum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            tools:text="10.0 Cº" />
+
+        <TextView
+            android:id="@+id/current_weather_temperature_now"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@id/current_weather_temperature_maximum"
+            tools:text="20.0 Cº" />
+
+        <TextView
+            android:id="@+id/current_weather_temperature_minimum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@id/current_weather_temperature_now"
+            tools:text="30.0 Cº" />
+
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>

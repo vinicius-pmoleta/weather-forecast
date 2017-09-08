@@ -9,6 +9,7 @@ import com.weatherforecast.core.data.repository.local.NetworkCache;
 import com.weatherforecast.core.data.repository.remote.adapter.AutoValueGsonFactory;
 import com.weatherforecast.core.data.repository.remote.interceptor.AuthenticationInterceptor;
 import com.weatherforecast.core.data.repository.remote.interceptor.OnlineCacheInterceptor;
+import com.weatherforecast.core.data.repository.remote.interceptor.UnitInterceptor;
 
 import javax.inject.Singleton;
 
@@ -33,6 +34,7 @@ public class NetworkModule {
         return new OkHttpClient.Builder()
                 .addInterceptor(loggingInterceptor)
                 .addInterceptor(new AuthenticationInterceptor())
+                .addInterceptor(new UnitInterceptor())
                 .addNetworkInterceptor(new OnlineCacheInterceptor())
                 .cache(new NetworkCache().initialise(application.getApplicationContext()))
                 .build();
