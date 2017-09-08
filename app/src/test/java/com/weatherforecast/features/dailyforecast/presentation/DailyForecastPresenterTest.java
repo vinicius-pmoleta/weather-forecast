@@ -151,18 +151,4 @@ public class DailyForecastPresenterTest {
         verify(dataHolder, times(1)).addSubscription(subscription);
     }
 
-    @Test
-    public void verifyLocalDataUpdatedWithError() throws Exception {
-        when(updateLocalUseCase.execute(anyLong(), any(), any(), any())).thenReturn(Flowable.empty());
-
-        presenter.updateRemoteForecast(0L, dataHolder);
-
-        final ArgumentCaptor<Consumer<Throwable>> captor = ArgumentCaptor.forClass(Consumer.class);
-        verify(updateLocalUseCase, times(1)).execute(eq(0L), any(), captor.capture(), any());
-
-        final Consumer<Throwable> consumer = captor.getAllValues().get(0);
-        consumer.accept(new Throwable());
-        verify(view, times(1)).showErrorLoadingDailyForecast();
-    }
-
 }

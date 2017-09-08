@@ -38,7 +38,6 @@ public class LiveDataOperatorTest {
         assertTrue(LiveDataOperator.isContentAvailable(data));
     }
 
-
     @Test
     public void verifyObserversRemovedFromValidaData() {
         final LiveData<?> data = mock(LiveData.class);

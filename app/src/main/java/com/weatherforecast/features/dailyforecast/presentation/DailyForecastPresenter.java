@@ -4,8 +4,8 @@ import android.arch.lifecycle.LiveData;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
-import com.weatherforecast.core.data.usecase.UseCase;
 import com.weatherforecast.core.data.live.LiveDataOperator;
+import com.weatherforecast.core.data.usecase.UseCase;
 import com.weatherforecast.features.dailyforecast.data.model.DailyForecast;
 import com.weatherforecast.features.dailyforecast.usecase.FetchLocalForecastUseCase;
 import com.weatherforecast.features.dailyforecast.usecase.UpdateLocalForecastUseCase;
@@ -56,9 +56,13 @@ public class DailyForecastPresenter implements DailyForecastContract.Action {
     void updateRemoteForecast(@NonNull final Long id, @NonNull final DailyForecastDataHolder holder) {
         updateLocalUseCase.execute(id,
                 holder::addSubscription,
-                error -> view.showErrorLoadingDailyForecast(),
+                new UseCase.DefaultOnError(),
                 new UseCase.DefaultOnComplete()
-        ).subscribe();
+        ).subscribe(
+                result -> {
+                },
+                error -> view.showErrorLoadingDailyForecast()
+        );
     }
 
     @VisibleForTesting(otherwise = PRIVATE)
