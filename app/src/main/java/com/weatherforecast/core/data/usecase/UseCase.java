@@ -1,9 +1,10 @@
 package com.weatherforecast.core.data.usecase;
 
 import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.LiveDataReactiveStreams;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+
+import com.weatherforecast.core.data.live.LiveDataReactiveConverter;
 
 import org.reactivestreams.Publisher;
 import org.reactivestreams.Subscription;
@@ -56,7 +57,7 @@ public abstract class UseCase<T, Params> {
                                     @NonNull final Action onComplete,
                                     @NonNull final FlowableTransformer<T, T> transformer) {
         final Flowable<T> data = execute(params, onSubscribe, onError, onComplete, transformer);
-        return LiveDataReactiveStreams.fromPublisher(data);
+        return LiveDataReactiveConverter.fromPublisher(data, onSubscribe, onError, onComplete);
     }
 
     private class DefaultTransformer implements FlowableTransformer<T, T> {
@@ -74,7 +75,6 @@ public abstract class UseCase<T, Params> {
                     .observeOn(configuration.postExecution());
         }
     }
-
 
     @SuppressWarnings("unused")
     public static class DefaultOnSubscribe implements Consumer<Subscription> {

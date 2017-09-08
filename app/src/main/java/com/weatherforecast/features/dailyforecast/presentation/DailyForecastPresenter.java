@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
 import com.weatherforecast.core.data.usecase.UseCase;
-import com.weatherforecast.core.structure.LiveDataOperator;
+import com.weatherforecast.core.data.live.LiveDataOperator;
 import com.weatherforecast.features.dailyforecast.data.model.DailyForecast;
 import com.weatherforecast.features.dailyforecast.usecase.FetchLocalForecastUseCase;
 import com.weatherforecast.features.dailyforecast.usecase.UpdateLocalForecastUseCase;

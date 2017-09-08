@@ -1,4 +1,4 @@
-package com.weatherforecast.core.structure;
+package com.weatherforecast.core.data.live;
 
 import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.LiveData;

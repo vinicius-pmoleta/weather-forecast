@@ -71,16 +71,4 @@ public class FetchWeatherUseCaseTest {
                 .assertValue(weather);
     }
 
-    @Test
-    public void verifyResultIsEmptyOnRemoteWeatherError() {
-        final RuntimeException error = new RuntimeException("Test");
-        when(forecastsRepository.getWeather(anyString())).thenReturn(Flowable.error(error));
-
-        useCase.buildUseCaseObservable(anyString())
-                .test()
-                .assertError(error)
-                .assertNotComplete()
-                .assertNoValues();
-    }
-
 }

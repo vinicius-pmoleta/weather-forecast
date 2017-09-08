@@ -5,8 +5,8 @@ import android.arch.lifecycle.LiveData;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
+import com.weatherforecast.core.data.live.LiveDataOperator;
 import com.weatherforecast.core.data.usecase.UseCase;
-import com.weatherforecast.core.structure.LiveDataOperator;
 import com.weatherforecast.features.common.data.model.City;
 import com.weatherforecast.features.search.data.Weather;
 import com.weatherforecast.features.search.usecase.FetchLocationsSearchedUseCase;
