@@ -58,8 +58,8 @@ public class FetchWeatherUseCaseTest {
 
     @Test
     public void verifyResultCityPersistedWhenRemoteWeatherFound() {
-        final Forecast forcast = TestDataCreator.createForecastModelWithDataAndTime("10-01-2017", "12:00:00");
-        final Weather weather = Weather.create(1L, "City", forcast.temperature(), forcast.conditions());
+        final Forecast forecast = TestDataCreator.createForecastModelWithDataAndTime("10-01-2017", "12:00:00");
+        final Weather weather = Weather.create(1L, "City", forecast.temperature(), forecast.conditions());
 
         when(forecastsRepository.getWeather(anyString())).thenReturn(Flowable.just(weather));
 
@@ -69,6 +69,18 @@ public class FetchWeatherUseCaseTest {
                 .assertNoErrors()
                 .assertComplete()
                 .assertValue(weather);
+    }
+
+    @Test
+    public void verifyResultIsEmptyOnRemoteWeatherError() {
+        final RuntimeException error = new RuntimeException("Test");
+        when(forecastsRepository.getWeather(anyString())).thenReturn(Flowable.error(error));
+
+        useCase.buildUseCaseObservable(anyString())
+                .test()
+                .assertError(error)
+                .assertNotComplete()
+                .assertNoValues();
     }
 
 }

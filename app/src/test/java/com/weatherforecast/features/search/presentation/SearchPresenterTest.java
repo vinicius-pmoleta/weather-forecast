@@ -24,7 +24,6 @@ import io.reactivex.functions.Consumer;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -150,35 +149,6 @@ public class SearchPresenterTest {
         final List<City> cities = mock(List.class);
         observer.onChanged(cities);
         verify(view, times(1)).showLocationsSearched(cities);
-    }
-
-    @Test
-    public void verifyObserversRemovedFromValidaData() {
-        final LiveData<?> data = mock(LiveData.class);
-        when(data.hasObservers()).thenReturn(true);
-        final LifecycleOwner owner = mock(LifecycleOwner.class);
-
-        presenter.removeDataObservers(data, owner);
-        verify(data, times(1)).removeObservers(owner);
-    }
-
-    @Test
-    public void verifyObserversNotRemovedFromInvalidData() {
-        final LiveData<?> data = mock(LiveData.class);
-        final LifecycleOwner owner = mock(LifecycleOwner.class);
-
-        presenter.removeDataObservers(data, owner);
-        verify(data, never()).removeObservers(owner);
-    }
-
-    @Test
-    public void verifyObserversNotRemovedFromValidDataWhenNotAvailable() {
-        final LiveData<?> data = mock(LiveData.class);
-        when(data.hasObservers()).thenReturn(false);
-        final LifecycleOwner owner = mock(LifecycleOwner.class);
-
-        presenter.removeDataObservers(data, owner);
-        verify(data, never()).removeObservers(owner);
     }
 
     @Test

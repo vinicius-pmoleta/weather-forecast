@@ -19,7 +19,7 @@ class PastQueriesAdapter extends RecyclerView.Adapter<PastQueriesAdapter.ViewHol
     private final List<City> searches;
     private final ActionListener actionListener;
 
-    public PastQueriesAdapter(@NonNull final ActionListener actionListener) {
+    PastQueriesAdapter(@NonNull final ActionListener actionListener) {
         this.searches = new ArrayList<>();
         this.actionListener = actionListener;
     }
