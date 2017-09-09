@@ -29,7 +29,7 @@
 
     <style name="Search.PastQueries" />
 
-    <style name="Search.PastQueries.Label" parent="PrimaryText.SingleLine">
+    <style name="Search.PastQueries.Label" parent="SecondaryText.SingleLine">
         <item name="android:layout_marginStart">@dimen/default_spacing_big</item>
         <item name="android:layout_marginEnd">@dimen/default_spacing_big</item>
     </style>
@@ -51,7 +51,7 @@
 
     <style name="PastQueryItem.Divider">
         <item name="android:layout_height">1dp</item>
-        <item name="android:background">@color/color_text_secondary</item>
+        <item name="android:background">@color/divider_color</item>
         <item name="android:layout_marginStart">@dimen/default_spacing_medium</item>
         <item name="android:layout_marginEnd">@dimen/default_spacing_medium</item>
     </style>

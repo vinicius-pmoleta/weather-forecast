@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="san_marino_blue">#3F51B5</color>
+    <color name="sapphire_blue">#303F9F</color>
+    <color name="wild_strawberry_pink">#FF4081</color>
+
+    <color name="mine_shaft_gray">#333333</color>
+    <color name="dove_gray">#666666</color>
+
+    <color name="cinnabar_red">#E53935</color>
+    <color name="bay_of_many_blue">#283593</color>
+
+    <color name="silver_gray">#CCCCCC</color>
+    <color name="galery_white">#EEEEEE</color>
+
+</resources>

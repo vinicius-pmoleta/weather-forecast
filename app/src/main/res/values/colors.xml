@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="color_primary">#3F51B5</color>
-    <color name="color_primary_dark">#303F9F</color>
-    <color name="color_accent">#FF4081</color>
+    <color name="color_primary">@color/san_marino_blue</color>
+    <color name="color_primary_dark">@color/sapphire_blue</color>
+    <color name="color_accent">@color/wild_strawberry_pink</color>
 
-    <color name="color_text_primary">#333333</color>
-    <color name="color_text_secondary">#666666</color>
+    <color name="color_text_primary">@color/mine_shaft_gray</color>
+    <color name="color_text_secondary">@color/dove_gray</color>
 
-    <color name="color_temperature_maximum">#E53935</color>
-    <color name="color_temperature_minimum">#3949AB</color>
+    <color name="color_temperature_maximum">@color/cinnabar_red</color>
+    <color name="color_temperature_minimum">@color/bay_of_many_blue</color>
 
-    <color name="background_color">#EEEEEE</color>
+    <color name="divider_color">@color/silver_gray</color>
+    <color name="background_color">@color/galery_white</color>
 
     <!-- Toolbar -->
     <color name="toolbarColorControlNormal">@android:color/white</color>
