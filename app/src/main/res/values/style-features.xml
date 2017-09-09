@@ -81,13 +81,13 @@
     <style name="TimeForecastItem" />
 
     <style name="TimeForecastItem.Container">
-        <item name="android:padding">@dimen/default_spacing_medium</item>
+        <item name="android:padding">@dimen/default_spacing_big</item>
         <item name="android:background">@android:color/white</item>
     </style>
 
     <style name="TimeForecastItem.Condition">
-        <item name="android:layout_width">48dp</item>
-        <item name="android:layout_height">48dp</item>
+        <item name="android:layout_width">56dp</item>
+        <item name="android:layout_height">56dp</item>
     </style>
 
 </resources>

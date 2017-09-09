@@ -39,6 +39,15 @@ public class FetchLocalForecastUseCaseTest {
     }
 
     @Test
+    public void verifyNoResultEmittedWhenEmpty() {
+        useCase.buildUseCaseObservable(null)
+                .test()
+                .assertNoErrors()
+                .assertComplete()
+                .assertNoValues();
+    }
+
+    @Test
     public void verifyResultIsEmptyWhenCityIdIsNotAvailable() {
         useCase.buildUseCaseObservable(null)
                 .test()

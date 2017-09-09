@@ -30,6 +30,10 @@ public class UpdateLocalForecastUseCase extends UseCase<List<ForecastEntity>, Lo
 
     @Override
     public Flowable<List<ForecastEntity>> buildUseCaseObservable(@Nullable final Long id) {
+        if (id == null) {
+            return Flowable.empty();
+        }
+
         return repository.getForecast(id)
                 .flatMap(forecasts -> Flowable.fromIterable(forecasts.forecasts())
                         .map(forecast -> ForecastConverter.toEntity(forecast, forecasts.city()))
@@ -37,7 +41,6 @@ public class UpdateLocalForecastUseCase extends UseCase<List<ForecastEntity>, Lo
                         .toFlowable()
                         .filter(entities -> !entities.isEmpty())
                         .doOnNext(forecastDao::insert)
-                        .retry()
                 );
     }
 }

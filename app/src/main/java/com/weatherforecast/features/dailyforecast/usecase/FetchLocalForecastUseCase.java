@@ -42,6 +42,7 @@ public class FetchLocalForecastUseCase extends UseCase<List<DailyForecast>, Long
                                         .map(forecasts -> DailyForecast.create(grouped.getKey(), forecasts))
                                 )
                                 .toList()
+                                .filter(values -> !values.isEmpty())
                                 .toFlowable()
                 );
     }

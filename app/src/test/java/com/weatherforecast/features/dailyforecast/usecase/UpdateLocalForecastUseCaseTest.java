@@ -51,6 +51,15 @@ public class UpdateLocalForecastUseCaseTest {
     }
 
     @Test
+    public void verifyResultIsEmptyWhenCityIdIsNotAvailable() {
+        useCase.buildUseCaseObservable(null)
+                .test()
+                .assertNoErrors()
+                .assertComplete()
+                .assertNoValues();
+    }
+
+    @Test
     public void verifyNoDatabaseInteractionWhenRemoteDataIsEmpty() {
         when(forecastRepository.getForecast(anyLong())).thenReturn(Flowable.empty());
 

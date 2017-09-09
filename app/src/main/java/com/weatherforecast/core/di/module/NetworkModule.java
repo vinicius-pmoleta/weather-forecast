@@ -4,11 +4,8 @@ import android.support.annotation.NonNull;
 
 import com.google.gson.GsonBuilder;
 import com.weatherforecast.BuildConfig;
-import com.weatherforecast.core.WeatherForecastApplication;
-import com.weatherforecast.core.data.repository.local.NetworkCache;
 import com.weatherforecast.core.data.repository.remote.adapter.AutoValueGsonFactory;
 import com.weatherforecast.core.data.repository.remote.interceptor.AuthenticationInterceptor;
-import com.weatherforecast.core.data.repository.remote.interceptor.OnlineCacheInterceptor;
 import com.weatherforecast.core.data.repository.remote.interceptor.UnitInterceptor;
 
 import javax.inject.Singleton;
@@ -27,7 +24,7 @@ public class NetworkModule {
 
     @Provides
     @Singleton
-    public OkHttpClient provideOkHttpClient(@NonNull final WeatherForecastApplication application) {
+    public OkHttpClient provideOkHttpClient() {
         final HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
         loggingInterceptor.setLevel(BuildConfig.DEBUG ? Level.BODY : Level.NONE);
 
@@ -35,8 +32,6 @@ public class NetworkModule {
                 .addInterceptor(loggingInterceptor)
                 .addInterceptor(new AuthenticationInterceptor())
                 .addInterceptor(new UnitInterceptor())
-                .addNetworkInterceptor(new OnlineCacheInterceptor())
-                .cache(new NetworkCache().initialise(application.getApplicationContext()))
                 .build();
     }
 
