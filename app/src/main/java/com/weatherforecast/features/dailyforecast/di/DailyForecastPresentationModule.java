@@ -2,9 +2,11 @@ package com.weatherforecast.features.dailyforecast.di;
 
 import android.support.annotation.NonNull;
 
+import com.weatherforecast.core.WeatherForecastApplication;
 import com.weatherforecast.core.di.scope.ActivityScope;
 import com.weatherforecast.features.dailyforecast.presentation.DailyForecastContract;
 import com.weatherforecast.features.dailyforecast.presentation.DailyForecastPresenter;
+import com.weatherforecast.features.dailyforecast.presentation.model.DailyForecastScreenConverter;
 import com.weatherforecast.features.dailyforecast.usecase.FetchLocalForecastUseCase;
 import com.weatherforecast.features.dailyforecast.usecase.UpdateLocalForecastUseCase;
 
@@ -28,9 +30,16 @@ public class DailyForecastPresentationModule {
 
     @ActivityScope
     @Provides
+    public DailyForecastScreenConverter provideScreenConverter(@NonNull final WeatherForecastApplication application) {
+        return DailyForecastScreenConverter.newInstance(application.getApplicationContext());
+    }
+
+    @ActivityScope
+    @Provides
     public DailyForecastPresenter providePresenter(@NonNull final UpdateLocalForecastUseCase fetchRemoteUseCase,
-                                                   @NonNull final FetchLocalForecastUseCase fetchLocalUseCase) {
-        return new DailyForecastPresenter(view, fetchLocalUseCase, fetchRemoteUseCase);
+                                                   @NonNull final FetchLocalForecastUseCase fetchLocalUseCase,
+                                                   @NonNull final DailyForecastScreenConverter screenConverter) {
+        return new DailyForecastPresenter(view, fetchLocalUseCase, fetchRemoteUseCase, screenConverter);
     }
 
 }

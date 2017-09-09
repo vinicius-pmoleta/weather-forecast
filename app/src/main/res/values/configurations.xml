@@ -2,9 +2,15 @@
 <resources>
 
     <!-- URL -->
-    <string name="weather_api_url">http://openweathermap.org/img/w/%s.png</string>
+    <string name="weather_icon_url">http://openweathermap.org/img/w/%s.png</string>
 
     <!-- Format -->
     <string name="temperature_format">%.1f˚</string>
+
+    <!-- Daily Forecast -->
+    <string name="daily_forecast_date_parser_pattern">yyyy-MM-dd</string>
+    <string name="daily_forecast_date_formatter_pattern">dd/MM</string>
+    <string name="daily_forecast_time_parser_pattern">yyyy-MM-dd HH:mm:ss</string>
+    <string name="daily_forecast_time_formatter_pattern">HH:mm</string>
 
 </resources>

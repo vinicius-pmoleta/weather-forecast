@@ -1,4 +1,4 @@
-package com.weatherforecast.features.dailyforecast.presentation;
+package com.weatherforecast.features.dailyforecast.presentation.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -11,14 +11,14 @@ import android.widget.TextView;
 
 import com.weatherforecast.R;
 import com.weatherforecast.core.view.GlideApp;
-import com.weatherforecast.features.common.data.model.Forecast;
+import com.weatherforecast.features.dailyforecast.presentation.model.ForecastScreenModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
 class ForecastByTimeAdapter extends RecyclerView.Adapter<ForecastByTimeAdapter.ViewHolder> {
 
-    private final List<Forecast> forecasts;
+    private final List<ForecastScreenModel> forecasts;
 
     ForecastByTimeAdapter() {
         forecasts = new ArrayList<>();
@@ -41,7 +41,7 @@ class ForecastByTimeAdapter extends RecyclerView.Adapter<ForecastByTimeAdapter.V
         return forecasts.size();
     }
 
-    void updateContent(@NonNull final List<Forecast> updates) {
+    void updateContent(@NonNull final List<ForecastScreenModel> updates) {
         this.forecasts.clear();
         this.forecasts.addAll(updates);
         notifyDataSetChanged();
@@ -62,14 +62,14 @@ class ForecastByTimeAdapter extends RecyclerView.Adapter<ForecastByTimeAdapter.V
             temperatureView = view.findViewById(R.id.time_forecast_item_temperature);
         }
 
-        void bind(@NonNull final Forecast forecast) {
+        void bind(@NonNull final ForecastScreenModel forecast) {
             final Context context = rootView.getContext();
 
-            timeView.setText(forecast.date());
-            temperatureView.setText(context.getString(R.string.temperature_format, forecast.temperature().current()));
+            timeView.setText(forecast.time());
+            temperatureView.setText(forecast.temperature());
 
             GlideApp.with(context)
-                    .load(context.getString(R.string.weather_api_url, forecast.conditions().get(0).icon()))
+                    .load(forecast.conditionIcon())
                     .centerCrop()
                     .into(conditionView);
         }

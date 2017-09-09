@@ -6,6 +6,8 @@ import android.arch.lifecycle.Observer;
 
 import com.weatherforecast.features.common.data.helper.TestDataCreator;
 import com.weatherforecast.features.dailyforecast.data.model.DailyForecast;
+import com.weatherforecast.features.dailyforecast.presentation.model.DailyForecastScreenConverter;
+import com.weatherforecast.features.dailyforecast.presentation.model.DailyForecastScreenModel;
 import com.weatherforecast.features.dailyforecast.usecase.FetchLocalForecastUseCase;
 import com.weatherforecast.features.dailyforecast.usecase.UpdateLocalForecastUseCase;
 
@@ -17,6 +19,7 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.reactivestreams.Subscription;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -48,13 +51,16 @@ public class DailyForecastPresenterTest {
     @Mock
     private UpdateLocalForecastUseCase updateLocalUseCase;
 
+    @Mock
+    private DailyForecastScreenConverter screenConverter;
+
     private DailyForecastPresenter presenter;
 
     @Before
     public void setup() {
         when(view.provideForecastsDataHolder()).thenReturn(dataHolder);
         when(view.provideLifecycleOwner()).thenReturn(mock(LifecycleOwner.class));
-        presenter = new DailyForecastPresenter(view, fetchLocalUseCase, updateLocalUseCase);
+        presenter = new DailyForecastPresenter(view, fetchLocalUseCase, updateLocalUseCase, screenConverter);
     }
 
     @Test
@@ -63,13 +69,14 @@ public class DailyForecastPresenterTest {
                 .createDailyForecastWithDateAndTimes("10-01-2017", Collections.singletonList("12:00:00"));
 
         final LiveData<List<DailyForecast>> data = mock(LiveData.class);
-        final List<DailyForecast> value = Collections.singletonList(dailyForecast);
-        when(data.getValue()).thenReturn(value);
+        final List<DailyForecast> values = Collections.singletonList(dailyForecast);
+        final List<DailyForecastScreenModel> models = screenConverter.prepareForPresentation(values);
+        when(data.getValue()).thenReturn(values);
         when(dataHolder.data()).thenReturn(data);
 
         presenter.loadLocationForecast(0L);
 
-        verify(view, times(1)).showDailyForecasts(value);
+        verify(view, times(1)).showDailyForecasts(models);
         verify(fetchLocalUseCase, never()).executeLive(anyLong(), any(), any(), any());
         verify(updateLocalUseCase, never()).execute(anyLong(), any(), any(), any());
     }
@@ -131,9 +138,12 @@ public class DailyForecastPresenterTest {
         verify(data, times(1)).observe(any(), captor.capture());
 
         final Observer<List<DailyForecast>> observer = captor.getAllValues().get(0);
-        final List<DailyForecast> content = Collections.emptyList();
+        final List<DailyForecast> content = new ArrayList<>();
+        final List<DailyForecastScreenModel> contentModels = new ArrayList<>();
+        when(screenConverter.prepareForPresentation(content)).thenReturn(contentModels);
+
         observer.onChanged(content);
-        verify(view, times(1)).showDailyForecasts(content);
+        verify(view, times(1)).showDailyForecasts(contentModels);
     }
 
     @Test
@@ -149,6 +159,16 @@ public class DailyForecastPresenterTest {
         final Consumer<Subscription> consumer = captor.getAllValues().get(0);
         consumer.accept(subscription);
         verify(dataHolder, times(1)).addSubscription(subscription);
+    }
+
+    @Test
+    public void verifyScreenModelsDisplayedFromDataHandlerConversion() {
+        final List<DailyForecast> values = new ArrayList<>();
+        final List<DailyForecastScreenModel> models = new ArrayList<>();
+        when(screenConverter.prepareForPresentation(values)).thenReturn(models);
+
+        presenter.handleDailyForecastsData(values);
+        verify(view, times(1)).showDailyForecasts(models);
     }
 
 }

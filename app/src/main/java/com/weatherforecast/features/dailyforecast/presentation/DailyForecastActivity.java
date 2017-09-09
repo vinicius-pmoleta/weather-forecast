@@ -10,18 +10,17 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.weatherforecast.R;
 import com.weatherforecast.core.WeatherForecastApplication;
 import com.weatherforecast.core.structure.BaseActivity;
-import com.weatherforecast.features.common.data.model.Forecast;
-import com.weatherforecast.features.dailyforecast.data.model.DailyForecast;
 import com.weatherforecast.features.dailyforecast.di.DaggerDailyForecastFeatureComponent;
 import com.weatherforecast.features.dailyforecast.di.DailyForecastPresentationModule;
 import com.weatherforecast.features.dailyforecast.di.DailyForecastUseCaseModule;
+import com.weatherforecast.features.dailyforecast.presentation.adapter.ForecastByDateAdapter;
+import com.weatherforecast.features.dailyforecast.presentation.model.DailyForecastScreenModel;
 
 import java.util.List;
 
@@ -106,14 +105,7 @@ public class DailyForecastActivity extends BaseActivity<DailyForecastPresenter> 
     }
 
     @Override
-    public void showDailyForecasts(@NonNull final List<DailyForecast> dailyForecasts) {
+    public void showDailyForecasts(@NonNull final List<DailyForecastScreenModel> dailyForecasts) {
         adapter.updateContent(dailyForecasts);
-
-        Log.d("TEST", String.valueOf(dailyForecasts.size()));
-        for (final DailyForecast dailyForecast : dailyForecasts) {
-            for (final Forecast forecast : dailyForecast.forecasts()) {
-                Log.d("TEST", "KEY " + dailyForecast.date() + " / VALUE " + String.valueOf(forecast.date()));
-            }
-        }
     }
 }

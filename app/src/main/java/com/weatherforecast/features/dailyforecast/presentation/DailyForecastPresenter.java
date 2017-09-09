@@ -7,6 +7,8 @@ import android.support.annotation.VisibleForTesting;
 import com.weatherforecast.core.data.live.LiveDataOperator;
 import com.weatherforecast.core.data.usecase.UseCase;
 import com.weatherforecast.features.dailyforecast.data.model.DailyForecast;
+import com.weatherforecast.features.dailyforecast.presentation.model.DailyForecastScreenConverter;
+import com.weatherforecast.features.dailyforecast.presentation.model.DailyForecastScreenModel;
 import com.weatherforecast.features.dailyforecast.usecase.FetchLocalForecastUseCase;
 import com.weatherforecast.features.dailyforecast.usecase.UpdateLocalForecastUseCase;
 
@@ -20,13 +22,16 @@ public class DailyForecastPresenter implements DailyForecastContract.Action {
     private final DailyForecastContract.View view;
     private final FetchLocalForecastUseCase fetchLocalUseCase;
     private final UpdateLocalForecastUseCase updateLocalUseCase;
+    private final DailyForecastScreenConverter screenConverter;
 
     public DailyForecastPresenter(@NonNull final DailyForecastContract.View view,
                                   @NonNull final FetchLocalForecastUseCase fetchLocalUseCase,
-                                  @NonNull final UpdateLocalForecastUseCase updateLocalUseCase) {
+                                  @NonNull final UpdateLocalForecastUseCase updateLocalUseCase,
+                                  @NonNull final DailyForecastScreenConverter screenConverter) {
         this.view = view;
         this.updateLocalUseCase = updateLocalUseCase;
         this.fetchLocalUseCase = fetchLocalUseCase;
+        this.screenConverter = screenConverter;
     }
 
     @Override
@@ -67,6 +72,7 @@ public class DailyForecastPresenter implements DailyForecastContract.Action {
 
     @VisibleForTesting(otherwise = PRIVATE)
     void handleDailyForecastsData(@NonNull final List<DailyForecast> dailyForecasts) {
-        view.showDailyForecasts(dailyForecasts);
+        final List<DailyForecastScreenModel> screenModels = screenConverter.prepareForPresentation(dailyForecasts);
+        view.showDailyForecasts(screenModels);
     }
 }

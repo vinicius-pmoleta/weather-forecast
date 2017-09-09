@@ -14,7 +14,6 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.Arrays;
-import java.util.Collections;
 
 import io.reactivex.Flowable;
 
@@ -44,7 +43,7 @@ public class FetchLocationsSearchedUseCaseTest {
         useCase.buildUseCaseObservable(null).test()
                 .assertNoErrors()
                 .assertComplete()
-                .assertValue(Collections.emptyList());
+                .assertNoValues();
     }
 
     @Test

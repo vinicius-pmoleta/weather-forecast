@@ -1,4 +1,4 @@
-package com.weatherforecast.features.dailyforecast.presentation;
+package com.weatherforecast.features.dailyforecast.presentation.adapter;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,16 +9,16 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.weatherforecast.R;
-import com.weatherforecast.features.dailyforecast.data.model.DailyForecast;
+import com.weatherforecast.features.dailyforecast.presentation.model.DailyForecastScreenModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-class ForecastByDateAdapter extends RecyclerView.Adapter<ForecastByDateAdapter.ViewHolder> {
+public class ForecastByDateAdapter extends RecyclerView.Adapter<ForecastByDateAdapter.ViewHolder> {
 
-    private final List<DailyForecast> forecasts;
+    private final List<DailyForecastScreenModel> forecasts;
 
-    ForecastByDateAdapter() {
+    public ForecastByDateAdapter() {
         forecasts = new ArrayList<>();
     }
 
@@ -39,7 +39,7 @@ class ForecastByDateAdapter extends RecyclerView.Adapter<ForecastByDateAdapter.V
         return forecasts.size();
     }
 
-    void updateContent(@NonNull final List<DailyForecast> updates) {
+    public void updateContent(@NonNull final List<DailyForecastScreenModel> updates) {
         this.forecasts.clear();
         this.forecasts.addAll(updates);
         notifyDataSetChanged();
@@ -62,7 +62,7 @@ class ForecastByDateAdapter extends RecyclerView.Adapter<ForecastByDateAdapter.V
         }
 
 
-        void bind(@NonNull final DailyForecast forecast) {
+        void bind(@NonNull final DailyForecastScreenModel forecast) {
             dateView.setText(forecast.date());
 
             final ForecastByTimeAdapter adapter = (ForecastByTimeAdapter) timeForecastsView.getAdapter();

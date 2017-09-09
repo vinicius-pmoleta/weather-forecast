@@ -134,7 +134,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter> implements Sea
         weatherView.setVisibility(View.VISIBLE);
 
         GlideApp.with(this)
-                .load(getString(R.string.weather_api_url, weather.conditions().get(0).icon()))
+                .load(getString(R.string.weather_icon_url, weather.conditions().get(0).icon()))
                 .centerCrop()
                 .into(conditionIconView);
     }

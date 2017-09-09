@@ -3,7 +3,7 @@ package com.weatherforecast.features.dailyforecast.presentation;
 import android.support.annotation.NonNull;
 
 import com.weatherforecast.core.structure.BaseContract;
-import com.weatherforecast.features.dailyforecast.data.model.DailyForecast;
+import com.weatherforecast.features.dailyforecast.presentation.model.DailyForecastScreenModel;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ public interface DailyForecastContract {
 
         void showErrorLoadingDailyForecast();
 
-        void showDailyForecasts(@NonNull final List<DailyForecast> dailyForecasts);
+        void showDailyForecasts(@NonNull final List<DailyForecastScreenModel> dailyForecasts);
 
     }
 
