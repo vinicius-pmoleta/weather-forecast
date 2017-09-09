@@ -19,7 +19,7 @@
 
         <TextView
             android:id="@+id/current_weather_condition_name"
-            style="@style/SecondaryText.SingleLine"
+            style="@style/SecondaryText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/current_weather_location"
@@ -38,7 +38,7 @@
 
         <TextView
             android:id="@+id/current_weather_temperature_maximum"
-            style="@style/Temperature.Maximum"
+            style="@style/CurrentWeather.TemperatureHighlight"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toStartOf="@+id/current_weather_forecast_action"
@@ -46,7 +46,7 @@
 
         <TextView
             android:id="@+id/current_weather_temperature_now"
-            style="@style/CurrentWeather.Temperature.Current"
+            style="@style/FocusText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/current_weather_temperature_maximum"
@@ -55,7 +55,7 @@
 
         <TextView
             android:id="@+id/current_weather_temperature_minimum"
-            style="@style/Temperature.Minimum"
+            style="@style/CurrentWeather.TemperatureHighlight"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/current_weather_temperature_now"

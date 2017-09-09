@@ -1,17 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- Common -->
-    <style name="Temperature" />
-
-    <style name="Temperature.Maximum" parent="PrimaryText.SingleLine">
-        <item name="android:textColor">@color/color_temperature_maximum</item>
-    </style>
-
-    <style name="Temperature.Minimum" parent="PrimaryText.SingleLine">
-        <item name="android:textColor">@color/color_temperature_minimum</item>
-    </style>
-
     <!-- Search -->
     <style name="Search" />
 
@@ -21,14 +10,14 @@
 
     <style name="Search.PastQueries" />
 
-    <style name="Search.PastQueries.Label" parent="SecondaryText.SingleLine">
+    <style name="Search.PastQueries.Label" parent="SecondaryText">
         <item name="android:layout_marginStart">@dimen/default_spacing_big</item>
         <item name="android:layout_marginEnd">@dimen/default_spacing_big</item>
     </style>
 
     <style name="PastQueryItem" />
 
-    <style name="PastQueryItem.Name" parent="PrimaryText.SingleLine">
+    <style name="PastQueryItem.Name" parent="PrimaryText">
         <item name="android:layout_marginStart">@dimen/default_spacing_big</item>
         <item name="android:layout_marginTop">@dimen/default_spacing_medium</item>
         <item name="android:layout_marginBottom">@dimen/default_spacing_medium</item>
@@ -59,8 +48,9 @@
         <item name="cardUseCompatPadding">true</item>
     </style>
 
-    <style name="CurrentWeather.Location" parent="FocusText.SingleLine">
+    <style name="CurrentWeather.Location" parent="FocusText">
         <item name="android:layout_marginBottom">@dimen/default_spacing_small</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="CurrentWeather.ConditionIcon">
@@ -68,22 +58,20 @@
         <item name="android:layout_marginEnd">@dimen/default_spacing_big</item>
     </style>
 
-    <style name="CurrentWeather.Temperature" />
-
-    <style name="CurrentWeather.Temperature.Current" parent="PrimaryText.SingleLine">
-        <item name="android:textSize">@dimen/default_text_size_focus</item>
+    <style name="CurrentWeather.TemperatureHighlight" parent="HighlightText">
+        <item name="android:textSize">@dimen/default_text_size_secondary</item>
     </style>
 
     <style name="CurrentWeather.Action">
-        <item name="android:layout_width">36dp</item>
-        <item name="android:layout_height">36dp</item>
+        <item name="android:layout_width">24dp</item>
+        <item name="android:layout_height">24dp</item>
         <item name="android:layout_marginStart">@dimen/default_spacing_big</item>
     </style>
 
     <!-- Daily Forecast -->
     <style name="DateForecastItem" />
 
-    <style name="DateForecastItem.Date" parent="PrimaryText.SingleLine">
+    <style name="DateForecastItem.Date" parent="PrimaryText">
         <item name="android:paddingTop">@dimen/default_spacing_big</item>
         <item name="android:paddingBottom">@dimen/default_spacing_medium</item>
         <item name="android:paddingStart">@dimen/default_spacing_medium</item>

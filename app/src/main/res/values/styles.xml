@@ -6,18 +6,14 @@
         <item name="colorAccent">@color/color_accent</item>
         <item name="android:textColorPrimary">@color/color_text_primary</item>
         <item name="android:windowBackground">@color/background_color</item>
+        <item name="selectableItemBackground">?android:selectableItemBackground</item>
+        <item name="selectableItemBackgroundBorderless">?android:selectableItemBackground</item>
     </style>
 
     <style name="ToolbarTheme" parent="@style/ThemeOverlay.AppCompat.ActionBar">
         <item name="android:textColorPrimary">@color/toolbarColorTextColor</item>
         <item name="android:textColorHint">@color/toolbarColorTextColor</item>
         <item name="actionMenuTextColor">@color/toolbarColorTextColor</item>
-        <item name="colorAccent">@color/color_accent</item>
-        <item name="colorControlNormal">@color/toolbarColorControlNormal</item>
-        <item name="colorControlActivated">@color/toolbarColorControlActivated</item>
-        <item name="colorControlHighlight">@color/toolbarColorControlHighlight</item>
-        <item name="selectableItemBackground">?android:selectableItemBackground</item>
-        <item name="selectableItemBackgroundBorderless">?android:selectableItemBackground</item>
     </style>
 
     <!-- Base -->
@@ -30,9 +26,6 @@
     <style name="PrimaryText">
         <item name="android:textColor">@color/color_text_primary</item>
         <item name="android:textSize">@dimen/default_text_size_primary</item>
-    </style>
-
-    <style name="PrimaryText.SingleLine">
         <item name="android:maxLines">1</item>
         <item name="android:ellipsize">end</item>
     </style>
@@ -40,21 +33,16 @@
     <style name="SecondaryText">
         <item name="android:textColor">@color/color_text_secondary</item>
         <item name="android:textSize">@dimen/default_text_size_secondary</item>
-    </style>
-
-    <style name="SecondaryText.SingleLine">
         <item name="android:maxLines">1</item>
         <item name="android:ellipsize">end</item>
     </style>
 
     <style name="FocusText" parent="PrimaryText">
         <item name="android:textSize">@dimen/default_text_size_focus</item>
-        <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="FocusText.SingleLine">
-        <item name="android:maxLines">1</item>
-        <item name="android:ellipsize">end</item>
+    <style name="HighlightText" parent="PrimaryText">
+        <item name="android:textColor">@color/color_primary_dark</item>
     </style>
 
 </resources>

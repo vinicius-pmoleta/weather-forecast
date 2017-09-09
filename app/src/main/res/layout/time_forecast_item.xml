@@ -7,7 +7,7 @@
 
     <TextView
         android:id="@+id/time_forecast_item_time"
-        style="@style/SecondaryText.SingleLine"
+        style="@style/SecondaryText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -22,7 +22,7 @@
 
     <TextView
         android:id="@+id/time_forecast_item_temperature"
-        style="@style/PrimaryText.SingleLine"
+        style="@style/PrimaryText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/time_forecast_item_condition"
