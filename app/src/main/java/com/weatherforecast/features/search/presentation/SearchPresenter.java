@@ -9,6 +9,8 @@ import com.weatherforecast.core.data.live.LiveDataOperator;
 import com.weatherforecast.core.data.usecase.UseCase;
 import com.weatherforecast.features.common.data.model.City;
 import com.weatherforecast.features.search.data.Weather;
+import com.weatherforecast.features.search.presentation.model.WeatherScreenConverter;
+import com.weatherforecast.features.search.presentation.model.WeatherScreenModel;
 import com.weatherforecast.features.search.usecase.FetchLocationsSearchedUseCase;
 import com.weatherforecast.features.search.usecase.FetchWeatherUseCase;
 
@@ -22,13 +24,16 @@ public class SearchPresenter implements SearchContract.Action {
     private final SearchContract.View view;
     private final FetchWeatherUseCase fetchWeatherUseCase;
     private final FetchLocationsSearchedUseCase fetchSearchesUseCase;
+    private final WeatherScreenConverter screenConverter;
 
     public SearchPresenter(@NonNull final SearchContract.View view,
                            @NonNull final FetchWeatherUseCase fetchWeatherUseCase,
-                           @NonNull final FetchLocationsSearchedUseCase fetchSearchesUseCase) {
+                           @NonNull final FetchLocationsSearchedUseCase fetchSearchesUseCase,
+                           @NonNull final WeatherScreenConverter screenConverter) {
         this.view = view;
         this.fetchWeatherUseCase = fetchWeatherUseCase;
         this.fetchSearchesUseCase = fetchSearchesUseCase;
+        this.screenConverter = screenConverter;
     }
 
     @Override
@@ -82,11 +87,11 @@ public class SearchPresenter implements SearchContract.Action {
     @VisibleForTesting(otherwise = PRIVATE)
     void handleWeatherData(@NonNull final Weather weather) {
         view.hideProgress();
-        view.showWeather(weather);
+        final WeatherScreenModel screenModel = screenConverter.prepareForPresentation(weather);
+        view.showWeather(screenModel);
     }
 
-    @VisibleForTesting(otherwise = PRIVATE)
-    void handleLocationsSearchedData(@NonNull final List<City> cities) {
+    private void handleLocationsSearchedData(@NonNull final List<City> cities) {
         view.showLocationsSearched(cities);
     }
 }

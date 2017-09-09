@@ -22,10 +22,11 @@ import com.weatherforecast.core.structure.BaseActivity;
 import com.weatherforecast.core.view.GlideApp;
 import com.weatherforecast.features.common.data.model.City;
 import com.weatherforecast.features.dailyforecast.presentation.DailyForecastActivity;
-import com.weatherforecast.features.search.data.Weather;
 import com.weatherforecast.features.search.di.DaggerSearchFeatureComponent;
 import com.weatherforecast.features.search.di.SearchPresentationModule;
 import com.weatherforecast.features.search.di.SearchUseCaseModule;
+import com.weatherforecast.features.search.presentation.adapter.PastQueriesAdapter;
+import com.weatherforecast.features.search.presentation.model.WeatherScreenModel;
 
 import java.util.List;
 
@@ -122,19 +123,19 @@ public class SearchActivity extends BaseActivity<SearchPresenter> implements Sea
     }
 
     @Override
-    public void showWeather(@NonNull final Weather weather) {
-        locationView.setText(weather.name());
-        conditionNameView.setText(weather.conditions().get(0).name());
-        temperatureCurrentView.setText(getString(R.string.temperature_format, weather.temperature().current()));
-        temperatureMinimumView.setText(getString(R.string.temperature_format, weather.temperature().minimum()));
-        temperatureMaximumView.setText(getString(R.string.temperature_format, weather.temperature().maximum()));
+    public void showWeather(@NonNull final WeatherScreenModel weather) {
+        locationView.setText(weather.location());
+        conditionNameView.setText(weather.condition());
+        temperatureCurrentView.setText(weather.temperatureCurrent());
+        temperatureMinimumView.setText(weather.temperatureMinimum());
+        temperatureMaximumView.setText(weather.temperatureMaximum());
 
         forecastActionView.setOnClickListener(
-                view -> triggerForecastAction(City.create(weather.id(), weather.name())));
+                view -> triggerForecastAction(City.create(weather.id(), weather.location())));
         weatherView.setVisibility(View.VISIBLE);
 
         GlideApp.with(this)
-                .load(getString(R.string.weather_icon_url, weather.conditions().get(0).icon()))
+                .load(weather.conditionIcon())
                 .centerCrop()
                 .into(conditionIconView);
     }

@@ -4,7 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.weatherforecast.core.structure.BaseContract;
 import com.weatherforecast.features.common.data.model.City;
-import com.weatherforecast.features.search.data.Weather;
+import com.weatherforecast.features.search.presentation.model.WeatherScreenModel;
 
 import java.util.List;
 
@@ -18,7 +18,7 @@ public interface SearchContract {
 
         void hideProgress();
 
-        void showWeather(@NonNull final Weather weather);
+        void showWeather(@NonNull final WeatherScreenModel weather);
 
         void showErrorLoadingWeather();
 

@@ -2,14 +2,6 @@
 <resources>
 
     <!-- Common -->
-    <style name="CardContainer">
-        <item name="cardCornerRadius">@dimen/default_spacing_small</item>
-        <item name="cardElevation">@dimen/default_spacing_small</item>
-        <item name="contentPadding">@dimen/default_spacing_medium</item>
-        <item name="cardBackgroundColor">@android:color/white</item>
-        <item name="cardUseCompatPadding">true</item>
-    </style>
-
     <style name="Temperature" />
 
     <style name="Temperature.Maximum" parent="PrimaryText.SingleLine">
@@ -58,6 +50,14 @@
 
     <!-- Current Weather -->
     <style name="CurrentWeather" />
+
+    <style name="CurrentWeather.Container">
+        <item name="cardCornerRadius">@dimen/default_spacing_small</item>
+        <item name="cardElevation">2dp</item>
+        <item name="contentPadding">@dimen/default_spacing_medium</item>
+        <item name="cardBackgroundColor">@android:color/white</item>
+        <item name="cardUseCompatPadding">true</item>
+    </style>
 
     <style name="CurrentWeather.Location" parent="FocusText.SingleLine">
         <item name="android:layout_marginBottom">@dimen/default_spacing_small</item>

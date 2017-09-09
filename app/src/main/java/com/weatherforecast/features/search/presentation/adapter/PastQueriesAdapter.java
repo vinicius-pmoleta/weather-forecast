@@ -1,4 +1,4 @@
-package com.weatherforecast.features.search.presentation;
+package com.weatherforecast.features.search.presentation.adapter;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -14,12 +14,12 @@ import com.weatherforecast.features.common.data.model.City;
 import java.util.ArrayList;
 import java.util.List;
 
-class PastQueriesAdapter extends RecyclerView.Adapter<PastQueriesAdapter.ViewHolder> {
+public class PastQueriesAdapter extends RecyclerView.Adapter<PastQueriesAdapter.ViewHolder> {
 
     private final List<City> searches;
     private final ActionListener actionListener;
 
-    PastQueriesAdapter(@NonNull final ActionListener actionListener) {
+    public PastQueriesAdapter(@NonNull final ActionListener actionListener) {
         this.searches = new ArrayList<>();
         this.actionListener = actionListener;
     }
@@ -40,7 +40,7 @@ class PastQueriesAdapter extends RecyclerView.Adapter<PastQueriesAdapter.ViewHol
         return searches.size();
     }
 
-    void updateContent(@NonNull final List<City> updates) {
+    public void updateContent(@NonNull final List<City> updates) {
         this.searches.clear();
         this.searches.addAll(updates);
         notifyDataSetChanged();
@@ -66,7 +66,7 @@ class PastQueriesAdapter extends RecyclerView.Adapter<PastQueriesAdapter.ViewHol
         }
     }
 
-    interface ActionListener {
+    public interface ActionListener {
 
         void onItemAction(@NonNull final City city);
 

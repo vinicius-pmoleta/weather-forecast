@@ -6,6 +6,8 @@ import android.arch.lifecycle.Observer;
 
 import com.weatherforecast.features.common.data.model.City;
 import com.weatherforecast.features.search.data.Weather;
+import com.weatherforecast.features.search.presentation.model.WeatherScreenConverter;
+import com.weatherforecast.features.search.presentation.model.WeatherScreenModel;
 import com.weatherforecast.features.search.usecase.FetchLocationsSearchedUseCase;
 import com.weatherforecast.features.search.usecase.FetchWeatherUseCase;
 
@@ -44,13 +46,16 @@ public class SearchPresenterTest {
     @Mock
     private FetchLocationsSearchedUseCase fetchSearchesUseCase;
 
+    @Mock
+    private WeatherScreenConverter screenConverter;
+
     private SearchPresenter presenter;
 
     @Before
     public void setup() {
         when(view.provideSearchDataHolder()).thenReturn(dataHolder);
         when(view.provideLifecycleOwner()).thenReturn(mock(LifecycleOwner.class));
-        presenter = new SearchPresenter(view, fetchWeatherUseCase, fetchSearchesUseCase);
+        presenter = new SearchPresenter(view, fetchWeatherUseCase, fetchSearchesUseCase, screenConverter);
     }
 
     @Test
@@ -98,10 +103,13 @@ public class SearchPresenterTest {
         verify(data, times(1)).observe(any(), captor.capture());
 
         final Observer<Weather> observer = captor.getAllValues().get(0);
-        final Weather weather = mock(Weather.class);
-        observer.onChanged(weather);
+        final Weather content = mock(Weather.class);
+        final WeatherScreenModel contentModel = mock(WeatherScreenModel.class);
+        when(screenConverter.prepareForPresentation(content)).thenReturn(contentModel);
+
+        observer.onChanged(content);
         verify(view, times(1)).hideProgress();
-        verify(view, times(1)).showWeather(weather);
+        verify(view, times(1)).showWeather(contentModel);
     }
 
     @Test
@@ -183,6 +191,18 @@ public class SearchPresenterTest {
 
         presenter.loadWeatherForLocation("Location");
         verify(fetchWeatherUseCase, times(1)).executeLive(anyString(), any(), any(), any());
+    }
+
+    @Test
+    public void verifyScreenModelsDisplayedFromDataHandlerConversion() {
+        final Weather value = mock(Weather.class);
+        final WeatherScreenModel model = mock(WeatherScreenModel.class);
+        when(screenConverter.prepareForPresentation(value)).thenReturn(model);
+
+        presenter.handleWeatherData(value);
+
+        verify(view, times(1)).hideProgress();
+        verify(view, times(1)).showWeather(model);
     }
 
 }

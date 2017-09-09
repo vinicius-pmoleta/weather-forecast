@@ -2,9 +2,11 @@ package com.weatherforecast.features.search.di;
 
 import android.support.annotation.NonNull;
 
+import com.weatherforecast.core.WeatherForecastApplication;
 import com.weatherforecast.core.di.scope.ActivityScope;
 import com.weatherforecast.features.search.presentation.SearchContract;
 import com.weatherforecast.features.search.presentation.SearchPresenter;
+import com.weatherforecast.features.search.presentation.model.WeatherScreenConverter;
 import com.weatherforecast.features.search.usecase.FetchLocationsSearchedUseCase;
 import com.weatherforecast.features.search.usecase.FetchWeatherUseCase;
 
@@ -28,9 +30,16 @@ public class SearchPresentationModule {
 
     @ActivityScope
     @Provides
+    public WeatherScreenConverter provideScreenConverter(@NonNull final WeatherForecastApplication application) {
+        return WeatherScreenConverter.newInstance(application.getApplicationContext());
+    }
+
+    @ActivityScope
+    @Provides
     public SearchPresenter providePresenter(@NonNull final FetchWeatherUseCase fetchWeatherUseCase,
-                                            @NonNull final FetchLocationsSearchedUseCase fetchSearchesUseCase) {
-        return new SearchPresenter(view, fetchWeatherUseCase, fetchSearchesUseCase);
+                                            @NonNull final FetchLocationsSearchedUseCase fetchSearchesUseCase,
+                                            @NonNull final WeatherScreenConverter screenConverter) {
+        return new SearchPresenter(view, fetchWeatherUseCase, fetchSearchesUseCase, screenConverter);
     }
 
 }
