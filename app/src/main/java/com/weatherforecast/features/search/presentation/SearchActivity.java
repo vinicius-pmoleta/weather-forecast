@@ -6,13 +6,14 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.AppCompatImageButton;
+import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -36,7 +37,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter> implements Sea
 
     private ProgressBar progressView;
     private EditText queryView;
-    private ImageButton searchActionView;
+    private AppCompatImageButton searchActionView;
     private ViewGroup weatherView;
     private TextView locationView;
     private ImageView conditionIconView;
@@ -44,7 +45,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter> implements Sea
     private TextView temperatureCurrentView;
     private TextView temperatureMinimumView;
     private TextView temperatureMaximumView;
-    private ImageView forecastActionView;
+    private AppCompatImageView forecastActionView;
     private PastQueriesAdapter adapter;
 
     @Override
@@ -143,7 +144,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter> implements Sea
     public void showProgress() {
         queryView.setVisibility(View.INVISIBLE);
         searchActionView.setVisibility(View.INVISIBLE);
-        weatherView.setVisibility(View.GONE );
+        weatherView.setVisibility(View.GONE);
         progressView.setVisibility(View.VISIBLE);
     }
 

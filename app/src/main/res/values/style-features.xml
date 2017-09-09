@@ -8,6 +8,12 @@
         <item name="android:padding">@dimen/default_spacing_big</item>
     </style>
 
+    <style name="Search.Action">
+        <item name="android:background">?android:attr/selectableItemBackground</item>
+        <item name="android:tint">@color/color_accent</item>
+        <item name="android:padding">@dimen/default_spacing_medium</item>
+    </style>
+
     <style name="Search.PastQueries" />
 
     <style name="Search.PastQueries.Label" parent="SecondaryText">
@@ -16,6 +22,10 @@
     </style>
 
     <style name="PastQueryItem" />
+
+    <style name="PastQueryItem.Container">
+        <item name="android:background">?android:attr/selectableItemBackground</item>
+    </style>
 
     <style name="PastQueryItem.Name" parent="PrimaryText">
         <item name="android:layout_marginStart">@dimen/default_spacing_big</item>
@@ -28,6 +38,7 @@
         <item name="android:layout_marginEnd">@dimen/default_spacing_big</item>
         <item name="android:layout_marginTop">@dimen/default_spacing_big</item>
         <item name="android:layout_marginBottom">@dimen/default_spacing_big</item>
+        <item name="android:tint">@color/color_accent</item>
     </style>
 
     <style name="PastQueryItem.Divider">
@@ -66,6 +77,7 @@
         <item name="android:layout_width">24dp</item>
         <item name="android:layout_height">24dp</item>
         <item name="android:layout_marginStart">@dimen/default_spacing_big</item>
+        <item name="android:tint">@color/color_accent</item>
     </style>
 
     <!-- Daily Forecast -->

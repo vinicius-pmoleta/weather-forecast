@@ -18,13 +18,12 @@
             android:hint="@string/search_query_hint"
             android:inputType="text" />
 
-        <ImageButton
+        <android.support.v7.widget.AppCompatImageButton
+            style="@style/Search.Action"
             android:id="@+id/search_action"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:background="?android:attr/selectableItemBackground"
-            android:padding="@dimen/default_spacing_medium"
             android:src="@drawable/ic_search_black_24dp" />
 
         <include

@@ -62,7 +62,7 @@
             android:layout_toStartOf="@+id/current_weather_forecast_action"
             tools:text="10.0˚" />
 
-        <ImageView
+        <android.support.v7.widget.AppCompatImageView
             android:id="@+id/current_weather_forecast_action"
             style="@style/CurrentWeather.Action"
             android:layout_alignParentEnd="true"
