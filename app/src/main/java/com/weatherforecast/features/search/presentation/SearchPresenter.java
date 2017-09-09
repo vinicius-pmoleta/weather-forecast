@@ -87,6 +87,7 @@ public class SearchPresenter implements SearchContract.Action {
     @VisibleForTesting(otherwise = PRIVATE)
     void handleWeatherData(@NonNull final Weather weather) {
         view.hideProgress();
+        view.resetInteractions();
         final WeatherScreenModel screenModel = screenConverter.prepareForPresentation(weather);
         view.showWeather(screenModel);
     }

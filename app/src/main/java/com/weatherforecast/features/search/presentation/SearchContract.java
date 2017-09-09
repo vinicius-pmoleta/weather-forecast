@@ -14,15 +14,17 @@ public interface SearchContract {
 
         SearchDataHolder provideSearchDataHolder();
 
-        void showProgress();
-
-        void hideProgress();
-
         void showWeather(@NonNull final WeatherScreenModel weather);
 
         void showErrorLoadingWeather();
 
         void showLocationsSearched(@NonNull final List<City> cities);
+
+        void showProgress();
+
+        void hideProgress();
+
+        void resetInteractions();
     }
 
     interface Action extends BaseContract.Action {

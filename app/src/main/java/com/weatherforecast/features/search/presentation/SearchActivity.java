@@ -2,6 +2,7 @@ package com.weatherforecast.features.search.presentation;
 
 import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -9,6 +10,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -108,21 +110,6 @@ public class SearchActivity extends BaseActivity<SearchPresenter> implements Sea
     }
 
     @Override
-    public void showProgress() {
-        queryView.setVisibility(View.INVISIBLE);
-        searchActionView.setVisibility(View.INVISIBLE);
-        weatherView.setVisibility(View.INVISIBLE);
-        progressView.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void hideProgress() {
-        progressView.setVisibility(View.GONE);
-        queryView.setVisibility(View.VISIBLE);
-        searchActionView.setVisibility(View.VISIBLE);
-    }
-
-    @Override
     public void showWeather(@NonNull final WeatherScreenModel weather) {
         locationView.setText(weather.location());
         conditionNameView.setText(weather.condition());
@@ -150,6 +137,30 @@ public class SearchActivity extends BaseActivity<SearchPresenter> implements Sea
         adapter.updateContent(cities);
     }
 
+    @Override
+    public void showProgress() {
+        queryView.setVisibility(View.INVISIBLE);
+        searchActionView.setVisibility(View.INVISIBLE);
+        weatherView.setVisibility(View.INVISIBLE);
+        progressView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgress() {
+        progressView.setVisibility(View.GONE);
+        queryView.setVisibility(View.VISIBLE);
+        searchActionView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void resetInteractions() {
+        queryView.setText("");
+        queryView.clearFocus();
+
+        final InputMethodManager manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        manager.hideSoftInputFromWindow(queryView.getWindowToken(), 0);
+    }
+
     private void triggerForecastAction(@NonNull final City city) {
         startActivity(DailyForecastActivity.newIntent(this, city.id(), city.name()));
     }
@@ -158,7 +169,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter> implements Sea
 
         @Override
         public void onItemAction(@NonNull final City city) {
-            queryView.setText(city.name());
+            presenter.loadWeatherForLocation(city.name());
         }
 
         @Override

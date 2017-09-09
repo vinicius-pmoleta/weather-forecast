@@ -70,11 +70,7 @@
 
     <style name="CurrentWeather.Temperature" />
 
-    <style name="CurrentWeather.Temperature.Maximum" parent="Temperature.Maximum">
-        <item name="android:textSize">@dimen/default_text_size_focus</item>
-    </style>
-
-    <style name="CurrentWeather.Temperature.Minimum" parent="Temperature.Minimum">
+    <style name="CurrentWeather.Temperature.Current" parent="PrimaryText.SingleLine">
         <item name="android:textSize">@dimen/default_text_size_focus</item>
     </style>
 
@@ -89,6 +85,7 @@
 
     <style name="DateForecastItem.Date" parent="PrimaryText.SingleLine">
         <item name="android:paddingTop">@dimen/default_spacing_big</item>
+        <item name="android:paddingBottom">@dimen/default_spacing_medium</item>
         <item name="android:paddingStart">@dimen/default_spacing_medium</item>
         <item name="android:paddingEnd">@dimen/default_spacing_medium</item>
     </style>
