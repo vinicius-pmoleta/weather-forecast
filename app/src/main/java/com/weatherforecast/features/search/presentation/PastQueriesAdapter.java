@@ -48,9 +48,9 @@ class PastQueriesAdapter extends RecyclerView.Adapter<PastQueriesAdapter.ViewHol
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        private View rootView;
-        private TextView nameView;
-        private ImageView actionView;
+        private final View rootView;
+        private final TextView nameView;
+        private final ImageView actionView;
 
         ViewHolder(View view) {
             super(view);

@@ -42,7 +42,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toStartOf="@+id/current_weather_forecast_action"
-            tools:text="30.0 Cº" />
+            tools:text="30.0˚" />
 
         <TextView
             android:id="@+id/current_weather_temperature_now"
@@ -51,7 +51,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/current_weather_temperature_maximum"
             android:layout_toStartOf="@+id/current_weather_forecast_action"
-            tools:text="20.0 Cº" />
+            tools:text="20.0˚" />
 
         <TextView
             android:id="@+id/current_weather_temperature_minimum"
@@ -60,7 +60,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/current_weather_temperature_now"
             android:layout_toStartOf="@+id/current_weather_forecast_action"
-            tools:text="10.0 Cº" />
+            tools:text="10.0˚" />
 
         <ImageView
             android:id="@+id/current_weather_forecast_action"

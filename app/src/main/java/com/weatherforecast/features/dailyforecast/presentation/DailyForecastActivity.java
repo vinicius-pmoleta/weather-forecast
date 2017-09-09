@@ -7,8 +7,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.weatherforecast.R;
@@ -33,6 +36,8 @@ public class DailyForecastActivity extends BaseActivity<DailyForecastPresenter> 
                 .putExtra(EXTRA_LOCATION, location);
     }
 
+    private ForecastByDateAdapter adapter;
+
     @Override
     public void initialiseDependencyInjector() {
         DaggerDailyForecastFeatureComponent.builder()
@@ -49,21 +54,40 @@ public class DailyForecastActivity extends BaseActivity<DailyForecastPresenter> 
         setContentView(R.layout.daily_forecast_activity);
 
         initialiseNavigation();
+        initialiseResult();
         extractExtrasAndLoadDailyForecast();
     }
 
     private void initialiseNavigation() {
-        final Toolbar toolbar = findViewById(R.id.toolbar);
+        final Toolbar toolbar = findViewById(R.id.daily_forecast_toolbar);
         setSupportActionBar(toolbar);
 
         final String location = getIntent().getStringExtra(EXTRA_LOCATION);
         getSupportActionBar().setTitle(location);
-        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+    }
+
+    private void initialiseResult() {
+        adapter = new ForecastByDateAdapter();
+
+        final RecyclerView resultView = findViewById(R.id.daily_forecast_result);
+        resultView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        resultView.setAdapter(adapter);
     }
 
     private void extractExtrasAndLoadDailyForecast() {
         final long id = getIntent().getLongExtra(EXTRA_ID, -1L);
         presenter.loadLocationForecast(id);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -83,6 +107,8 @@ public class DailyForecastActivity extends BaseActivity<DailyForecastPresenter> 
 
     @Override
     public void showDailyForecasts(@NonNull final List<DailyForecast> dailyForecasts) {
+        adapter.updateContent(dailyForecasts);
+
         Log.d("TEST", String.valueOf(dailyForecasts.size()));
         for (final DailyForecast dailyForecast : dailyForecasts) {
             for (final Forecast forecast : dailyForecast.forecasts()) {

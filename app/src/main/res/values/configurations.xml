@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- URL -->
     <string name="weather_api_url">http://openweathermap.org/img/w/%s.png</string>
+
+    <!-- Format -->
+    <string name="temperature_format">%.1f˚</string>
 
 </resources>

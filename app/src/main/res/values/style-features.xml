@@ -84,4 +84,25 @@
         <item name="android:layout_marginStart">@dimen/default_spacing_big</item>
     </style>
 
+    <!-- Daily Forecast -->
+    <style name="DateForecastItem" />
+
+    <style name="DateForecastItem.Date" parent="PrimaryText.SingleLine">
+        <item name="android:paddingTop">@dimen/default_spacing_big</item>
+        <item name="android:paddingStart">@dimen/default_spacing_medium</item>
+        <item name="android:paddingEnd">@dimen/default_spacing_medium</item>
+    </style>
+
+    <style name="TimeForecastItem" />
+
+    <style name="TimeForecastItem.Container">
+        <item name="android:padding">@dimen/default_spacing_medium</item>
+        <item name="android:background">@android:color/white</item>
+    </style>
+
+    <style name="TimeForecastItem.Condition">
+        <item name="android:layout_width">48dp</item>
+        <item name="android:layout_height">48dp</item>
+    </style>
+
 </resources>

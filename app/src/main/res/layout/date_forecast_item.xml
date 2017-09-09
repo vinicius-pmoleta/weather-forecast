@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/date_forecast_item_date"
+        style="@style/DateForecastItem.Date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="10/01/2017" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/date_forecast_item_time_forecasts"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/date_forecast_item_date"
+        android:orientation="horizontal"
+        app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+        tools:listitem="@layout/time_forecast_item" />
+
+</RelativeLayout>
