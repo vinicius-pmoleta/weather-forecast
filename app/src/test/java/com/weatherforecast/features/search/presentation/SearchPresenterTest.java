@@ -202,6 +202,7 @@ public class SearchPresenterTest {
         presenter.handleWeatherData(value);
 
         verify(view, times(1)).hideProgress();
+        verify(view, times(1)).resetInteractions();
         verify(view, times(1)).showWeather(model);
     }
 
