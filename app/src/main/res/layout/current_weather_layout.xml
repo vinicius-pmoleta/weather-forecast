@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
     card_view:cardCornerRadius="4dp"
-    card_view:cardElevation="4dp"
+    card_view:cardElevation="2dp"
     card_view:cardUseCompatPadding="true"
     card_view:contentPadding="16dp">
 
@@ -16,6 +16,7 @@
 
         <TextView
             android:id="@+id/current_weather_location"
+            style="@style/CurrentWeather.Location"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_toStartOf="@+id/current_weather_condition_icon"
@@ -23,6 +24,7 @@
 
         <TextView
             android:id="@+id/current_weather_condition_name"
+            style="@style/SecondaryText.SingleLine"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/current_weather_location"
@@ -31,35 +33,46 @@
 
         <ImageView
             android:id="@+id/current_weather_condition_icon"
+            style="@style/CurrentWeather.ConditionIcon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/current_weather_temperature_minimum"
             android:layout_alignTop="@+id/current_weather_temperature_maximum"
             android:layout_toStartOf="@+id/current_weather_temperature_maximum"
-            android:src="@mipmap/ic_launcher" />
+            tools:src="@mipmap/ic_launcher" />
 
         <TextView
             android:id="@+id/current_weather_temperature_maximum"
+            style="@style/CurrentWeather.Temperature.Maximum"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            tools:text="10.0 Cº" />
+            android:layout_toStartOf="@+id/current_weather_forecast_action"
+            tools:text="30.0 Cº" />
 
         <TextView
             android:id="@+id/current_weather_temperature_now"
+            style="@style/PrimaryText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
             android:layout_below="@id/current_weather_temperature_maximum"
+            android:layout_toStartOf="@+id/current_weather_forecast_action"
             tools:text="20.0 Cº" />
 
         <TextView
             android:id="@+id/current_weather_temperature_minimum"
+            style="@style/CurrentWeather.Temperature.Minimum"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
             android:layout_below="@id/current_weather_temperature_now"
-            tools:text="30.0 Cº" />
+            android:layout_toStartOf="@+id/current_weather_forecast_action"
+            tools:text="10.0 Cº" />
+
+        <ImageView
+            android:id="@+id/current_weather_forecast_action"
+            style="@style/CurrentWeather.Action"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_forecast_black_24dp" />
 
     </RelativeLayout>
 

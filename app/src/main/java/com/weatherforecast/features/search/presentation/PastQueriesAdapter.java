@@ -48,24 +48,29 @@ class PastQueriesAdapter extends RecyclerView.Adapter<PastQueriesAdapter.ViewHol
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
+        private View rootView;
         private TextView nameView;
         private ImageView actionView;
 
         ViewHolder(View view) {
             super(view);
+            rootView = view;
             nameView = view.findViewById(R.id.search_past_location_name);
             actionView = view.findViewById(R.id.search_past_location_action);
         }
 
         void bind(@NonNull final City city) {
+            rootView.setOnClickListener(view -> actionListener.onItemAction(city));
             nameView.setText(city.name());
-            actionView.setOnClickListener(view -> actionListener.onDetailedForecastAction(city));
+            actionView.setOnClickListener(view -> actionListener.onForecastAction(city));
         }
     }
 
     interface ActionListener {
 
-        void onDetailedForecastAction(@NonNull final City city);
+        void onItemAction(@NonNull final City city);
+
+        void onForecastAction(@NonNull final City city);
 
     }
 

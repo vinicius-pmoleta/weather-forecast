@@ -1,14 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="color_primary">#3F51B5</color>
+    <color name="color_primary_dark">#303F9F</color>
+    <color name="color_accent">#FF4081</color>
+
+    <color name="color_text_primary">#333333</color>
+    <color name="color_text_secondary">#666666</color>
+
+    <color name="color_temperature_maximum">#E53935</color>
+    <color name="color_temperature_minimum">#3949AB</color>
 
     <!-- Toolbar -->
     <color name="toolbarColorControlNormal">@android:color/white</color>
     <color name="toolbarColorControlActivated">@android:color/white</color>
-    <color name="toolbarColorControlHighlight">@color/colorPrimaryDark</color>
+    <color name="toolbarColorControlHighlight">@color/color_primary_dark</color>
     <color name="toolbarColorTextColor">@android:color/white</color>
 
 </resources>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Common -->
+    <style name="Temperature" />
+
+    <style name="Temperature.Maximum" parent="PrimaryText.SingleLine">
+        <item name="android:textColor">@color/color_temperature_maximum</item>
+    </style>
+
+    <style name="Temperature.Minimum" parent="PrimaryText.SingleLine">
+        <item name="android:textColor">@color/color_temperature_minimum</item>
+    </style>
+
+    <!-- Search -->
+    <style name="Search" />
+
+    <!-- Current Weather -->
+    <style name="CurrentWeather" />
+
+    <style name="CurrentWeather.Location" parent="FocusText.SingleLine">
+        <item name="android:layout_marginBottom">@dimen/default_spacing_small</item>
+    </style>
+
+    <style name="CurrentWeather.ConditionIcon">
+        <item name="android:layout_marginStart">@dimen/default_spacing_medium</item>
+        <item name="android:layout_marginEnd">@dimen/default_spacing_medium</item>
+    </style>
+
+    <style name="CurrentWeather.Temperature" />
+
+    <style name="CurrentWeather.Temperature.Maximum" parent="Temperature.Maximum">
+        <item name="android:textSize">@dimen/default_text_size_focus</item>
+    </style>
+
+    <style name="CurrentWeather.Temperature.Minimum" parent="Temperature.Minimum">
+        <item name="android:textSize">@dimen/default_text_size_focus</item>
+    </style>
+
+    <style name="CurrentWeather.Action">
+        <item name="android:layout_width">36dp</item>
+        <item name="android:layout_height">36dp</item>
+        <item name="android:layout_marginStart">@dimen/default_spacing_medium</item>
+    </style>
+
+</resources>

@@ -14,10 +14,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.weatherforecast.R;
 import com.weatherforecast.core.WeatherForecastApplication;
 import com.weatherforecast.core.structure.BaseActivity;
+import com.weatherforecast.core.view.GlideApp;
 import com.weatherforecast.features.common.data.model.City;
 import com.weatherforecast.features.dailyforecast.presentation.DailyForecastActivity;
 import com.weatherforecast.features.search.data.Weather;
@@ -37,6 +37,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter> implements Sea
     private TextView temperatureMinimumView;
     private TextView temperatureMaximumView;
     private PastQueriesAdapter adapter;
+    private EditText queryView;
 
     @Override
     public void initialiseDependencyInjector() {
@@ -59,8 +60,9 @@ public class SearchActivity extends BaseActivity<SearchPresenter> implements Sea
     }
 
     private void initialiseSearchInteraction() {
-        final EditText queryField = findViewById(R.id.search_query);
-        findViewById(R.id.search_action).setOnClickListener(view -> presenter.loadWeatherForLocation(queryField.getText().toString()));
+        queryView = findViewById(R.id.search_query);
+        findViewById(R.id.search_action).setOnClickListener(
+                view -> presenter.loadWeatherForLocation(queryView.getText().toString()));
     }
 
     private void initialiseSuggestionsView() {
@@ -103,8 +105,10 @@ public class SearchActivity extends BaseActivity<SearchPresenter> implements Sea
         temperatureMinimumView.setText(getString(R.string.temperature_format, weather.temperature().minimum()));
         temperatureMaximumView.setText(getString(R.string.temperature_format, weather.temperature().maximum()));
 
-        Glide.with(this)
+        GlideApp.with(this)
                 .load(getString(R.string.weather_api_url, weather.conditions().get(0).icon()))
+                .placeholder(R.mipmap.ic_launcher)
+                .centerCrop()
                 .into(conditionIconView);
 
         weatherView.setVisibility(View.VISIBLE);
@@ -123,7 +127,12 @@ public class SearchActivity extends BaseActivity<SearchPresenter> implements Sea
     private class PastQueriesActionListener implements PastQueriesAdapter.ActionListener {
 
         @Override
-        public void onDetailedForecastAction(@NonNull final City city) {
+        public void onItemAction(@NonNull final City city) {
+            queryView.setText(city.name());
+        }
+
+        @Override
+        public void onForecastAction(@NonNull final City city) {
             startActivity(DailyForecastActivity.newIntent(SearchActivity.this, city.id(), city.name()));
         }
     }
