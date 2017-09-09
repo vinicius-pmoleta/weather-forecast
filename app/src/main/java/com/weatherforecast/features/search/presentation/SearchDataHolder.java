@@ -9,7 +9,7 @@ import com.weatherforecast.features.search.data.Weather;
 
 import java.util.List;
 
-class SearchDataHolder extends BaseDataHolder {
+public class SearchDataHolder extends BaseDataHolder {
 
     private LiveData<Weather> weatherData;
     private LiveData<List<City>> locationsData;
