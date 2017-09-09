@@ -4,6 +4,7 @@
     <string name="app_name">Weather Forecast</string>
 
     <!-- Search -->
+    <string name="search_query_hint">e.g. London, UK</string>
     <string name="search_past_queries_label">Past locations searched:</string>
     <string name="search_weather_error_loading">Sorry, we couldn\'t load the weather for this location :(</string>
 

@@ -17,6 +17,8 @@ public interface DailyForecastContract {
 
         void showDailyForecasts(@NonNull final List<DailyForecastScreenModel> dailyForecasts);
 
+        void hideProgress();
+
     }
 
     interface Action extends BaseContract.Action {

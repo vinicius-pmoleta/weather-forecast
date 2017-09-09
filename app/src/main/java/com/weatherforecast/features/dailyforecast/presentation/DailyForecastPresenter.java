@@ -72,6 +72,7 @@ public class DailyForecastPresenter implements DailyForecastContract.Action {
 
     @VisibleForTesting(otherwise = PRIVATE)
     void handleDailyForecastsData(@NonNull final List<DailyForecast> dailyForecasts) {
+        view.hideProgress();
         final List<DailyForecastScreenModel> screenModels = screenConverter.prepareForPresentation(dailyForecasts);
         view.showDailyForecasts(screenModels);
     }

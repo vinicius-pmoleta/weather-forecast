@@ -168,6 +168,7 @@ public class DailyForecastPresenterTest {
         when(screenConverter.prepareForPresentation(values)).thenReturn(models);
 
         presenter.handleDailyForecastsData(values);
+        verify(view, times(1)).hideProgress();
         verify(view, times(1)).showDailyForecasts(models);
     }
 

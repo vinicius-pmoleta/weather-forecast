@@ -11,6 +11,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.weatherforecast.R;
@@ -29,13 +31,15 @@ public class DailyForecastActivity extends BaseActivity<DailyForecastPresenter> 
     private static final String EXTRA_ID = "extra_id";
     private static final String EXTRA_LOCATION = "extra_location";
 
+    private ForecastByDateAdapter adapter;
+    private RecyclerView resultView;
+    private ProgressBar progressView;
+
     public static Intent newIntent(@NonNull final Context context, final long id, @NonNull final String location) {
         return new Intent(context, DailyForecastActivity.class)
                 .putExtra(EXTRA_ID, id)
                 .putExtra(EXTRA_LOCATION, location);
     }
-
-    private ForecastByDateAdapter adapter;
 
     @Override
     public void initialiseDependencyInjector() {
@@ -57,6 +61,7 @@ public class DailyForecastActivity extends BaseActivity<DailyForecastPresenter> 
         extractExtrasAndLoadDailyForecast();
     }
 
+    @SuppressWarnings("ConstantConditions")
     private void initialiseNavigation() {
         final Toolbar toolbar = findViewById(R.id.daily_forecast_toolbar);
         setSupportActionBar(toolbar);
@@ -68,10 +73,11 @@ public class DailyForecastActivity extends BaseActivity<DailyForecastPresenter> 
     }
 
     private void initialiseResult() {
-        adapter = new ForecastByDateAdapter();
+        resultView = findViewById(R.id.daily_forecast_result);
+        progressView = findViewById(R.id.daily_forecast_progress);
 
-        final RecyclerView resultView = findViewById(R.id.daily_forecast_result);
         resultView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        adapter = new ForecastByDateAdapter();
         resultView.setAdapter(adapter);
     }
 
@@ -106,6 +112,12 @@ public class DailyForecastActivity extends BaseActivity<DailyForecastPresenter> 
 
     @Override
     public void showDailyForecasts(@NonNull final List<DailyForecastScreenModel> dailyForecasts) {
+        resultView.setVisibility(View.VISIBLE);
         adapter.updateContent(dailyForecasts);
+    }
+
+    @Override
+    public void hideProgress() {
+        progressView.setVisibility(View.GONE);
     }
 }

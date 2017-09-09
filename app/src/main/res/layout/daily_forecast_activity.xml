@@ -15,6 +15,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/daily_forecast_toolbar"
-        tools:listitem="@layout/date_forecast_item" />
+        android:visibility="gone"
+        tools:listitem="@layout/date_forecast_item"
+        tools:visibility="visible" />
+
+    <ProgressBar
+        android:id="@+id/daily_forecast_progress"
+        style="@style/BaseProgressBar"
+        android:layout_centerInParent="true" />
 
 </RelativeLayout>

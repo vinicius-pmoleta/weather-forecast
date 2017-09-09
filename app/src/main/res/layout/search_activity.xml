@@ -15,6 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_toStartOf="@+id/search_action"
+            android:hint="@string/search_query_hint"
             android:inputType="text" />
 
         <ImageButton
