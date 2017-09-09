@@ -29,6 +29,7 @@ public class FetchLocationsSearchedUseCase extends UseCase<List<City>, Void> {
         return cityDao.all()
                 .flatMap(cities -> Flowable.fromIterable(cities)
                         .map(CityConverter::fromEntity)
+                        .sorted((city1, city2) -> city1.name().compareTo(city2.name()))
                         .toList()
                         .toFlowable()
                 );

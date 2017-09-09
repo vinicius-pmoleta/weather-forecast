@@ -48,7 +48,7 @@ public class FetchLocationsSearchedUseCaseTest {
     }
 
     @Test
-    public void verifyModelReturnedWhenDatabaseNotEmpty() {
+    public void verifyModelReturnedOrderedByNameWhenDatabaseNotEmpty() {
         final City city1 = City.create(1L, "City 1");
         final City city2 = City.create(2L, "City 2");
         final City city3 = City.create(3L, "City 3");
@@ -63,7 +63,7 @@ public class FetchLocationsSearchedUseCaseTest {
         useCase.buildUseCaseObservable(null).test()
                 .assertNoErrors()
                 .assertComplete()
-                .assertValue(Arrays.asList(city3, city1, city2));
+                .assertValue(Arrays.asList(city1, city2, city3));
     }
 
 }
