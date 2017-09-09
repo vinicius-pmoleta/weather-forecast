@@ -26,7 +26,7 @@ class PastQueriesAdapter extends RecyclerView.Adapter<PastQueriesAdapter.ViewHol
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        final View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.search_past_location, parent, false);
+        final View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.past_query_item, parent, false);
         return new ViewHolder(view);
     }
 
@@ -55,8 +55,8 @@ class PastQueriesAdapter extends RecyclerView.Adapter<PastQueriesAdapter.ViewHol
         ViewHolder(View view) {
             super(view);
             rootView = view;
-            nameView = view.findViewById(R.id.search_past_location_name);
-            actionView = view.findViewById(R.id.search_past_location_action);
+            nameView = view.findViewById(R.id.past_query_item_name);
+            actionView = view.findViewById(R.id.past_query_item_action);
         }
 
         void bind(@NonNull final City city) {

@@ -11,6 +11,8 @@
     <color name="color_temperature_maximum">#E53935</color>
     <color name="color_temperature_minimum">#3949AB</color>
 
+    <color name="background_color">#EEEEEE</color>
+
     <!-- Toolbar -->
     <color name="toolbarColorControlNormal">@android:color/white</color>
     <color name="toolbarColorControlActivated">@android:color/white</color>

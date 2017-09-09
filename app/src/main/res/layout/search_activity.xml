@@ -2,36 +2,51 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
+    android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/search_query"
+    <RelativeLayout
+        android:id="@+id/search_weather"
+        style="@style/Search.Weather"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/search_query"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@+id/search_action"
+            android:inputType="text" />
+
+        <ImageButton
+            android:id="@+id/search_action"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/ic_search_black_24dp" />
+
+        <include
+            android:id="@+id/search_weather_result"
+            layout="@layout/current_weather_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/search_query"
+            android:visibility="gone"
+            tools:visibility="visible" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/search_past_queries_label"
+        style="@style/Search.PastQueries.Label"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toStartOf="@+id/search_action" />
-
-    <Button
-        android:id="@+id/search_action"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:text="Search" />
-
-    <include
-        android:id="@+id/search_weather_result"
-        layout="@layout/current_weather_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/search_query"
-        android:visibility="gone"
-        tools:visibility="visible" />
+        android:layout_below="@id/search_weather"
+        android:text="@string/search_past_queries_label" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/search_past_queries"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/search_weather_result"
-        tools:listitem="@layout/search_past_location" />
+        android:layout_below="@id/search_past_queries_label"
+        tools:listitem="@layout/past_query_item" />
 
 </RelativeLayout>

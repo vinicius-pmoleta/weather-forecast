@@ -2,6 +2,14 @@
 <resources>
 
     <!-- Common -->
+    <style name="CardContainer">
+        <item name="cardCornerRadius">@dimen/default_spacing_small</item>
+        <item name="cardElevation">@dimen/default_spacing_small</item>
+        <item name="contentPadding">@dimen/default_spacing_medium</item>
+        <item name="cardBackgroundColor">@android:color/white</item>
+        <item name="cardUseCompatPadding">true</item>
+    </style>
+
     <style name="Temperature" />
 
     <style name="Temperature.Maximum" parent="PrimaryText.SingleLine">
@@ -14,6 +22,39 @@
 
     <!-- Search -->
     <style name="Search" />
+
+    <style name="Search.Weather">
+        <item name="android:padding">@dimen/default_spacing_big</item>
+    </style>
+
+    <style name="Search.PastQueries" />
+
+    <style name="Search.PastQueries.Label" parent="PrimaryText.SingleLine">
+        <item name="android:layout_marginStart">@dimen/default_spacing_big</item>
+        <item name="android:layout_marginEnd">@dimen/default_spacing_big</item>
+    </style>
+
+    <style name="PastQueryItem" />
+
+    <style name="PastQueryItem.Name" parent="PrimaryText.SingleLine">
+        <item name="android:layout_marginStart">@dimen/default_spacing_big</item>
+        <item name="android:layout_marginTop">@dimen/default_spacing_medium</item>
+        <item name="android:layout_marginBottom">@dimen/default_spacing_medium</item>
+    </style>
+
+    <style name="PastQueryItem.Action">
+        <item name="android:layout_marginStart">@dimen/default_spacing_medium</item>
+        <item name="android:layout_marginEnd">@dimen/default_spacing_big</item>
+        <item name="android:layout_marginTop">@dimen/default_spacing_medium</item>
+        <item name="android:layout_marginBottom">@dimen/default_spacing_medium</item>
+    </style>
+
+    <style name="PastQueryItem.Divider">
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">@color/color_text_secondary</item>
+        <item name="android:layout_marginStart">@dimen/default_spacing_medium</item>
+        <item name="android:layout_marginEnd">@dimen/default_spacing_medium</item>
+    </style>
 
     <!-- Current Weather -->
     <style name="CurrentWeather" />
@@ -40,7 +81,7 @@
     <style name="CurrentWeather.Action">
         <item name="android:layout_width">36dp</item>
         <item name="android:layout_height">36dp</item>
-        <item name="android:layout_marginStart">@dimen/default_spacing_medium</item>
+        <item name="android:layout_marginStart">@dimen/default_spacing_big</item>
     </style>
 
 </resources>
