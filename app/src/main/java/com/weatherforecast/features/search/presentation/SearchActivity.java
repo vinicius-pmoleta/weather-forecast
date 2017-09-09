@@ -143,7 +143,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter> implements Sea
     public void showProgress() {
         queryView.setVisibility(View.INVISIBLE);
         searchActionView.setVisibility(View.INVISIBLE);
-        weatherView.setVisibility(View.INVISIBLE);
+        weatherView.setVisibility(View.GONE );
         progressView.setVisibility(View.VISIBLE);
     }
 
