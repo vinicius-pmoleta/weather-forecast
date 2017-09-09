@@ -31,6 +31,8 @@ public interface SearchContract {
 
         void loadWeatherForLocation(@NonNull final String location);
 
+        void loadLastWeatherIfAvailable();
+
         void loadLocationsSearched();
     }
 

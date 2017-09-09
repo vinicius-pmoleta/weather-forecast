@@ -26,6 +26,7 @@ import io.reactivex.functions.Consumer;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -203,6 +204,27 @@ public class SearchPresenterTest {
 
         verify(view, times(1)).hideProgress();
         verify(view, times(1)).resetInteractions();
+        verify(view, times(1)).showWeather(model);
+    }
+
+    @Test
+    public void verifyLastWeatherNotLoadedWhenNotAvailableOnHolder() {
+        when(dataHolder.weatherData()).thenReturn(null);
+        presenter.loadLastWeatherIfAvailable();
+        verify(view, never()).showWeather(any(WeatherScreenModel.class));
+    }
+
+    @Test
+    public void verifyLastWeatherIsLoadedWhenAvailableOnHolder() {
+        final LiveData<Weather> data = mock(LiveData.class);
+        final Weather value = mock(Weather.class);
+        when(data.getValue()).thenReturn(value);
+        when(dataHolder.weatherData()).thenReturn(data);
+
+        final WeatherScreenModel model = mock(WeatherScreenModel.class);
+        when(screenConverter.prepareForPresentation(value)).thenReturn(model);
+
+        presenter.loadLastWeatherIfAvailable();
         verify(view, times(1)).showWeather(model);
     }
 

@@ -45,6 +45,14 @@ public class SearchPresenter implements SearchContract.Action {
     }
 
     @Override
+    public void loadLastWeatherIfAvailable() {
+        final SearchDataHolder holder = view.provideSearchDataHolder();
+        if (LiveDataOperator.isContentAvailable(holder.weatherData())) {
+            handleWeatherData(holder.weatherData().getValue());
+        }
+    }
+
+    @Override
     public void loadLocationsSearched() {
         final SearchDataHolder holder = view.provideSearchDataHolder();
         if (LiveDataOperator.isContentAvailable(holder.locationSearchesData())) {

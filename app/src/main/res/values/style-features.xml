@@ -19,15 +19,15 @@
 
     <style name="PastQueryItem.Name" parent="PrimaryText">
         <item name="android:layout_marginStart">@dimen/default_spacing_big</item>
-        <item name="android:layout_marginTop">@dimen/default_spacing_medium</item>
-        <item name="android:layout_marginBottom">@dimen/default_spacing_medium</item>
+        <item name="android:layout_marginTop">@dimen/default_spacing_big</item>
+        <item name="android:layout_marginBottom">@dimen/default_spacing_big</item>
     </style>
 
     <style name="PastQueryItem.Action">
         <item name="android:layout_marginStart">@dimen/default_spacing_medium</item>
         <item name="android:layout_marginEnd">@dimen/default_spacing_big</item>
-        <item name="android:layout_marginTop">@dimen/default_spacing_medium</item>
-        <item name="android:layout_marginBottom">@dimen/default_spacing_medium</item>
+        <item name="android:layout_marginTop">@dimen/default_spacing_big</item>
+        <item name="android:layout_marginBottom">@dimen/default_spacing_big</item>
     </style>
 
     <style name="PastQueryItem.Divider">
@@ -41,9 +41,9 @@
     <style name="CurrentWeather" />
 
     <style name="CurrentWeather.Container">
-        <item name="cardCornerRadius">@dimen/default_spacing_small</item>
+        <item name="cardCornerRadius">2dp</item>
         <item name="cardElevation">2dp</item>
-        <item name="contentPadding">@dimen/default_spacing_medium</item>
+        <item name="contentPadding">@dimen/default_spacing_big</item>
         <item name="cardBackgroundColor">@android:color/white</item>
         <item name="cardUseCompatPadding">true</item>
     </style>
@@ -54,7 +54,7 @@
     </style>
 
     <style name="CurrentWeather.ConditionIcon">
-        <item name="android:layout_marginStart">@dimen/default_spacing_medium</item>
+        <item name="android:layout_marginStart">@dimen/default_spacing_big</item>
         <item name="android:layout_marginEnd">@dimen/default_spacing_big</item>
     </style>
 

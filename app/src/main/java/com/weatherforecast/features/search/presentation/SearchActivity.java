@@ -96,6 +96,8 @@ public class SearchActivity extends BaseActivity<SearchPresenter> implements Sea
         temperatureMinimumView = findViewById(R.id.current_weather_temperature_minimum);
         temperatureMaximumView = findViewById(R.id.current_weather_temperature_maximum);
         forecastActionView = findViewById(R.id.current_weather_forecast_action);
+
+        presenter.loadLastWeatherIfAvailable();
     }
 
     @Override
