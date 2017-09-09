@@ -11,9 +11,9 @@
     </style>
 
     <style name="ToolbarTheme" parent="@style/ThemeOverlay.AppCompat.ActionBar">
-        <item name="android:textColorPrimary">@color/toolbarColorTextColor</item>
-        <item name="android:textColorHint">@color/toolbarColorTextColor</item>
-        <item name="actionMenuTextColor">@color/toolbarColorTextColor</item>
+        <item name="android:textColorPrimary">@color/toolbar_text_color</item>
+        <item name="android:textColorHint">@color/toolbar_text_color</item>
+        <item name="actionMenuTextColor">@color/toolbar_text_color</item>
     </style>
 
     <!-- Base -->

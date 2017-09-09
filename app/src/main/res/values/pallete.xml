@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="san_marino_blue">#FF5722</color>
-    <color name="sapphire_blue">#E64A19</color>
-    <color name="wild_strawberry_pink">#448AFF</color>
+    <color name="citric_orange">#FF5722</color>
+    <color name="cinnabar_orange">#E64A19</color>
+    <color name="dodger_blue">#448AFF</color>
 
     <color name="mine_shaft_gray">#212121</color>
-    <color name="dove_gray">#757575</color>
-
-    <color name="cinnabar_red">#E53935</color>
-    <color name="bay_of_many_blue">#283593</color>
+    <color name="boulder_gray">#757575</color>
 
     <color name="silver_gray">#BDBDBD</color>
     <color name="galery_white">#EEEEEE</color>

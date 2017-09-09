@@ -1,24 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="color_primary">@color/san_marino_blue</color>
-    <color name="color_primary_dark">@color/sapphire_blue</color>
-    <color name="color_accent">@color/wild_strawberry_pink</color>
+    <!-- Common -->
+    <color name="color_primary">@color/citric_orange</color>
+    <color name="color_primary_dark">@color/cinnabar_orange</color>
+    <color name="color_accent">@color/dodger_blue</color>
 
     <color name="color_text_primary">@color/mine_shaft_gray</color>
-    <color name="color_text_secondary">@color/dove_gray</color>
-    <color name="color_text_highlight">@color/sapphire_blue</color>
-
-    <color name="color_temperature_maximum">@color/cinnabar_red</color>
-    <color name="color_temperature_minimum">@color/bay_of_many_blue</color>
+    <color name="color_text_secondary">@color/boulder_gray</color>
+    <color name="color_text_highlight">@color/cinnabar_orange</color>
 
     <color name="divider_color">@color/silver_gray</color>
     <color name="background_color">@color/galery_white</color>
 
     <!-- Toolbar -->
-    <color name="toolbarColorControlNormal">@android:color/white</color>
-    <color name="toolbarColorControlActivated">@android:color/white</color>
-    <color name="toolbarColorControlHighlight">@color/color_primary_dark</color>
-    <color name="toolbarColorTextColor">@android:color/white</color>
+    <color name="toolbar_text_color">@android:color/white</color>
 
 </resources>
