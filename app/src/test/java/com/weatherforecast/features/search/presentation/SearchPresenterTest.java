@@ -81,6 +81,7 @@ public class SearchPresenterTest {
 
         final Consumer<Throwable> consumer = captor.getAllValues().get(0);
         consumer.accept(new Throwable());
+        verify(view, times(1)).hideProgress();
         verify(view, times(1)).showErrorLoadingWeather();
     }
 
@@ -99,6 +100,7 @@ public class SearchPresenterTest {
         final Observer<Weather> observer = captor.getAllValues().get(0);
         final Weather weather = mock(Weather.class);
         observer.onChanged(weather);
+        verify(view, times(1)).hideProgress();
         verify(view, times(1)).showWeather(weather);
     }
 

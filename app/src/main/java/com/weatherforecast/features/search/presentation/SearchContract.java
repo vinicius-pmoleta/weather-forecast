@@ -14,6 +14,10 @@ public interface SearchContract {
 
         SearchDataHolder provideSearchDataHolder();
 
+        void showProgress();
+
+        void hideProgress();
+
         void showWeather(@NonNull final Weather weather);
 
         void showErrorLoadingWeather();

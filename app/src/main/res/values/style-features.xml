@@ -65,7 +65,7 @@
 
     <style name="CurrentWeather.ConditionIcon">
         <item name="android:layout_marginStart">@dimen/default_spacing_medium</item>
-        <item name="android:layout_marginEnd">@dimen/default_spacing_medium</item>
+        <item name="android:layout_marginEnd">@dimen/default_spacing_big</item>
     </style>
 
     <style name="CurrentWeather.Temperature" />

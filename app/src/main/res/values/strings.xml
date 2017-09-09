@@ -2,7 +2,7 @@
 
     <!-- Common -->
     <string name="app_name">Weather Forecast</string>
-    <string name="temperature_format">%.1f Cº</string>
+    <string name="temperature_format">%.1f˚</string>
 
     <!-- Search -->
     <string name="search_past_queries_label">Past locations searched:</string>

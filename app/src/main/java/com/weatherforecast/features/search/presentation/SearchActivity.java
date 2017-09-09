@@ -10,7 +10,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +31,9 @@ import java.util.List;
 
 public class SearchActivity extends BaseActivity<SearchPresenter> implements SearchContract.View {
 
+    private ProgressBar progressView;
+    private EditText queryView;
+    private ImageButton searchActionView;
     private ViewGroup weatherView;
     private TextView locationView;
     private ImageView conditionIconView;
@@ -36,8 +41,8 @@ public class SearchActivity extends BaseActivity<SearchPresenter> implements Sea
     private TextView temperatureCurrentView;
     private TextView temperatureMinimumView;
     private TextView temperatureMaximumView;
+    private ImageView forecastActionView;
     private PastQueriesAdapter adapter;
-    private EditText queryView;
 
     @Override
     public void initialiseDependencyInjector() {
@@ -60,8 +65,11 @@ public class SearchActivity extends BaseActivity<SearchPresenter> implements Sea
     }
 
     private void initialiseSearchInteraction() {
+        progressView = findViewById(R.id.search_progress);
         queryView = findViewById(R.id.search_query);
-        findViewById(R.id.search_action).setOnClickListener(
+        searchActionView = findViewById(R.id.search_action);
+
+        searchActionView.setOnClickListener(
                 view -> presenter.loadWeatherForLocation(queryView.getText().toString()));
     }
 
@@ -84,6 +92,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter> implements Sea
         temperatureCurrentView = findViewById(R.id.current_weather_temperature_now);
         temperatureMinimumView = findViewById(R.id.current_weather_temperature_minimum);
         temperatureMaximumView = findViewById(R.id.current_weather_temperature_maximum);
+        forecastActionView = findViewById(R.id.current_weather_forecast_action);
     }
 
     @Override
@@ -98,6 +107,21 @@ public class SearchActivity extends BaseActivity<SearchPresenter> implements Sea
     }
 
     @Override
+    public void showProgress() {
+        queryView.setVisibility(View.INVISIBLE);
+        searchActionView.setVisibility(View.INVISIBLE);
+        weatherView.setVisibility(View.INVISIBLE);
+        progressView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgress() {
+        progressView.setVisibility(View.GONE);
+        queryView.setVisibility(View.VISIBLE);
+        searchActionView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
     public void showWeather(@NonNull final Weather weather) {
         locationView.setText(weather.name());
         conditionNameView.setText(weather.conditions().get(0).name());
@@ -105,13 +129,14 @@ public class SearchActivity extends BaseActivity<SearchPresenter> implements Sea
         temperatureMinimumView.setText(getString(R.string.temperature_format, weather.temperature().minimum()));
         temperatureMaximumView.setText(getString(R.string.temperature_format, weather.temperature().maximum()));
 
+        forecastActionView.setOnClickListener(
+                view -> triggerForecastAction(City.create(weather.id(), weather.name())));
+        weatherView.setVisibility(View.VISIBLE);
+
         GlideApp.with(this)
                 .load(getString(R.string.weather_api_url, weather.conditions().get(0).icon()))
-                .placeholder(R.mipmap.ic_launcher)
                 .centerCrop()
                 .into(conditionIconView);
-
-        weatherView.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -124,6 +149,10 @@ public class SearchActivity extends BaseActivity<SearchPresenter> implements Sea
         adapter.updateContent(cities);
     }
 
+    private void triggerForecastAction(@NonNull final City city) {
+        startActivity(DailyForecastActivity.newIntent(this, city.id(), city.name()));
+    }
+
     private class PastQueriesActionListener implements PastQueriesAdapter.ActionListener {
 
         @Override
@@ -133,7 +162,7 @@ public class SearchActivity extends BaseActivity<SearchPresenter> implements Sea
 
         @Override
         public void onForecastAction(@NonNull final City city) {
-            startActivity(DailyForecastActivity.newIntent(SearchActivity.this, city.id(), city.name()));
+            triggerForecastAction(city);
         }
     }
 

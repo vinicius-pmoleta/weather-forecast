@@ -33,6 +33,8 @@ public class SearchPresenter implements SearchContract.Action {
 
     @Override
     public void loadWeatherForLocation(@NonNull final String location) {
+        view.showProgress();
+
         final SearchDataHolder holder = view.provideSearchDataHolder();
         loadRemoteWeather(location, holder);
     }
@@ -52,7 +54,10 @@ public class SearchPresenter implements SearchContract.Action {
     void loadRemoteWeather(@NonNull final String location, @NonNull final SearchDataHolder holder) {
         final LiveData<Weather> data = fetchWeatherUseCase.executeLive(location,
                 holder::addSubscription,
-                error -> view.showErrorLoadingWeather(),
+                error -> {
+                    view.hideProgress();
+                    view.showErrorLoadingWeather();
+                },
                 new UseCase.DefaultOnComplete());
 
         final LifecycleOwner owner = view.provideLifecycleOwner();
@@ -76,6 +81,7 @@ public class SearchPresenter implements SearchContract.Action {
 
     @VisibleForTesting(otherwise = PRIVATE)
     void handleWeatherData(@NonNull final Weather weather) {
+        view.hideProgress();
         view.showWeather(weather);
     }
 
