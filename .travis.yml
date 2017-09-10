@@ -14,7 +14,7 @@ android:
     - extra-android-support
 
 script:
-  - ./gradlew clean build --configure-on-demand --parallel --stacktrace
+  - ./gradlew clean build assemble --configure-on-demand --parallel --stacktrace
 
 sudo: false
 
