@@ -8,14 +8,14 @@ import com.weatherforecast.core.data.repository.remote.ForecastRepository;
 import com.weatherforecast.core.data.usecase.ExecutionConfiguration;
 import com.weatherforecast.core.data.usecase.UseCase;
 import com.weatherforecast.features.common.data.converter.ForecastConverter;
-import com.weatherforecast.features.common.data.entity.ForecastEntity;
+import com.weatherforecast.features.common.data.model.Forecast;
 import com.weatherforecast.features.common.data.repository.ForecastDao;
 
 import java.util.List;
 
 import io.reactivex.Flowable;
 
-public class UpdateLocalForecastUseCase extends UseCase<List<ForecastEntity>, Long> {
+public class UpdateLocalForecastUseCase extends UseCase<List<Forecast>, Long> {
 
     private final ForecastRepository repository;
     private final ForecastDao forecastDao;
@@ -29,7 +29,7 @@ public class UpdateLocalForecastUseCase extends UseCase<List<ForecastEntity>, Lo
     }
 
     @Override
-    public Flowable<List<ForecastEntity>> buildUseCaseObservable(@Nullable final Long id) {
+    public Flowable<List<Forecast>> buildUseCaseObservable(@Nullable final Long id) {
         if (id == null) {
             return Flowable.empty();
         }
@@ -41,6 +41,11 @@ public class UpdateLocalForecastUseCase extends UseCase<List<ForecastEntity>, Lo
                         .toFlowable()
                         .filter(entities -> !entities.isEmpty())
                         .doOnNext(forecastDao::insert)
+                        .flatMap(Flowable::fromIterable)
+                        .map(ForecastConverter::fromEntity)
+                        .toList()
+                        .toFlowable()
+                        .filter(models -> !models.isEmpty())
                 );
     }
 }

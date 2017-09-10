@@ -40,7 +40,7 @@ public class DailyForecastScreenConverterTest {
 
     @Test
     public void assertInvalidDateFormatted() {
-        final String result = converter.formatDate("10-01-2017");
+        final String result = converter.formatDate("10-01");
         assertEquals("", result);
     }
 

@@ -13,6 +13,7 @@ import com.weatherforecast.features.common.data.repository.ForecastDao;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
@@ -22,6 +23,8 @@ import java.util.List;
 
 import io.reactivex.Flowable;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.mock;
@@ -93,19 +96,27 @@ public class UpdateLocalForecastUseCaseTest {
         final Forecast forecast2 = TestDataCreator.createForecastModelWithDataAndTime("10-01-2017", "12:00:00");
 
         final Forecasts forecasts = Forecasts.create(Arrays.asList(forecast1, forecast2), city);
-
-        final ForecastEntity entity1 = TestDataCreator.createEntityWithDateAndCityId(forecast1.date(), city.id());
-        final ForecastEntity entity2 = TestDataCreator.createEntityWithDateAndCityId(forecast1.date(), city.id());
-        final List<ForecastEntity> expectedEntities = Arrays.asList(entity1, entity2);
-
         when(forecastRepository.getForecast(anyLong())).thenReturn(Flowable.just(forecasts));
 
         useCase.buildUseCaseObservable(anyLong())
-                .doOnComplete(() -> verify(forecastDao, times(1)).insert(expectedEntities))
+                .doOnComplete(this::verifyForecastEntitiesSaved)
                 .test()
                 .assertNoErrors()
                 .assertComplete()
-                .assertValues(expectedEntities);
+                .assertValues(Arrays.asList(forecast1, forecast2));
+    }
+
+    private void verifyForecastEntitiesSaved() {
+        final ArgumentCaptor<List<ForecastEntity>> captor = ArgumentCaptor.forClass(List.class);
+        verify(forecastDao, times(1)).insert(captor.capture());
+
+        final List<ForecastEntity> entities = captor.getAllValues().get(0);
+        assertNotNull(entities);
+        assertEquals(2, entities.size());
+        assertEquals(0L, entities.get(0).cityId);
+        assertEquals("10-01-2017 09:00:00", entities.get(0).date);
+        assertEquals(0L, entities.get(1).cityId);
+        assertEquals("10-01-2017 12:00:00", entities.get(1).date);
     }
 
 }
