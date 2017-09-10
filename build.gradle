@@ -2,12 +2,6 @@
 
 buildscript {
 
-    project.ext {
-        gradle_version = '3.0.0-beta5'
-        googleServices_version = '3.0.0'
-        retrolambda_version = '3.7.0'
-    }
-
     repositories {
         maven {
             url 'https://maven.google.com'
@@ -17,9 +11,7 @@ buildscript {
     }
 
     dependencies {
-        classpath "com.android.tools.build:gradle:$gradle_version"
-        classpath "com.google.gms:google-services:$googleServices_version"
-        classpath "me.tatarka:gradle-retrolambda:$retrolambda_version"
+        classpath "com.android.tools.build:gradle:3.0.0-beta5"
     }
 }
 
