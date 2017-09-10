@@ -31,6 +31,15 @@ android {
         }
     }
 
+    signingConfigs {
+        release {
+            storeFile file("release-keystore.jks")
+            storePassword getPrivateConfig("WEATHER_FORECAST_RELEASE_SIGNING_STORE_PASSWORD")
+            keyAlias getPrivateConfig("WEATHER_FORECAST_RELEASE_SIGNING_KEY_ALIAS")
+            keyPassword getPrivateConfig("WEATHER_FORECAST_RELEASE_SIGNING_KEY_PASSWORD")
+        }
+    }
+
     buildTypes {
         debug {
             applicationIdSuffix ".debug"
@@ -39,6 +48,7 @@ android {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
 
             buildConfigField "String", "WEATHER_FORECAST_API_KEY", getApiKey()
         }
@@ -122,6 +132,10 @@ dependencies {
 }
 
 def getApiKey() {
-    def value = ext.environment.findValueFor("WEATHER_FORECAST_APP_API_KEY")
+    def value = getPrivateConfig("WEATHER_FORECAST_APP_API_KEY")
     return "\"$value\""
+}
+
+def getPrivateConfig(String key) {
+    return ext.environment.findValueFor(key)
 }
