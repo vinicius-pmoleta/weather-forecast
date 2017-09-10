@@ -14,6 +14,7 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/date_forecast_item_time_forecasts"
+        style="@style/DateForecastItem.Forecasts"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/date_forecast_item_date"
