@@ -78,20 +78,20 @@ public class DailyForecastPresenterTest {
 
         verify(view, times(1)).showDailyForecasts(models);
         verify(fetchLocalUseCase, never()).executeLive(anyLong(), any(), any(), any());
-        verify(updateLocalUseCase, never()).execute(anyLong(), any(), any(), any());
+        verify(updateLocalUseCase, never()).execute(anyLong(), any());
     }
 
     @Test
     public void verifyDataLoadedAndUpdatedWhenNotAvailableOnHolder() {
         when(dataHolder.data()).thenReturn(null);
         when(fetchLocalUseCase.executeLive(anyLong(), any(), any(), any())).thenReturn(mock(LiveData.class));
-        when(updateLocalUseCase.execute(anyLong(), any(), any(), any())).thenReturn(Flowable.empty());
+        when(updateLocalUseCase.execute(anyLong(), any())).thenReturn(Flowable.empty());
 
         presenter.loadLocationForecast(0L);
 
         verify(view, never()).showDailyForecasts(any());
         verify(fetchLocalUseCase, times(1)).executeLive(anyLong(), any(), any(), any());
-        verify(updateLocalUseCase, times(1)).execute(anyLong(), any(), any(), any());
+        verify(updateLocalUseCase, times(1)).execute(anyLong(), any());
     }
 
     @Test
@@ -148,12 +148,12 @@ public class DailyForecastPresenterTest {
 
     @Test
     public void verifyUpdateUseCaseSubscriptionDeliveredToHolder() throws Exception {
-        when(updateLocalUseCase.execute(anyLong(), any(), any(), any())).thenReturn(Flowable.empty());
+        when(updateLocalUseCase.execute(anyLong(), any())).thenReturn(Flowable.empty());
 
         presenter.updateRemoteForecast(0L, dataHolder);
 
         final ArgumentCaptor<Consumer<Subscription>> captor = ArgumentCaptor.forClass(Consumer.class);
-        verify(updateLocalUseCase, times(1)).execute(eq(0L), captor.capture(), any(), any());
+        verify(updateLocalUseCase, times(1)).execute(eq(0L), captor.capture());
 
         final Subscription subscription = mock(Subscription.class);
         final Consumer<Subscription> consumer = captor.getAllValues().get(0);

@@ -14,8 +14,6 @@ import com.weatherforecast.features.dailyforecast.usecase.UpdateLocalForecastUse
 
 import java.util.List;
 
-import static android.support.annotation.VisibleForTesting.PRIVATE;
-
 @SuppressWarnings("ConstantConditions")
 public class DailyForecastPresenter implements DailyForecastContract.Action {
 
@@ -52,7 +50,7 @@ public class DailyForecastPresenter implements DailyForecastContract.Action {
         updateRemoteForecast(id, holder);
     }
 
-    @VisibleForTesting(otherwise = PRIVATE)
+    @VisibleForTesting
     void loadLocalForecast(@NonNull final Long id, @NonNull final DailyForecastDataHolder holder) {
         final LiveData<List<DailyForecast>> data = fetchLocalUseCase.executeLive(id,
                 holder::addSubscription,
@@ -63,20 +61,17 @@ public class DailyForecastPresenter implements DailyForecastContract.Action {
         data.observe(view.provideLifecycleOwner(), this::handleDailyForecastsData);
     }
 
-    @VisibleForTesting(otherwise = PRIVATE)
+    @VisibleForTesting
     void updateRemoteForecast(@NonNull final Long id, @NonNull final DailyForecastDataHolder holder) {
-        updateLocalUseCase.execute(id,
-                holder::addSubscription,
-                new UseCase.DefaultOnError(),
-                new UseCase.DefaultOnComplete()
-        ).subscribe(
-                result -> {
-                },
-                error -> handleDailyForecastsError()
-        );
+        updateLocalUseCase.execute(id, holder::addSubscription)
+                .subscribe(
+                        result -> {
+                        },
+                        error -> handleDailyForecastsError()
+                );
     }
 
-    @VisibleForTesting(otherwise = PRIVATE)
+    @VisibleForTesting
     void handleDailyForecastsData(@NonNull final List<DailyForecast> dailyForecasts) {
         view.hideProgress();
         final List<DailyForecastScreenModel> screenModels = screenConverter.prepareForPresentation(dailyForecasts);

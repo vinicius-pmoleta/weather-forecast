@@ -3,6 +3,7 @@ package com.weatherforecast.core.data.live;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import org.reactivestreams.Publisher;
 import org.reactivestreams.Subscriber;
@@ -18,8 +19,9 @@ import io.reactivex.functions.Consumer;
  */
 public class LiveDataReactiveConverter {
 
+    private static final String TAG = LiveDataReactiveConverter.class.getSimpleName();
+
     public static <T> LiveData<T> fromPublisher(@NonNull final Publisher<T> publisher,
-                                                @NonNull final Consumer<Subscription> doOnSubscribe,
                                                 @NonNull final Consumer<Throwable> doOnError,
                                                 @NonNull final Action doOnComplete) {
         MutableLiveData<T> liveData = new MutableLiveData<>();
@@ -29,11 +31,6 @@ public class LiveDataReactiveConverter {
             @Override
             public void onSubscribe(Subscription s) {
                 s.request(Long.MAX_VALUE);
-                try {
-                    doOnSubscribe.accept(s);
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
-                }
             }
 
             @Override
@@ -49,7 +46,7 @@ public class LiveDataReactiveConverter {
                 try {
                     doOnError.accept(error);
                 } catch (Exception e) {
-                    throw new RuntimeException(e);
+                    Log.e(TAG, "Error on live data", e);
                 }
             }
 

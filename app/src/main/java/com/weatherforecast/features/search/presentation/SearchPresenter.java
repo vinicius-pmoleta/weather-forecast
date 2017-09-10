@@ -16,8 +16,6 @@ import com.weatherforecast.features.search.usecase.FetchWeatherUseCase;
 
 import java.util.List;
 
-import static android.support.annotation.VisibleForTesting.PRIVATE;
-
 @SuppressWarnings("ConstantConditions")
 public class SearchPresenter implements SearchContract.Action {
 
@@ -63,7 +61,7 @@ public class SearchPresenter implements SearchContract.Action {
         loadLocalSearches(holder);
     }
 
-    @VisibleForTesting(otherwise = PRIVATE)
+    @VisibleForTesting
     void loadRemoteWeather(@NonNull final String location, @NonNull final SearchDataHolder holder) {
         final LiveData<Weather> data = fetchWeatherUseCase.executeLive(location,
                 holder::addSubscription,
@@ -92,7 +90,7 @@ public class SearchPresenter implements SearchContract.Action {
         data.observe(owner, this::handleLocationsSearchedData);
     }
 
-    @VisibleForTesting(otherwise = PRIVATE)
+    @VisibleForTesting
     void handleWeatherData(@NonNull final Weather weather) {
         view.hideProgress();
         view.resetInteractions();

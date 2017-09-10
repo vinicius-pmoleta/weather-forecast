@@ -16,8 +16,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import static android.support.annotation.VisibleForTesting.PRIVATE;
-
 public class DailyForecastScreenConverter {
 
     private static final String TAG = DailyForecastScreenConverter.class.getSimpleName();
@@ -58,7 +56,7 @@ public class DailyForecastScreenConverter {
         return models;
     }
 
-    @VisibleForTesting(otherwise = PRIVATE)
+    @VisibleForTesting
     DailyForecastScreenModel prepareForPresentation(@NonNull final DailyForecast dailyForecast) {
         final String date = formatDate(dailyForecast.date());
 
@@ -70,7 +68,7 @@ public class DailyForecastScreenConverter {
         return DailyForecastScreenModel.create(date, forecasts);
     }
 
-    @VisibleForTesting(otherwise = PRIVATE)
+    @VisibleForTesting
     ForecastScreenModel prepareForPresentation(@NonNull final Forecast forecast) {
         final String time = formatTime(forecast.date());
         final String icon = String.format(iconUrlPattern, forecast.conditions().get(0).icon());
@@ -78,12 +76,12 @@ public class DailyForecastScreenConverter {
         return ForecastScreenModel.create(time, icon, temperature);
     }
 
-    @VisibleForTesting(otherwise = PRIVATE)
+    @VisibleForTesting
     String formatDate(@NonNull final String date) {
         return formatDate(date, dateParserPattern, dateFormatterPattern);
     }
 
-    @VisibleForTesting(otherwise = PRIVATE)
+    @VisibleForTesting
     String formatTime(@NonNull final String date) {
         return formatDate(date, timeParserPattern, timeFormatterPattern);
     }
