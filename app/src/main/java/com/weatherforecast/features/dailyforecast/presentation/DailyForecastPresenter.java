@@ -46,11 +46,17 @@ public class DailyForecastPresenter implements DailyForecastContract.Action {
         updateRemoteForecast(id, holder);
     }
 
+    @Override
+    public void refreshLocationForecast(@NonNull final Long id) {
+        final DailyForecastDataHolder holder = view.provideForecastsDataHolder();
+        updateRemoteForecast(id, holder);
+    }
+
     @VisibleForTesting(otherwise = PRIVATE)
     void loadLocalForecast(@NonNull final Long id, @NonNull final DailyForecastDataHolder holder) {
         final LiveData<List<DailyForecast>> data = fetchLocalUseCase.executeLive(id,
                 holder::addSubscription,
-                error -> view.showErrorLoadingDailyForecast(),
+                error -> handleDailyForecastsError(),
                 new UseCase.DefaultOnComplete());
 
         holder.data(data);
@@ -66,7 +72,7 @@ public class DailyForecastPresenter implements DailyForecastContract.Action {
         ).subscribe(
                 result -> {
                 },
-                error -> view.showErrorLoadingDailyForecast()
+                error -> handleDailyForecastsError()
         );
     }
 
@@ -75,5 +81,10 @@ public class DailyForecastPresenter implements DailyForecastContract.Action {
         view.hideProgress();
         final List<DailyForecastScreenModel> screenModels = screenConverter.prepareForPresentation(dailyForecasts);
         view.showDailyForecasts(screenModels);
+    }
+
+    private void handleDailyForecastsError() {
+        view.showErrorLoadingDailyForecast();
+        view.hideProgress();
     }
 }

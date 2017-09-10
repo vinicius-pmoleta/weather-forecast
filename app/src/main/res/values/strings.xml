@@ -10,5 +10,6 @@
 
     <!-- Daily Forecast -->
     <string name="daily_forecast_error_loading">Sorry, we couldn\'t load the most recent daily forecast :(</string>
+    <string name="daily_forecast_empty_state_text">No forecast for the next days in this location yet!</string>
 
 </resources>

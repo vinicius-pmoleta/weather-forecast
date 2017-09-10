@@ -24,6 +24,8 @@ public interface DailyForecastContract {
     interface Action extends BaseContract.Action {
 
         void loadLocationForecast(@NonNull final Long id);
+
+        void refreshLocationForecast(@NonNull Long id);
     }
 
 }

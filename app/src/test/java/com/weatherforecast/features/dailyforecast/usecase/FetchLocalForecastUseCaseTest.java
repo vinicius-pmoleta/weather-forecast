@@ -103,7 +103,7 @@ public class FetchLocalForecastUseCaseTest {
     }
 
     @Test
-    public void verifyResultsAreOnlyFromLastFiveDays() {
+    public void verifyResultsAreOnlyFromLastSixDays() {
         final ForecastEntity entity1 = TestDataCreator.createEntityWithDateAndCityId("08-01-2017 12:00:00", 0L);
         final ForecastEntity entity2 = TestDataCreator.createEntityWithDateAndCityId("09-01-2017 12:00:00", 0L);
         final ForecastEntity entity3 = TestDataCreator.createEntityWithDateAndCityId("10-01-2017 12:00:00", 0L);
@@ -115,16 +115,17 @@ public class FetchLocalForecastUseCaseTest {
         when(forecastDao.findForecastForCity(anyLong())).thenReturn(
                 Flowable.just(Arrays.asList(entity2, entity3, entity1, entity4, entity5, entity7, entity6)));
 
-        final DailyForecast dailyForecast1 = TestDataCreator.createDailyForecastWithDateAndTimes("10-01-2017", Collections.singletonList("12:00:00"));
-        final DailyForecast dailyForecast2 = TestDataCreator.createDailyForecastWithDateAndTimes("11-01-2017", Collections.singletonList("12:00:00"));
-        final DailyForecast dailyForecast3 = TestDataCreator.createDailyForecastWithDateAndTimes("12-01-2017", Collections.singletonList("12:00:00"));
-        final DailyForecast dailyForecast4 = TestDataCreator.createDailyForecastWithDateAndTimes("13-01-2017", Collections.singletonList("12:00:00"));
-        final DailyForecast dailyForecast5 = TestDataCreator.createDailyForecastWithDateAndTimes("14-01-2017", Collections.singletonList("12:00:00"));
+        final DailyForecast dailyForecast2 = TestDataCreator.createDailyForecastWithDateAndTimes("09-01-2017", Collections.singletonList("12:00:00"));
+        final DailyForecast dailyForecast3 = TestDataCreator.createDailyForecastWithDateAndTimes("10-01-2017", Collections.singletonList("12:00:00"));
+        final DailyForecast dailyForecast4 = TestDataCreator.createDailyForecastWithDateAndTimes("11-01-2017", Collections.singletonList("12:00:00"));
+        final DailyForecast dailyForecast5 = TestDataCreator.createDailyForecastWithDateAndTimes("12-01-2017", Collections.singletonList("12:00:00"));
+        final DailyForecast dailyForecast6 = TestDataCreator.createDailyForecastWithDateAndTimes("13-01-2017", Collections.singletonList("12:00:00"));
+        final DailyForecast dailyForecast7 = TestDataCreator.createDailyForecastWithDateAndTimes("14-01-2017", Collections.singletonList("12:00:00"));
 
         useCase.buildUseCaseObservable(0L).test()
                 .assertNoErrors()
                 .assertComplete()
-                .assertValue(Arrays.asList(dailyForecast1, dailyForecast2, dailyForecast3, dailyForecast4, dailyForecast5));
+                .assertValue(Arrays.asList(dailyForecast2, dailyForecast3, dailyForecast4, dailyForecast5, dailyForecast6, dailyForecast7));
     }
 
 }

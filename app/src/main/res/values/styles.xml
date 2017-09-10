@@ -18,8 +18,8 @@
 
     <!-- Base -->
     <style name="BaseProgressBar">
-        <item name="android:layout_width">48dp</item>
-        <item name="android:layout_height">48dp</item>
+        <item name="android:layout_width">36dp</item>
+        <item name="android:layout_height">36dp</item>
         <item name="android:indeterminate">true</item>
     </style>
 

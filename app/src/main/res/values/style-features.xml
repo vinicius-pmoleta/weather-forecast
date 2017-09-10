@@ -6,6 +6,7 @@
 
     <style name="Search.Weather">
         <item name="android:padding">@dimen/default_spacing_big</item>
+        <item name="android:minHeight">48dp</item>
     </style>
 
     <style name="Search.Action">
@@ -81,6 +82,15 @@
     </style>
 
     <!-- Daily Forecast -->
+    <style name="DailyForecast" />
+
+    <style name="DailyForecast.Empty">
+        <item name="android:textColor">@color/color_text_primary</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:padding">@dimen/default_spacing_big</item>
+        <item name="android:gravity">center</item>
+    </style>
+
     <style name="DateForecastItem" />
 
     <style name="DateForecastItem.Date" parent="PrimaryText">
