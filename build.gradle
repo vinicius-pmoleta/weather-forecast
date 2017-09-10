@@ -3,7 +3,7 @@
 buildscript {
 
     project.ext {
-        gradle_version = '2.3.3'
+        gradle_version = '3.0.0-beta5'
         googleServices_version = '3.0.0'
         retrolambda_version = '3.7.0'
     }
