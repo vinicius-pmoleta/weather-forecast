@@ -3,7 +3,7 @@ version: 2.0
 references:
 
   workspace_root: &workspace_root
-      /opt/workspace/
+      ~/code
 
   container_config: &container_config
     docker:
@@ -41,11 +41,11 @@ jobs:
           command: ./gradlew --no-daemon --stacktrace assembleRelease
 
       - store_artifacts:
-          path: /opt/workspace/app/build/outputs/apk/
+          path: ~/code/app/build/outputs/apk/
           destination: apks/
 
       - store_artifacts:
-          path: /opt/workspace/app/build/outputs/mapping/
+          path: ~/code/app/build/outputs/mapping/
           destination: mapping/
 
       - persist_to_workspace:
@@ -73,11 +73,11 @@ jobs:
           command: ./gradlew --no-daemon --stacktrace lintRelease checkRelease
 
       - store_artifacts:
-          path: /opt/workspace/app/build/reports/
+          path: ~/code/app/build/reports/
           destination: lint_reports/app/
 
       - store_artifacts:
-          path: /opt/workspace/base/build/reports/
+          path: ~/code/base/build/reports/
           destination: lint_reports/base/
 
   test:
@@ -102,7 +102,7 @@ jobs:
           destination: tests_reports/
 
       - store_test_results:
-          path: /opt/workspace/app/build/test-results
+          path: ~/code/app/build/test-results
 
 workflows:
 
