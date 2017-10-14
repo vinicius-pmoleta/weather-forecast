@@ -4,6 +4,7 @@ import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 
+import com.weatherforecast.core.data.live.LiveResult;
 import com.weatherforecast.features.common.data.model.City;
 import com.weatherforecast.features.search.data.Weather;
 import com.weatherforecast.features.search.presentation.model.WeatherScreenConverter;
@@ -61,13 +62,13 @@ public class SearchPresenterTest {
 
     @Test
     public void verifyFetchWeatherUseCaseSubscriptionDeliveredToHolder() throws Exception {
-        final LiveData<Weather> data = mock(LiveData.class);
-        when(fetchWeatherUseCase.executeLive(anyString(), any(), any(), any())).thenReturn(data);
+        final LiveResult<Weather> result = mock(LiveResult.class);
+        when(fetchWeatherUseCase.executeLive(anyString(), any(), any())).thenReturn(result);
 
         presenter.loadRemoteWeather("Location", dataHolder);
 
         final ArgumentCaptor<Consumer<Subscription>> captor = ArgumentCaptor.forClass(Consumer.class);
-        verify(fetchWeatherUseCase, times(1)).executeLive(anyString(), captor.capture(), any(), any());
+        verify(fetchWeatherUseCase, times(1)).executeLive(anyString(), captor.capture(), any());
 
         final Subscription subscription = mock(Subscription.class);
         final Consumer<Subscription> consumer = captor.getAllValues().get(0);
@@ -77,31 +78,32 @@ public class SearchPresenterTest {
 
     @Test
     public void verifyRemoteWeatherLoadedWithError() throws Exception {
-        final LiveData<Weather> data = mock(LiveData.class);
-        when(fetchWeatherUseCase.executeLive(anyString(), any(), any(), any())).thenReturn(data);
+        final LiveResult<Weather> result = mock(LiveResult.class);
+        when(fetchWeatherUseCase.executeLive(anyString(), any(), any())).thenReturn(result);
 
         presenter.loadRemoteWeather("Location", dataHolder);
+        verify(fetchWeatherUseCase, times(1)).executeLive(anyString(), any(), any());
 
-        final ArgumentCaptor<Consumer<Throwable>> captor = ArgumentCaptor.forClass(Consumer.class);
-        verify(fetchWeatherUseCase, times(1)).executeLive(anyString(), any(), captor.capture(), any());
+        final ArgumentCaptor<Observer<Throwable>> captor = ArgumentCaptor.forClass(Observer.class);
+        verify(result, times(1)).observe(any(), any(), captor.capture());
 
-        final Consumer<Throwable> consumer = captor.getAllValues().get(0);
-        consumer.accept(new Throwable());
+        final Observer<Throwable> observer = captor.getAllValues().get(0);
+        observer.onChanged(new Throwable());
         verify(view, times(1)).hideProgress();
         verify(view, times(1)).showErrorLoadingWeather();
     }
 
     @Test
     public void verifyRemoteWeatherLoadedWithSuccess() throws Exception {
-        final LiveData<Weather> data = mock(LiveData.class);
-        when(fetchWeatherUseCase.executeLive(anyString(), any(), any(), any())).thenReturn(data);
+        final LiveResult<Weather> result = mock(LiveResult.class);
+        when(fetchWeatherUseCase.executeLive(anyString(), any(), any())).thenReturn(result);
 
         presenter.loadRemoteWeather("Location", dataHolder);
-        verify(fetchWeatherUseCase, times(1)).executeLive(anyString(), any(), any(), any());
-        verify(dataHolder, times(1)).weatherData(data);
+        verify(fetchWeatherUseCase, times(1)).executeLive(anyString(), any(), any());
+        verify(dataHolder, times(1)).weatherResult(result);
 
         final ArgumentCaptor<Observer<Weather>> captor = ArgumentCaptor.forClass(Observer.class);
-        verify(data, times(1)).observe(any(), captor.capture());
+        verify(result, times(1)).observe(any(), captor.capture(), any());
 
         final Observer<Weather> observer = captor.getAllValues().get(0);
         final Weather content = mock(Weather.class);
@@ -115,13 +117,13 @@ public class SearchPresenterTest {
 
     @Test
     public void verifyFetchSearchesUseCaseSubscriptionDeliveredToHolder() throws Exception {
-        final LiveData<List<City>> data = mock(LiveData.class);
-        when(fetchSearchesUseCase.executeLive(any(), any(), any(), any())).thenReturn(data);
+        final LiveResult<List<City>> result = mock(LiveResult.class);
+        when(fetchSearchesUseCase.executeLive(any(), any(), any())).thenReturn(result);
 
         presenter.loadLocalSearches(dataHolder);
 
         final ArgumentCaptor<Consumer<Subscription>> captor = ArgumentCaptor.forClass(Consumer.class);
-        verify(fetchSearchesUseCase, times(1)).executeLive(any(), captor.capture(), any(), any());
+        verify(fetchSearchesUseCase, times(1)).executeLive(any(), captor.capture(), any());
 
         final Subscription subscription = mock(Subscription.class);
         final Consumer<Subscription> consumer = captor.getAllValues().get(0);
@@ -131,30 +133,32 @@ public class SearchPresenterTest {
 
     @Test
     public void verifyLocalSearchesLoadedWithError() throws Exception {
-        final LiveData<List<City>> data = mock(LiveData.class);
-        when(fetchSearchesUseCase.executeLive(any(), any(), any(), any())).thenReturn(data);
+        final LiveResult<List<City>> result = mock(LiveResult.class);
+        when(fetchSearchesUseCase.executeLive(any(), any(), any())).thenReturn(result);
 
         presenter.loadLocalSearches(dataHolder);
+        verify(fetchSearchesUseCase, times(1)).executeLive(any(), any(), any());
+        verify(dataHolder, times(1)).locationSearchesResult(result);
 
-        final ArgumentCaptor<Consumer<Throwable>> captor = ArgumentCaptor.forClass(Consumer.class);
-        verify(fetchSearchesUseCase, times(1)).executeLive(any(), any(), captor.capture(), any());
+        final ArgumentCaptor<Observer<Throwable>> captor = ArgumentCaptor.forClass(Observer.class);
+        verify(result, times(1)).observe(any(), any(), captor.capture());
 
-        final Consumer<Throwable> consumer = captor.getAllValues().get(0);
-        consumer.accept(new Throwable());
+        final Observer<Throwable> observer = captor.getAllValues().get(0);
+        observer.onChanged(new Throwable());
         verify(view, times(1)).showErrorLoadingWeather();
     }
 
     @Test
     public void verifyLocalSearchesLoadedWithSuccess() throws Exception {
-        final LiveData<List<City>> data = mock(LiveData.class);
-        when(fetchSearchesUseCase.executeLive(any(), any(), any(), any())).thenReturn(data);
+        final LiveResult<List<City>> result = mock(LiveResult.class);
+        when(fetchSearchesUseCase.executeLive(any(), any(), any())).thenReturn(result);
 
         presenter.loadLocalSearches(dataHolder);
-        verify(fetchSearchesUseCase, times(1)).executeLive(any(), any(), any(), any());
-        verify(dataHolder, times(1)).locationSearchesData(data);
+        verify(fetchSearchesUseCase, times(1)).executeLive(any(), any(), any());
+        verify(dataHolder, times(1)).locationSearchesResult(result);
 
         final ArgumentCaptor<Observer<List<City>>> captor = ArgumentCaptor.forClass(Observer.class);
-        verify(data, times(1)).observe(any(), captor.capture());
+        verify(result, times(1)).observe(any(), captor.capture(), any());
 
         final Observer<List<City>> observer = captor.getAllValues().get(0);
         final List<City> cities = mock(List.class);
@@ -168,7 +172,10 @@ public class SearchPresenterTest {
         final LiveData<List<City>> data = mock(LiveData.class);
         when(data.getValue()).thenReturn(content);
 
-        when(dataHolder.locationSearchesData()).thenReturn(data);
+        final LiveResult<List<City>> result = mock(LiveResult.class);
+        when(result.data()).thenReturn(data);
+
+        when(dataHolder.locationSearchesResult()).thenReturn(result);
 
         presenter.loadLocationsSearched();
         verify(view, times(1)).showLocationsSearched(content);
@@ -176,22 +183,24 @@ public class SearchPresenterTest {
 
     @Test
     public void verifySearchedDataFetchedWhenNotAvailableOnHolder() {
-        final LiveData<List<City>> data = mock(LiveData.class);
-        when(dataHolder.locationSearchesData()).thenReturn(null);
-        when(fetchSearchesUseCase.executeLive(any(), any(), any(), any())).thenReturn(data);
+        when(dataHolder.locationSearchesResult()).thenReturn(null);
+        final LiveResult<List<City>> result = mock(LiveResult.class);
+        when(fetchSearchesUseCase.executeLive(any(), any(), any())).thenReturn(result);
 
         presenter.loadLocationsSearched();
-        verify(fetchSearchesUseCase, times(1)).executeLive(any(), any(), any(), any());
+        verify(fetchSearchesUseCase, times(1)).executeLive(any(), any(), any());
     }
 
     @Test
     public void verifyWeatherFetchedEvenWhenAvailableOnHolder() {
         final LiveData<Weather> oldData = mock(LiveData.class);
-        when(dataHolder.weatherData()).thenReturn(oldData);
-        when(fetchWeatherUseCase.executeLive(anyString(), any(), any(), any())).thenReturn(mock(LiveData.class));
+        final LiveResult<Weather> result = mock(LiveResult.class);
+        when(result.data()).thenReturn(oldData);
+        when(dataHolder.weatherResult()).thenReturn(result);
+        when(fetchWeatherUseCase.executeLive(anyString(), any(), any())).thenReturn(result);
 
         presenter.loadWeatherForLocation("Location");
-        verify(fetchWeatherUseCase, times(1)).executeLive(anyString(), any(), any(), any());
+        verify(fetchWeatherUseCase, times(1)).executeLive(anyString(), any(), any());
     }
 
     @Test
@@ -209,7 +218,7 @@ public class SearchPresenterTest {
 
     @Test
     public void verifyLastWeatherNotLoadedWhenNotAvailableOnHolder() {
-        when(dataHolder.weatherData()).thenReturn(null);
+        when(dataHolder.weatherResult()).thenReturn(null);
         presenter.loadLastWeatherIfAvailable();
         verify(view, never()).showWeather(any(WeatherScreenModel.class));
     }
@@ -219,7 +228,9 @@ public class SearchPresenterTest {
         final LiveData<Weather> data = mock(LiveData.class);
         final Weather value = mock(Weather.class);
         when(data.getValue()).thenReturn(value);
-        when(dataHolder.weatherData()).thenReturn(data);
+        final LiveResult<Weather> result = mock(LiveResult.class);
+        when(result.data()).thenReturn(data);
+        when(dataHolder.weatherResult()).thenReturn(result);
 
         final WeatherScreenModel model = mock(WeatherScreenModel.class);
         when(screenConverter.prepareForPresentation(value)).thenReturn(model);

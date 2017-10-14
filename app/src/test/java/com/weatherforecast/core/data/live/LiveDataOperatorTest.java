@@ -21,21 +21,32 @@ public class LiveDataOperatorTest {
 
     @Test
     public void assertContentIsNotAvailableOnHolderWhenLiveDataIsNull() {
-        assertFalse(LiveDataOperator.isContentAvailable(null));
+        assertFalse(LiveDataOperator.isDataAvailable(null));
     }
 
     @Test
-    public void assertContentIsNotAvailableWhenLiveDataValueIsNull() {
+    public void assertContentIsNotAvailableWhenLiveResultDataIsNull() {
+        final LiveResult<String> result = mock(LiveResult.class);
+        when(result.data()).thenReturn(null);
+        assertFalse(LiveDataOperator.isDataAvailable(result));
+    }
+
+    @Test
+    public void assertContentIsNotAvailableWhenLiveResultDataHasNoValue() {
         final LiveData<String> data = mock(LiveData.class);
         when(data.getValue()).thenReturn(null);
-        assertFalse(LiveDataOperator.isContentAvailable(data));
+        final LiveResult<String> result = mock(LiveResult.class);
+        when(result.data()).thenReturn(data);
+        assertFalse(LiveDataOperator.isDataAvailable(result));
     }
 
     @Test
     public void assertDataIsAvailableOnHolder() {
         final LiveData<String> data = mock(LiveData.class);
         when(data.getValue()).thenReturn("");
-        assertTrue(LiveDataOperator.isContentAvailable(data));
+        final LiveResult<String> result = mock(LiveResult.class);
+        when(result.data()).thenReturn(data);
+        assertTrue(LiveDataOperator.isDataAvailable(result));
     }
 
     @Test
@@ -67,5 +78,19 @@ public class LiveDataOperatorTest {
         verify(data, never()).removeObservers(owner);
     }
 
+    @Test
+    public void verifyObserversRemovedWhenResultIsValid() {
+        final LiveData<?> data = mock(LiveData.class);
+        when(data.hasObservers()).thenReturn(true);
+        final LiveData<Throwable> error = mock(LiveData.class);
+        when(error.hasObservers()).thenReturn(true);
+
+        final LifecycleOwner owner = mock(LifecycleOwner.class);
+        final LiveResult<?> result = new LiveResult<>(data, error);
+        LiveDataOperator.removeResultObservers(result, owner);
+
+        verify(data, times(1)).removeObservers(owner);
+        verify(error, times(1)).removeObservers(owner);
+    }
 
 }

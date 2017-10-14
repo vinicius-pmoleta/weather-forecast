@@ -1,8 +1,8 @@
 package com.weatherforecast.features.search.presentation;
 
-import android.arch.lifecycle.LiveData;
 import android.support.annotation.NonNull;
 
+import com.weatherforecast.core.data.live.LiveResult;
 import com.weatherforecast.core.structure.BaseDataHolder;
 import com.weatherforecast.features.common.data.model.City;
 import com.weatherforecast.features.search.data.Weather;
@@ -11,23 +11,23 @@ import java.util.List;
 
 public class SearchDataHolder extends BaseDataHolder {
 
-    private LiveData<Weather> weatherData;
-    private LiveData<List<City>> locationsData;
+    private LiveResult<Weather> weatherResult;
+    private LiveResult<List<City>> locationsResult;
 
-    LiveData<Weather> weatherData() {
-        return weatherData;
+    LiveResult<Weather> weatherResult() {
+        return weatherResult;
     }
 
-    void weatherData(@NonNull final LiveData<Weather> data) {
-        this.weatherData = data;
+    void weatherResult(@NonNull final LiveResult<Weather> result) {
+        this.weatherResult = result;
     }
 
-    LiveData<List<City>> locationSearchesData() {
-        return locationsData;
+    LiveResult<List<City>> locationSearchesResult() {
+        return locationsResult;
     }
 
-    void locationSearchesData(@NonNull final LiveData<List<City>> data) {
-        this.locationsData = data;
+    void locationSearchesResult(@NonNull final LiveResult<List<City>> result) {
+        this.locationsResult = result;
     }
 
 }

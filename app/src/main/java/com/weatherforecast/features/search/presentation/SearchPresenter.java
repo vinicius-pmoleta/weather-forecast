@@ -1,11 +1,11 @@
 package com.weatherforecast.features.search.presentation;
 
 import android.arch.lifecycle.LifecycleOwner;
-import android.arch.lifecycle.LiveData;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
 import com.weatherforecast.core.data.live.LiveDataOperator;
+import com.weatherforecast.core.data.live.LiveResult;
 import com.weatherforecast.core.data.usecase.UseCase;
 import com.weatherforecast.features.common.data.model.City;
 import com.weatherforecast.features.search.data.Weather;
@@ -45,16 +45,16 @@ public class SearchPresenter implements SearchContract.Action {
     @Override
     public void loadLastWeatherIfAvailable() {
         final SearchDataHolder holder = view.provideSearchDataHolder();
-        if (LiveDataOperator.isContentAvailable(holder.weatherData())) {
-            handleWeatherData(holder.weatherData().getValue());
+        if (LiveDataOperator.isDataAvailable(holder.weatherResult())) {
+            handleWeatherData(holder.weatherResult().data().getValue());
         }
     }
 
     @Override
     public void loadLocationsSearched() {
         final SearchDataHolder holder = view.provideSearchDataHolder();
-        if (LiveDataOperator.isContentAvailable(holder.locationSearchesData())) {
-            handleLocationsSearchedData(holder.locationSearchesData().getValue());
+        if (LiveDataOperator.isDataAvailable(holder.locationSearchesResult())) {
+            handleLocationsSearchedData(holder.locationSearchesResult().data().getValue());
             return;
         }
 
@@ -63,31 +63,29 @@ public class SearchPresenter implements SearchContract.Action {
 
     @VisibleForTesting
     void loadRemoteWeather(@NonNull final String location, @NonNull final SearchDataHolder holder) {
-        final LiveData<Weather> data = fetchWeatherUseCase.executeLive(location,
+        final LiveResult<Weather> result = fetchWeatherUseCase.executeLive(location,
                 holder::addSubscription,
-                error -> {
-                    view.hideProgress();
-                    view.showErrorLoadingWeather();
-                },
                 new UseCase.DefaultOnComplete());
 
         final LifecycleOwner owner = view.provideLifecycleOwner();
-        LiveDataOperator.removeDataObservers(holder.weatherData(), owner);
-        holder.weatherData(data);
-        data.observe(owner, this::handleWeatherData);
+        LiveDataOperator.removeResultObservers(holder.weatherResult(), owner);
+        holder.weatherResult(result);
+        result.observe(owner, this::handleWeatherData, error -> {
+            view.hideProgress();
+            view.showErrorLoadingWeather();
+        });
     }
 
     @VisibleForTesting
     void loadLocalSearches(@NonNull final SearchDataHolder holder) {
-        final LiveData<List<City>> data = fetchSearchesUseCase.executeLive(null,
+        final LiveResult<List<City>> result = fetchSearchesUseCase.executeLive(null,
                 holder::addSubscription,
-                error -> view.showErrorLoadingWeather(),
                 new UseCase.DefaultOnComplete());
 
         final LifecycleOwner owner = view.provideLifecycleOwner();
-        LiveDataOperator.removeDataObservers(holder.locationSearchesData(), owner);
-        holder.locationSearchesData(data);
-        data.observe(owner, this::handleLocationsSearchedData);
+        LiveDataOperator.removeResultObservers(holder.locationSearchesResult(), owner);
+        holder.locationSearchesResult(result);
+        result.observe(owner, this::handleLocationsSearchedData, error -> view.showErrorLoadingWeather());
     }
 
     @VisibleForTesting

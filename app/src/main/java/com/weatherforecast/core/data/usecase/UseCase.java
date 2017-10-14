@@ -1,11 +1,11 @@
 package com.weatherforecast.core.data.usecase;
 
-import android.arch.lifecycle.LiveData;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.weatherforecast.core.data.live.LiveDataReactiveConverter;
+import com.weatherforecast.core.data.live.LiveResult;
 
 import org.reactivestreams.Publisher;
 import org.reactivestreams.Subscription;
@@ -42,20 +42,18 @@ public abstract class UseCase<T, Params> {
                 .doOnError(new DefaultOnError());
     }
 
-    public LiveData<T> executeLive(@Nullable final Params params,
-                                   @NonNull final Consumer<Subscription> onSubscribe,
-                                   @NonNull final Consumer<Throwable> onError,
-                                   @NonNull final Action onComplete) {
-        return executeLive(params, onSubscribe, onError, onComplete, new DefaultTransformer(configuration));
+    public LiveResult<T> executeLive(@Nullable final Params params,
+                                     @NonNull final Consumer<Subscription> onSubscribe,
+                                     @NonNull final Action onComplete) {
+        return executeLive(params, onSubscribe, onComplete, new DefaultTransformer(configuration));
     }
 
-    private LiveData<T> executeLive(@Nullable final Params params,
-                                    @NonNull final Consumer<Subscription> onSubscribe,
-                                    @NonNull final Consumer<Throwable> onError,
-                                    @NonNull final Action onComplete,
-                                    @NonNull final FlowableTransformer<T, T> transformer) {
+    private LiveResult<T> executeLive(@Nullable final Params params,
+                                      @NonNull final Consumer<Subscription> onSubscribe,
+                                      @NonNull final Action onComplete,
+                                      @NonNull final FlowableTransformer<T, T> transformer) {
         final Flowable<T> data = execute(params, onSubscribe, transformer);
-        return LiveDataReactiveConverter.fromPublisher(data, onError, onComplete);
+        return LiveDataReactiveConverter.fromPublisher(data, onComplete);
     }
 
     private class DefaultTransformer implements FlowableTransformer<T, T> {

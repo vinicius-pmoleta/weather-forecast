@@ -1,10 +1,10 @@
 package com.weatherforecast.features.dailyforecast.presentation;
 
-import android.arch.lifecycle.LiveData;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
 import com.weatherforecast.core.data.live.LiveDataOperator;
+import com.weatherforecast.core.data.live.LiveResult;
 import com.weatherforecast.core.data.usecase.UseCase;
 import com.weatherforecast.features.dailyforecast.data.model.DailyForecast;
 import com.weatherforecast.features.dailyforecast.presentation.model.DailyForecastScreenConverter;
@@ -35,8 +35,8 @@ public class DailyForecastPresenter implements DailyForecastContract.Action {
     @Override
     public void loadLocationForecast(@NonNull final Long id) {
         final DailyForecastDataHolder holder = view.provideForecastsDataHolder();
-        if (LiveDataOperator.isContentAvailable(holder.data())) {
-            handleDailyForecastsData(holder.data().getValue());
+        if (LiveDataOperator.isDataAvailable(holder.result())) {
+            handleDailyForecastsData(holder.result().data().getValue());
             return;
         }
 
@@ -52,13 +52,12 @@ public class DailyForecastPresenter implements DailyForecastContract.Action {
 
     @VisibleForTesting
     void loadLocalForecast(@NonNull final Long id, @NonNull final DailyForecastDataHolder holder) {
-        final LiveData<List<DailyForecast>> data = fetchLocalUseCase.executeLive(id,
+        final LiveResult<List<DailyForecast>> result = fetchLocalUseCase.executeLive(id,
                 holder::addSubscription,
-                error -> handleDailyForecastsError(),
                 new UseCase.DefaultOnComplete());
 
-        holder.data(data);
-        data.observe(view.provideLifecycleOwner(), this::handleDailyForecastsData);
+        holder.result(result);
+        result.observe(view.provideLifecycleOwner(), this::handleDailyForecastsData, error -> handleDailyForecastsError());
     }
 
     @VisibleForTesting

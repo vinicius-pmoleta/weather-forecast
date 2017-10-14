@@ -1,9 +1,7 @@
 package com.weatherforecast.core.data.live;
 
-import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import org.reactivestreams.Publisher;
 import org.reactivestreams.Subscriber;
@@ -12,21 +10,21 @@ import org.reactivestreams.Subscription;
 import java.lang.ref.WeakReference;
 
 import io.reactivex.functions.Action;
-import io.reactivex.functions.Consumer;
 
 /**
  * Code adapted from android.arch.lifecycle.LiveDataReactiveStreams
  */
 public class LiveDataReactiveConverter {
 
-    private static final String TAG = LiveDataReactiveConverter.class.getSimpleName();
-
-    public static <T> LiveData<T> fromPublisher(@NonNull final Publisher<T> publisher,
-                                                @NonNull final Consumer<Throwable> doOnError,
-                                                @NonNull final Action doOnComplete) {
-        MutableLiveData<T> liveData = new MutableLiveData<>();
+    public static <T> LiveResult<T> fromPublisher(@NonNull final Publisher<T> publisher,
+                                                  @NonNull final Action doOnComplete) {
+        final MutableLiveData<T> liveData = new MutableLiveData<>();
         final WeakReference<MutableLiveData<T>> liveDataRef = new WeakReference<>(liveData);
 
+        final MutableLiveData<Throwable> liveError = new MutableLiveData<>();
+        final WeakReference<MutableLiveData<Throwable>> liveErrorRef = new WeakReference<>(liveError);
+
+        final LiveResult<T> liveResult = new LiveResult<>(liveData, liveError);
         publisher.subscribe(new Subscriber<T>() {
             @Override
             public void onSubscribe(Subscription s) {
@@ -43,10 +41,9 @@ public class LiveDataReactiveConverter {
 
             @Override
             public void onError(Throwable error) {
-                try {
-                    doOnError.accept(error);
-                } catch (Exception e) {
-                    Log.e(TAG, "Error on live data", e);
+                final MutableLiveData<Throwable> liveError = liveErrorRef.get();
+                if (liveError != null) {
+                    liveError.postValue(error);
                 }
             }
 
@@ -60,7 +57,7 @@ public class LiveDataReactiveConverter {
             }
         });
 
-        return liveData;
+        return liveResult;
     }
 
 }

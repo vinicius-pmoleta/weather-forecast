@@ -4,6 +4,7 @@ import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 
+import com.weatherforecast.core.data.live.LiveResult;
 import com.weatherforecast.features.common.data.helper.TestDataCreator;
 import com.weatherforecast.features.dailyforecast.data.model.DailyForecast;
 import com.weatherforecast.features.dailyforecast.presentation.model.DailyForecastScreenConverter;
@@ -72,37 +73,36 @@ public class DailyForecastPresenterTest {
         final List<DailyForecast> values = Collections.singletonList(dailyForecast);
         final List<DailyForecastScreenModel> models = screenConverter.prepareForPresentation(values);
         when(data.getValue()).thenReturn(values);
-        when(dataHolder.data()).thenReturn(data);
+        when(dataHolder.result()).thenReturn(new LiveResult<>(data, null));
 
         presenter.loadLocationForecast(0L);
 
         verify(view, times(1)).showDailyForecasts(models);
-        verify(fetchLocalUseCase, never()).executeLive(anyLong(), any(), any(), any());
+        verify(fetchLocalUseCase, never()).executeLive(anyLong(), any(), any());
         verify(updateLocalUseCase, never()).execute(anyLong(), any());
     }
 
     @Test
     public void verifyDataLoadedAndUpdatedWhenNotAvailableOnHolder() {
-        when(dataHolder.data()).thenReturn(null);
-        when(fetchLocalUseCase.executeLive(anyLong(), any(), any(), any())).thenReturn(mock(LiveData.class));
+        when(dataHolder.result()).thenReturn(null);
+        when(fetchLocalUseCase.executeLive(anyLong(), any(), any())).thenReturn(mock(LiveResult.class));
         when(updateLocalUseCase.execute(anyLong(), any())).thenReturn(Flowable.empty());
 
         presenter.loadLocationForecast(0L);
 
         verify(view, never()).showDailyForecasts(any());
-        verify(fetchLocalUseCase, times(1)).executeLive(anyLong(), any(), any(), any());
+        verify(fetchLocalUseCase, times(1)).executeLive(anyLong(), any(), any());
         verify(updateLocalUseCase, times(1)).execute(anyLong(), any());
     }
 
     @Test
     public void verifyFetchLocalUseCaseSubscriptionDeliveredToHolder() throws Exception {
-        final LiveData<List<DailyForecast>> data = mock(LiveData.class);
-        when(fetchLocalUseCase.executeLive(anyLong(), any(), any(), any())).thenReturn(data);
+        when(fetchLocalUseCase.executeLive(anyLong(), any(), any())).thenReturn(mock(LiveResult.class));
 
         presenter.loadLocalForecast(0L, dataHolder);
 
         final ArgumentCaptor<Consumer<Subscription>> captor = ArgumentCaptor.forClass(Consumer.class);
-        verify(fetchLocalUseCase, times(1)).executeLive(eq(0L), captor.capture(), any(), any());
+        verify(fetchLocalUseCase, times(1)).executeLive(eq(0L), captor.capture(), any());
 
         final Subscription subscription = mock(Subscription.class);
         final Consumer<Subscription> consumer = captor.getAllValues().get(0);
@@ -112,30 +112,33 @@ public class DailyForecastPresenterTest {
 
     @Test
     public void verifyLocalDataLoadedWithError() throws Exception {
-        final LiveData<List<DailyForecast>> data = mock(LiveData.class);
-        when(fetchLocalUseCase.executeLive(anyLong(), any(), any(), any())).thenReturn(data);
+        final LiveResult<List<DailyForecast>> result = mock(LiveResult.class);
+        when(fetchLocalUseCase.executeLive(anyLong(), any(), any())).thenReturn(result);
 
         presenter.loadLocalForecast(0L, dataHolder);
+        verify(fetchLocalUseCase, times(1)).executeLive(eq(0L), any(), any());
+        verify(dataHolder, times(1)).result(result);
 
-        final ArgumentCaptor<Consumer<Throwable>> captor = ArgumentCaptor.forClass(Consumer.class);
-        verify(fetchLocalUseCase, times(1)).executeLive(eq(0L), any(), captor.capture(), any());
+        final ArgumentCaptor<Observer<Throwable>> captor = ArgumentCaptor.forClass(Observer.class);
+        verify(result, times(1)).observe(any(), any(), captor.capture());
 
-        final Consumer<Throwable> consumer = captor.getAllValues().get(0);
-        consumer.accept(new Throwable());
+        final Observer<Throwable> observer = captor.getAllValues().get(0);
+        observer.onChanged(new Throwable());
         verify(view, times(1)).showErrorLoadingDailyForecast();
+        verify(view, times(1)).hideProgress();
     }
 
     @Test
     public void verifyLocalDataLoadedWithSuccess() throws Exception {
-        final LiveData<List<DailyForecast>> data = mock(LiveData.class);
-        when(fetchLocalUseCase.executeLive(anyLong(), any(), any(), any())).thenReturn(data);
+        final LiveResult<List<DailyForecast>> result = mock(LiveResult.class);
+        when(fetchLocalUseCase.executeLive(anyLong(), any(), any())).thenReturn(result);
 
         presenter.loadLocalForecast(0L, dataHolder);
-        verify(fetchLocalUseCase, times(1)).executeLive(eq(0L), any(), any(), any());
-        verify(dataHolder, times(1)).data(data);
+        verify(fetchLocalUseCase, times(1)).executeLive(eq(0L), any(), any());
+        verify(dataHolder, times(1)).result(result);
 
         final ArgumentCaptor<Observer<List<DailyForecast>>> captor = ArgumentCaptor.forClass(Observer.class);
-        verify(data, times(1)).observe(any(), captor.capture());
+        verify(result, times(1)).observe(any(), captor.capture(), any());
 
         final Observer<List<DailyForecast>> observer = captor.getAllValues().get(0);
         final List<DailyForecast> content = new ArrayList<>();
