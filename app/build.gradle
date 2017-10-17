@@ -84,6 +84,27 @@ android {
 
     testOptions {
         unitTests.returnDefaultValues = true
+        unitTests.all {
+            forkEvery = 100
+            maxParallelForks = Runtime.runtime.availableProcessors().intdiv(2) ?: 1
+
+            reports {
+                junitXml.enabled = true
+                html.enabled = false
+            }
+
+            // set heap size for the test JVM(s)
+            minHeapSize = "128m"
+            maxHeapSize = "512m"
+
+            beforeTest { descr ->
+                logger.info("Running test: ${descr.name}")
+            }
+            afterTest { descr, result ->
+                def time = result.endTime - result.startTime
+                logger.info("Test ${descr.className} ${descr.name}: $time ms")
+            }
+        }
     }
 }
 
