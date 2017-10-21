@@ -76,10 +76,6 @@ jobs:
           path: ~/code/app/build/reports/
           destination: lint_reports/app/
 
-      - store_artifacts:
-          path: ~/code/base/build/reports/
-          destination: lint_reports/base/
-
   test:
     <<: *container_config
     parallelism: 3
