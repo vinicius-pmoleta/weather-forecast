@@ -1,5 +1,5 @@
 # Weather Forecast App 
-[![Build Status](https://travis-ci.org/vinicius-pmoleta/weather-forecast.svg?branch=master)](https://travis-ci.org/vinicius-pmoleta/weather-forecast) [![CircleCI](https://circleci.com/gh/vinicius-pmoleta/weather-forecast.svg?style=svg)](https://circleci.com/gh/vinicius-pmoleta/weather-forecast) [![codecov](https://codecov.io/gh/vinicius-pmoleta/weather-forecast/branch/master/graph/badge.svg)](https://codecov.io/gh/vinicius-pmoleta/weather-forecast)
+[![CircleCI](https://circleci.com/gh/vinicius-pmoleta/weather-forecast.svg?style=svg)](https://circleci.com/gh/vinicius-pmoleta/weather-forecast)
 
 An Android app to search the current weather information of a city and the forecast for the upcoming days. 
 
